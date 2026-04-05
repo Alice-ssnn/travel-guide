@@ -111,6 +111,16 @@
   position: relative;
 }
 
+.btn-close:focus {
+  outline: 2px solid var(--primary, #667eea);
+  outline-offset: 2px;
+}
+
+.btn-close:focus-visible {
+  outline: 2px solid var(--primary, #667eea);
+  outline-offset: 2px;
+}
+
 .btn-close::before,
 .btn-close::after {
   content: '';
@@ -264,6 +274,12 @@
 }
 
 .search-input:focus {
+  outline: none;
+  border-color: var(--primary, #667eea);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.search-input:focus-visible {
   outline: none;
   border-color: var(--primary, #667eea);
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
