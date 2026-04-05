@@ -144,6 +144,9 @@ class VirtualScroll {
    * @param {Array} newItems - 新项目数据
    */
   updateItems(newItems) {
+    if (!Array.isArray(newItems)) {
+      throw new TypeError('newItems必须是数组');
+    }
     this.items = newItems;
     this.calculateVisibleRange();
     this.renderVisibleItems();

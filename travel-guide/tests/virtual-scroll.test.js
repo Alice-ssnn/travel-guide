@@ -102,6 +102,29 @@ describe('VirtualScroll', () => {
     expect(virtualScroll.items.length).toBe(50);
   });
 
+  test('should throw TypeError when updateItems receives non-array parameter', () => {
+    virtualScroll = new VirtualScroll(container, items, renderItem, {
+      itemHeight: 100,
+      bufferItems: 2
+    });
+
+    expect(() => {
+      virtualScroll.updateItems(null);
+    }).toThrow(TypeError);
+    expect(() => {
+      virtualScroll.updateItems('not an array');
+    }).toThrow(TypeError);
+    expect(() => {
+      virtualScroll.updateItems(123);
+    }).toThrow(TypeError);
+    expect(() => {
+      virtualScroll.updateItems({});
+    }).toThrow(TypeError);
+    expect(() => {
+      virtualScroll.updateItems(undefined);
+    }).toThrow(TypeError);
+  });
+
   test('should clean up event listeners on destroy', () => {
     virtualScroll = new VirtualScroll(container, items, renderItem, {
       itemHeight: 100,
