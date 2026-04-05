@@ -15,6 +15,12 @@ class TravelGuideApp {
     this.setupEventListeners();
     this.setupRouting();
     this.renderHomepage();
+
+    // Add performance monitoring button (development mode only)
+    // Use setTimeout to ensure DOM is fully loaded
+    setTimeout(() => {
+      this.addPerformanceButton();
+    }, 100);
   }
 
   /**
@@ -418,6 +424,278 @@ class TravelGuideApp {
   isFavorited(itemId, itemType) {
     const key = `${itemType}:${itemId}`;
     return this.favorites.has(key);
+  }
+
+  /**
+   * Check if running in development mode
+   * @returns {boolean} True if in development mode
+   * @private
+   */
+  _isDevelopmentMode() {
+    try {
+      return (
+        process.env.NODE_ENV === 'development' ||
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1' ||
+        window.location.protocol === 'file:' ||
+        typeof window.__DEV__ !== 'undefined'
+      );
+    } catch (error) {
+      return false;
+    }
+  }
+
+  /**
+   * Show performance report in a modal or console
+   */
+  showPerformanceReport() {
+    // Check if TimelineRenderer and performance monitor are available
+    if (typeof TimelineRenderer === 'undefined') {
+      console.error('TimelineRenderer not available');
+      return;
+    }
+
+    if (!TimelineRenderer.performanceMonitor) {
+      console.warn('Performance monitor not initialized. Initializing now...');
+      TimelineRenderer.initPerformanceMonitor();
+    }
+
+    // Get performance report
+    const report = TimelineRenderer.getPerformanceReport();
+    if (!report) {
+      console.error('Failed to get performance report');
+      return;
+    }
+
+    // For development mode, show detailed report in console
+    if (this._isDevelopmentMode()) {
+      TimelineRenderer.printPerformanceReport();
+    }
+
+    // Show simplified report in UI
+    this.showPerformanceUI(report);
+  }
+
+  /**
+   * Show performance monitoring UI
+   * @param {Object} report - Performance report (optional)
+   */
+  showPerformanceUI(report = null) {
+    // Remove existing performance UI if present
+    const existingUI = document.getElementById('performance-monitor-ui');
+    if (existingUI) {
+      existingUI.remove();
+    }
+
+    // Get performance data
+    if (!report && typeof TimelineRenderer !== 'undefined') {
+      report = TimelineRenderer.getPerformanceSummary();
+    }
+
+    if (!report) {
+      console.warn('No performance data available');
+      return;
+    }
+
+    // Create performance UI container
+    const performanceUI = document.createElement('div');
+    performanceUI.id = 'performance-monitor-ui';
+    performanceUI.className = 'performance-monitor-ui';
+    performanceUI.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.85);
+      color: white;
+      border-radius: 12px;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 13px;
+      z-index: 9999;
+      max-width: 320px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    `;
+
+    // Create close button
+    const closeButton = document.createElement('button');
+    closeButton.innerHTML = '×';
+    closeButton.style.cssText = `
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    `;
+    closeButton.addEventListener('click', () => {
+      performanceUI.remove();
+    });
+    performanceUI.appendChild(closeButton);
+
+    // Performance score
+    const score = report.score || 0;
+    let scoreColor = '#30d158'; // green
+    if (score < 70) scoreColor = '#ff9500'; // orange
+    if (score < 50) scoreColor = '#ff3b30'; // red
+
+    const scoreHTML = `
+      <div style="margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <div style="font-weight: 600; font-size: 14px;">性能监控</div>
+          <div style="font-size: 11px; color: #8e8e93;">${new Date().toLocaleTimeString()}</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 48px; height: 48px; border-radius: 50%; background: conic-gradient(${scoreColor} ${score * 3.6}deg, rgba(255, 255, 255, 0.1) 0deg); display: flex; align-items: center; justify-content: center;">
+            <div style="background: rgba(0, 0, 0, 0.8); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">${score}</div>
+          </div>
+          <div style="flex: 1;">
+            <div style="font-size: 12px; color: #8e8e93; margin-bottom: 4px;">性能得分</div>
+            <div style="display: flex; gap: 12px;">
+              <div>
+                <div style="font-size: 11px; color: #8e8e93;">渲染时间</div>
+                <div style="font-size: 13px; font-weight: 500;">${report.metrics?.renderTime ? report.metrics.renderTime.toFixed(1) + 'ms' : 'N/A'}</div>
+              </div>
+              <div>
+                <div style="font-size: 11px; color: #8e8e93;">长任务</div>
+                <div style="font-size: 13px; font-weight: 500;">${report.metrics?.longTasks || 0}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Metrics grid
+    const metricsHTML = `
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px;">
+        <div style="background: rgba(255, 255, 255, 0.05); padding: 8px; border-radius: 8px;">
+          <div style="font-size: 11px; color: #8e8e93; margin-bottom: 2px;">内存使用</div>
+          <div style="font-size: 13px; font-weight: 500;">${report.metrics?.memoryUsage ? this._formatBytes(report.metrics.memoryUsage) : 'N/A'}</div>
+        </div>
+        <div style="background: rgba(255, 255, 255, 0.05); padding: 8px; border-radius: 8px;">
+          <div style="font-size: 11px; color: #8e8e93; margin-bottom: 2px;">布局偏移</div>
+          <div style="font-size: 13px; font-weight: 500;">${report.metrics?.layoutShift ? report.metrics.layoutShift.toFixed(3) : '0.000'}</div>
+        </div>
+      </div>
+    `;
+
+    // Recommendations
+    let recommendationsHTML = '';
+    if (report.recommendations && report.recommendations > 0) {
+      recommendationsHTML = `
+        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+          <div style="font-size: 11px; color: #8e8e93; margin-bottom: 8px;">优化建议: ${report.recommendations}</div>
+          <div style="font-size: 11px; color: #8e8e93;">在控制台查看详细报告</div>
+        </div>
+      `;
+    }
+
+    // Action buttons
+    const actionsHTML = `
+      <div style="display: flex; gap: 8px; margin-top: 12px;">
+        <button class="performance-action-btn" data-action="refresh" style="flex: 1; padding: 6px 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 6px; color: white; font-size: 12px; cursor: pointer;">刷新</button>
+        <button class="performance-action-btn" data-action="console" style="flex: 1; padding: 6px 12px; background: rgba(102, 126, 234, 0.3); border: 1px solid rgba(102, 126, 234, 0.5); border-radius: 6px; color: white; font-size: 12px; cursor: pointer;">控制台</button>
+        <button class="performance-action-btn" data-action="close" style="flex: 1; padding: 6px 12px; background: rgba(255, 59, 48, 0.2); border: 1px solid rgba(255, 59, 48, 0.4); border-radius: 6px; color: #ff3b30; font-size: 12px; cursor: pointer;">关闭</button>
+      </div>
+    `;
+
+    performanceUI.innerHTML = scoreHTML + metricsHTML + recommendationsHTML + actionsHTML;
+
+    // Add event listeners for action buttons
+    performanceUI.querySelectorAll('.performance-action-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const action = e.target.dataset.action;
+        this.handlePerformanceAction(action);
+      });
+    });
+
+    // Add to document
+    document.body.appendChild(performanceUI);
+  }
+
+  /**
+   * Handle performance UI actions
+   * @param {string} action - Action type
+   */
+  handlePerformanceAction(action) {
+    switch (action) {
+      case 'refresh':
+        this.showPerformanceReport();
+        break;
+      case 'console':
+        if (typeof TimelineRenderer !== 'undefined') {
+          TimelineRenderer.printPerformanceReport();
+        }
+        break;
+      case 'close':
+        const ui = document.getElementById('performance-monitor-ui');
+        if (ui) ui.remove();
+        break;
+    }
+  }
+
+  /**
+   * Add performance monitoring button to header (development mode only)
+   */
+  addPerformanceButton() {
+    // Only add button in development mode
+    if (!this._isDevelopmentMode()) {
+      return;
+    }
+
+    // Check if button already exists
+    if (document.getElementById('performanceMonitorBtn')) {
+      return;
+    }
+
+    // Find header actions container
+    const headerActions = document.querySelector('.header-actions');
+    if (!headerActions) {
+      console.warn('Header actions container not found');
+      return;
+    }
+
+    // Create performance button
+    const performanceBtn = document.createElement('button');
+    performanceBtn.id = 'performanceMonitorBtn';
+    performanceBtn.className = 'btn btn-performance';
+    performanceBtn.innerHTML = '📊';
+    performanceBtn.title = '性能监控';
+    performanceBtn.setAttribute('aria-label', '性能监控');
+
+    // Add click event
+    performanceBtn.addEventListener('click', () => {
+      this.showPerformanceReport();
+    });
+
+    // Add to header
+    headerActions.appendChild(performanceBtn);
+  }
+
+  /**
+   * Format bytes to human readable format
+   * @param {number} bytes - Bytes to format
+   * @returns {string} Formatted string
+   * @private
+   */
+  _formatBytes(bytes) {
+    if (bytes === 0 || !bytes) return '0 Bytes';
+
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
   }
 }
 
