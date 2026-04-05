@@ -5,41 +5,43 @@
 /* Tablet: 768px and up */
 @media (min-width: 768px) {
   .header {
-    padding: var(--space-lg) var(--space-2xl);
+    padding: var(--space-lg, 24px) var(--space-2xl, 48px);
   }
 
   .header h1 {
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-2xl, 24px);
   }
 
   .trip-summary {
-    padding: var(--space-lg) var(--space-2xl);
+    padding: var(--space-lg, 24px) var(--space-2xl, 48px);
   }
 
   .trip-dates {
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-md, 16px);
   }
 
   .trip-stats {
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-lg, 18px);
   }
 
   .days-list {
-    padding: var(--space-lg) var(--space-2xl);
-    gap: var(--space-lg);
+    padding: var(--space-lg, 24px) var(--space-2xl, 48px);
+    -webkit-gap: var(--space-lg, 24px);
+    -moz-gap: var(--space-lg, 24px);
+    gap: var(--space-lg, 24px);
   }
 
   .card {
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-lg, 16px);
   }
 
   .card-body {
-    padding: var(--space-lg);
+    padding: var(--space-lg, 24px);
   }
 
   .btn {
-    padding: var(--space-md) var(--space-lg);
-    font-size: var(--font-size-md);
+    padding: var(--space-md, 16px) var(--space-lg, 24px);
+    font-size: var(--font-size-md, 16px);
   }
 }
 
@@ -48,21 +50,23 @@
   .app {
     max-width: 1024px;
     margin: 0 auto;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.16));
   }
 
   .days-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-lg);
+    -webkit-gap: var(--space-lg, 24px);
+    -moz-gap: var(--space-lg, 24px);
+    gap: var(--space-lg, 24px);
   }
 
   .search-overlay {
     max-width: 768px;
     margin: 0 auto;
-    top: var(--space-xl);
-    bottom: var(--space-xl);
-    border-radius: var(--radius-lg);
+    top: var(--space-xl, 32px);
+    bottom: var(--space-xl, 32px);
+    border-radius: var(--radius-lg, 16px);
     overflow: hidden;
   }
 }
@@ -83,7 +87,7 @@
 
   .card {
     box-shadow: none;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border, #c7c7cc);
   }
 
   body {
