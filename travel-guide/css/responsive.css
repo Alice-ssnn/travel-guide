@@ -1,0 +1,92 @@
+/* responsive.css - Responsive design */
+
+/* Mobile-first: default styles are for < 768px */
+
+/* Tablet: 768px and up */
+@media (min-width: 768px) {
+  .header {
+    padding: var(--space-lg) var(--space-2xl);
+  }
+
+  .header h1 {
+    font-size: var(--font-size-2xl);
+  }
+
+  .trip-summary {
+    padding: var(--space-lg) var(--space-2xl);
+  }
+
+  .trip-dates {
+    font-size: var(--font-size-md);
+  }
+
+  .trip-stats {
+    font-size: var(--font-size-lg);
+  }
+
+  .days-list {
+    padding: var(--space-lg) var(--space-2xl);
+    gap: var(--space-lg);
+  }
+
+  .card {
+    border-radius: var(--radius-lg);
+  }
+
+  .card-body {
+    padding: var(--space-lg);
+  }
+
+  .btn {
+    padding: var(--space-md) var(--space-lg);
+    font-size: var(--font-size-md);
+  }
+}
+
+/* Desktop: 1024px and up */
+@media (min-width: 1024px) {
+  .app {
+    max-width: 1024px;
+    margin: 0 auto;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .days-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .search-overlay {
+    max-width: 768px;
+    margin: 0 auto;
+    top: var(--space-xl);
+    bottom: var(--space-xl);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+}
+
+/* Large desktop: 1440px and up */
+@media (min-width: 1440px) {
+  .app {
+    max-width: 1280px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .header-actions,
+  .search-overlay {
+    display: none !important;
+  }
+
+  .card {
+    box-shadow: none;
+    border: 1px solid var(--border);
+  }
+
+  body {
+    font-size: 12pt;
+  }
+}
