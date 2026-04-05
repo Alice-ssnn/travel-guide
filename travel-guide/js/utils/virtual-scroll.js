@@ -11,6 +11,17 @@ class VirtualScroll {
    * @param {Object} options - 配置选项
    */
   constructor(container, items, renderItem, options = {}) {
+    // 输入验证
+    if (!(container instanceof HTMLElement)) {
+      throw new TypeError('container必须是有效的HTMLElement');
+    }
+    if (!Array.isArray(items)) {
+      throw new TypeError('items必须是数组');
+    }
+    if (typeof renderItem !== 'function') {
+      throw new TypeError('renderItem必须是函数');
+    }
+
     this.container = container;
     this.items = items;
     this.renderItem = renderItem;
@@ -21,6 +32,16 @@ class VirtualScroll {
       bufferItems: options.bufferItems || 5, // 上下缓冲项目数
       ...options
     };
+
+    // 验证和纠正选项值
+    if (this.options.itemHeight <= 0) {
+      console.warn('itemHeight必须大于0，使用默认值120');
+      this.options.itemHeight = 120;
+    }
+    if (this.options.bufferItems < 0) {
+      console.warn('bufferItems不能为负数，设置为0');
+      this.options.bufferItems = 0;
+    }
 
     // 状态管理
     this.visibleItems = [];
@@ -77,8 +98,10 @@ class VirtualScroll {
       fragment.appendChild(element);
     }
 
-    // 清空容器并添加新项目
-    this.container.innerHTML = '';
+    // 清空容器并添加新项目（使用DOM操作避免innerHTML的性能和事件监听器问题）
+    while (this.container.firstChild) {
+      this.container.removeChild(this.container.firstChild);
+    }
     this.container.appendChild(fragment);
 
     // 更新可见项目列表
