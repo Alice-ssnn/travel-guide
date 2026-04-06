@@ -6,6 +6,7 @@ class CacheStrategy {
       strategy: options.strategy || 'cache-first',
       maxAge: options.maxAge || 24 * 60 * 60 * 1000, // 24 hours
       maxEntries: options.maxEntries || 100,
+      backgroundUpdate: options.backgroundUpdate !== false,
       ...options
     };
     this.cache = null;
@@ -19,8 +20,16 @@ class CacheStrategy {
   async handleRequest(request) {
     await this.initialize();
 
-    // Only cache-first strategy is supported per spec
-    return this.handleCacheFirst(request);
+    switch (this.options.strategy) {
+      case 'cache-first':
+        return this.handleCacheFirst(request);
+      case 'network-first':
+        return this.handleNetworkFirst(request);
+      case 'stale-while-revalidate':
+        return this.handleStaleWhileRevalidate(request);
+      default:
+        throw new Error(`Unknown cache strategy: ${this.options.strategy}`);
+    }
   }
 
   async handleCacheFirst(request) {
@@ -48,6 +57,13 @@ class CacheStrategy {
   }
 
 
+  async handleNetworkFirst(request) {
+    throw new Error('Network-first strategy not implemented');
+  }
+
+  async handleStaleWhileRevalidate(request) {
+    throw new Error('Stale-while-revalidate strategy not implemented');
+  }
 
   getOfflineFallback(request) {
     // Return appropriate offline fallback based on request type

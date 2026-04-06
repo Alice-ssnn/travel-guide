@@ -85,17 +85,29 @@ describe('CacheStrategy', () => {
     expect(strategy.options.strategy).toBe('cache-first');
     expect(strategy.options.maxAge).toBe(24 * 60 * 60 * 1000);
     expect(strategy.options.maxEntries).toBe(100);
+    expect(strategy.options.backgroundUpdate).toBe(true);
   });
 
   test('should create instance with custom options', () => {
     const strategy = new CacheStrategy('test-cache', {
-      strategy: 'cache-first',
+      strategy: 'network-first',
       maxAge: 3600000,
       maxEntries: 50
     });
-    expect(strategy.options.strategy).toBe('cache-first');
+    expect(strategy.options.strategy).toBe('network-first');
     expect(strategy.options.maxAge).toBe(3600000);
     expect(strategy.options.maxEntries).toBe(50);
+  });
+
+  test('should respect backgroundUpdate option', () => {
+    const strategy1 = new CacheStrategy('test-cache', { backgroundUpdate: false });
+    expect(strategy1.options.backgroundUpdate).toBe(false);
+
+    const strategy2 = new CacheStrategy('test-cache', { backgroundUpdate: true });
+    expect(strategy2.options.backgroundUpdate).toBe(true);
+
+    const strategy3 = new CacheStrategy('test-cache');
+    expect(strategy3.options.backgroundUpdate).toBe(true); // default
   });
 
   test('cacheFirst strategy should return cached response if available', async () => {
