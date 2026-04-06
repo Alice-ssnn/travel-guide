@@ -4,7 +4,7 @@
 const OfflineDB = {
   // Database configuration
   DB_NAME: 'TravelGuideDB',
-  DB_VERSION: 3,
+  DB_VERSION: 4,
 
   // Store names
   STORES: {
@@ -12,7 +12,8 @@ const OfflineDB = {
     ACTIVITIES: 'activities',
     FAVORITES: 'favorites',
     USER_PREFERENCES: 'user_preferences',
-    CACHE_METADATA: 'cache_metadata'
+    CACHE_METADATA: 'cache_metadata',
+    SYNC_QUEUE: 'sync_queue'
   },
 
   // Database instance
@@ -87,6 +88,14 @@ const OfflineDB = {
       console.log(`[OfflineDB] Created ${this.STORES.CACHE_METADATA} store`);
     }
 
+    // Create sync queue store
+    if (!db.objectStoreNames.contains(this.STORES.SYNC_QUEUE)) {
+      const syncQueueStore = db.createObjectStore(this.STORES.SYNC_QUEUE, { keyPath: 'id' });
+      syncQueueStore.createIndex('statusIndex', 'status', { unique: false });
+      syncQueueStore.createIndex('createdAtIndex', 'createdAt', { unique: false });
+      console.log(`[OfflineDB] Created ${this.STORES.SYNC_QUEUE} store`);
+    }
+
     // Migration from version 1 to 2: Add search index
     if (oldVersion < 2) {
       // Migration logic if needed
@@ -95,6 +104,12 @@ const OfflineDB = {
     // Migration from version 2 to 3: Add timestamps
     if (oldVersion < 3) {
       // Migration logic if needed
+    }
+
+    // Migration from version 3 to 4: Add sync queue
+    if (oldVersion < 4) {
+      // sync_queue store creation already handled above
+      console.log('[OfflineDB] Migrating to version 4: adding sync_queue store');
     }
   },
 
@@ -872,6 +887,153 @@ const OfflineDB = {
 
       request.onsuccess = () => {
         resolve(request.result);
+      };
+
+      request.onerror = (event) => {
+        reject(event.target.error);
+      };
+    });
+  },
+
+  /**
+   * Add item to sync queue
+   */
+  async addToSyncQueue(item) {
+    if (!this.db) await this.init();
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([this.STORES.SYNC_QUEUE], 'readwrite');
+      const store = transaction.objectStore(this.STORES.SYNC_QUEUE);
+
+      const queueItem = {
+        ...item,
+        id: item.id || `sync-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        status: item.status || 'pending',
+        attempts: item.attempts || 0,
+        createdAt: item.createdAt || Date.now(),
+        updatedAt: Date.now()
+      };
+
+      const request = store.put(queueItem);
+
+      request.onsuccess = () => {
+        console.log(`[OfflineDB] Added item ${queueItem.id} to sync queue`);
+        resolve(queueItem.id);
+      };
+
+      request.onerror = (event) => {
+        reject(event.target.error);
+      };
+    });
+  },
+
+  /**
+   * Get all items from sync queue
+   */
+  async getSyncQueue(status = null) {
+    if (!this.db) await this.init();
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([this.STORES.SYNC_QUEUE], 'readonly');
+      const store = transaction.objectStore(this.STORES.SYNC_QUEUE);
+      const request = store.getAll();
+
+      request.onsuccess = () => {
+        let items = request.result;
+        if (status) {
+          items = items.filter(item => item.status === status);
+        }
+        // Sort by createdAt ascending (oldest first)
+        items.sort((a, b) => a.createdAt - b.createdAt);
+        resolve(items);
+      };
+
+      request.onerror = (event) => {
+        reject(event.target.error);
+      };
+    });
+  },
+
+  /**
+   * Get pending sync items
+   */
+  async getPendingSyncItems() {
+    return this.getSyncQueue('pending');
+  },
+
+  /**
+   * Remove item from sync queue
+   */
+  async removeFromSyncQueue(itemId) {
+    if (!this.db) await this.init();
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([this.STORES.SYNC_QUEUE], 'readwrite');
+      const store = transaction.objectStore(this.STORES.SYNC_QUEUE);
+      const request = store.delete(itemId);
+
+      request.onsuccess = () => {
+        console.log(`[OfflineDB] Removed item ${itemId} from sync queue`);
+        resolve();
+      };
+
+      request.onerror = (event) => {
+        reject(event.target.error);
+      };
+    });
+  },
+
+  /**
+   * Update sync item status
+   */
+  async updateSyncItemStatus(itemId, updates) {
+    if (!this.db) await this.init();
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([this.STORES.SYNC_QUEUE], 'readwrite');
+      const store = transaction.objectStore(this.STORES.SYNC_QUEUE);
+      const getRequest = store.get(itemId);
+
+      getRequest.onsuccess = () => {
+        const item = getRequest.result;
+        if (!item) {
+          reject(new Error(`Sync item ${itemId} not found`));
+          return;
+        }
+
+        Object.assign(item, updates, { updatedAt: Date.now() });
+        const putRequest = store.put(item);
+
+        putRequest.onsuccess = () => {
+          console.log(`[OfflineDB] Updated sync item ${itemId}`);
+          resolve();
+        };
+
+        putRequest.onerror = (event) => {
+          reject(event.target.error);
+        };
+      };
+
+      getRequest.onerror = (event) => {
+        reject(event.target.error);
+      };
+    });
+  },
+
+  /**
+   * Clear sync queue
+   */
+  async clearSyncQueue() {
+    if (!this.db) await this.init();
+
+    return new Promise((resolve, reject) => {
+      const transaction = this.db.transaction([this.STORES.SYNC_QUEUE], 'readwrite');
+      const store = transaction.objectStore(this.STORES.SYNC_QUEUE);
+      const request = store.clear();
+
+      request.onsuccess = () => {
+        console.log('[OfflineDB] Cleared sync queue');
+        resolve();
       };
 
       request.onerror = (event) => {

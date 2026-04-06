@@ -1,11 +1,30 @@
 // offline.js - Service Worker registration and offline functionality
+// Part of Phase 2 Week 4: Offline functionality optimization
 
+/**
+ * NetworkMonitor class has been extracted to js/utils/network-monitor.js
+ * Make sure to include it before this script in your HTML.
+ */
+// NetworkMonitor is now available globally from network-monitor.js
+
+/**
+ * OfflineManager - Main offline functionality controller
+ */
 const OfflineManager = {
+  // Network monitor instance
+  networkMonitor: null,
+
+  // IndexedDB instance
+  offlineDB: null,
+
   /**
    * Initialize offline functionality
    */
   init() {
     console.log('OfflineManager initializing...');
+
+    // Initialize network monitor
+    this.networkMonitor = new NetworkMonitor();
 
     // Register Service Worker
     this.registerServiceWorker();
@@ -18,6 +37,9 @@ const OfflineManager = {
 
     // Setup periodic sync if supported
     this.setupPeriodicSync();
+
+    // Initialize IndexedDB
+    this.initIndexedDB();
   },
 
   /**
@@ -67,13 +89,26 @@ const OfflineManager = {
    * Setup offline detection
    */
   setupOfflineDetection() {
-    // Update UI based on online status
-    const updateOnlineStatus = () => {
+    // Update UI based on online status and network quality
+    const updateNetworkStatus = async () => {
       const isOnline = navigator.onLine;
       document.documentElement.classList.toggle('is-offline', !isOnline);
       document.documentElement.classList.toggle('is-online', isOnline);
 
-      console.log('Network status:', isOnline ? 'online' : 'offline');
+      if (this.networkMonitor) {
+        const quality = this.networkMonitor.checkQuality();
+        console.log('Network quality:', quality);
+
+        // Update data attribute for CSS styling
+        document.documentElement.setAttribute('data-network-type', quality.type);
+        document.documentElement.setAttribute('data-network-latency',
+          quality.latency < 100 ? 'low' : quality.latency < 500 ? 'medium' : 'high');
+
+        // Show network quality indicator
+        this.showNetworkQualityIndicator(quality);
+      } else {
+        console.log('Network status:', isOnline ? 'online' : 'offline');
+      }
 
       // Show offline indicator if offline
       if (!isOnline) {
@@ -81,14 +116,160 @@ const OfflineManager = {
       } else {
         this.hideOfflineIndicator();
       }
+
+      // Trigger adaptive content loading
+      this.triggerAdaptiveContentLoading();
     };
 
     // Listen for online/offline events
-    window.addEventListener('online', updateOnlineStatus);
-    window.addEventListener('offline', updateOnlineStatus);
+    window.addEventListener('online', updateNetworkStatus);
+    window.addEventListener('offline', updateNetworkStatus);
+
+    // Also update periodically to reflect changing network conditions
+    setInterval(() => {
+      if (navigator.onLine) {
+        updateNetworkStatus();
+      }
+    }, 60000); // Update every minute when online
 
     // Initial status
-    updateOnlineStatus();
+    updateNetworkStatus();
+  },
+
+  /**
+   * Show network quality indicator
+   */
+  showNetworkQualityIndicator(quality) {
+    // Remove existing indicator
+    this.hideNetworkQualityIndicator();
+
+    if (!quality.online || quality.type === 'wifi' || quality.type === '4g') {
+      return; // Don't show for good connections
+    }
+
+    // Create quality indicator
+    const indicator = document.createElement('div');
+    indicator.id = 'network-quality-indicator';
+    indicator.className = `network-quality network-quality-${quality.type}`;
+
+    let message = '';
+    let icon = '📶';
+
+    switch (quality.type) {
+      case 'slow-2g':
+        message = '网络缓慢，正在优化内容';
+        icon = '🐌';
+        break;
+      case '2g':
+        message = '网络较慢，部分内容已简化';
+        icon = '🚲';
+        break;
+      case '3g':
+        message = '网络一般';
+        icon = '🚗';
+        break;
+      default:
+        message = '网络质量一般';
+    }
+
+    indicator.innerHTML = `
+      <div class="network-quality-content">
+        <span class="network-quality-icon">${icon}</span>
+        <span class="network-quality-text">${message}</span>
+      </div>
+    `;
+
+    indicator.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+      animation: slideInRight 0.3s ease;
+    `;
+
+    document.body.appendChild(indicator);
+
+    // Auto-hide after 5 seconds for non-critical warnings
+    if (quality.type !== 'slow-2g') {
+      setTimeout(() => this.hideNetworkQualityIndicator(), 5000);
+    }
+  },
+
+  /**
+   * Hide network quality indicator
+   */
+  hideNetworkQualityIndicator() {
+    const indicator = document.getElementById('network-quality-indicator');
+    if (indicator && indicator.parentNode) {
+      indicator.style.animation = 'slideOutRight 0.3s ease';
+      setTimeout(() => {
+        if (indicator.parentNode) {
+          indicator.parentNode.removeChild(indicator);
+        }
+      }, 300);
+    }
+  },
+
+  /**
+   * Trigger adaptive content loading based on network quality
+   */
+  triggerAdaptiveContentLoading() {
+    if (!this.networkMonitor) return;
+
+    const quality = this.networkMonitor.checkQuality();
+
+    // Dispatch custom event for other parts of the app
+    const event = new CustomEvent('network-quality-change', {
+      detail: { quality }
+    });
+    window.dispatchEvent(event);
+
+    // Update image loading strategy
+    this.updateImageLoadingStrategy(quality);
+
+    // Update data loading strategy
+    this.updateDataLoadingStrategy(quality);
+  },
+
+  /**
+   * Update image loading strategy based on network quality
+   */
+  updateImageLoadingStrategy(quality) {
+    const images = document.querySelectorAll('img[data-src], img[data-srcset]');
+
+    images.forEach(img => {
+      if (quality.bandwidth < 500000) { // Less than 500 kbps
+        // Use low-quality images
+        const lowResSrc = img.getAttribute('data-lowres-src');
+        if (lowResSrc && !img.src.includes(lowResSrc)) {
+          img.src = lowResSrc;
+        }
+      } else {
+        // Use normal images
+        const dataSrc = img.getAttribute('data-src');
+        if (dataSrc && !img.src.includes(dataSrc)) {
+          img.src = dataSrc;
+        }
+      }
+    });
+  },
+
+  /**
+   * Update data loading strategy based on network quality
+   */
+  updateDataLoadingStrategy(quality) {
+    // This would be implemented based on your app's data loading needs
+    // For example, you might load less data on slow connections
+    console.log('[OfflineManager] Updating data loading strategy for', quality.type);
   },
 
   /**
@@ -390,6 +571,107 @@ const OfflineManager = {
   },
 
   /**
+   * Initialize IndexedDB and import trip data
+   */
+  async initIndexedDB() {
+    try {
+      // Check if IndexedDB is supported
+      if (!window.indexedDB) {
+        console.warn('IndexedDB not supported');
+        return;
+      }
+
+      // Initialize OfflineDB
+      if (window.OfflineDB) {
+        this.offlineDB = window.OfflineDB;
+        console.log('[OfflineManager] IndexedDB initialized');
+
+        // Import trip data if not already imported
+        await this.importTripDataIfNeeded();
+      } else {
+        console.warn('[OfflineManager] OfflineDB module not loaded');
+      }
+    } catch (error) {
+      console.error('[OfflineManager] IndexedDB initialization failed:', error);
+    }
+  },
+
+  /**
+   * Import trip data to IndexedDB if not already imported
+   */
+  async importTripDataIfNeeded() {
+    try {
+      // Check if data is already imported
+      const stats = await this.offlineDB.getStats();
+      const tripCount = stats.stores.trips || 0;
+
+      if (tripCount < 2) { // Less than trip metadata + at least one day
+        console.log('[OfflineManager] Importing trip data to IndexedDB...');
+
+        // Get trip data from data.js
+        if (window.TripData) {
+          const tripData = window.TripData;
+          const allDays = tripData.getAllDays();
+          const tripInfo = tripData.getTripInfo();
+
+          // Create a mock tripData object for import
+          const mockTripData = {
+            days: allDays,
+            getTripInfo: () => tripInfo
+          };
+
+          await this.offlineDB.importTripData(mockTripData);
+          console.log('[OfflineManager] Trip data imported successfully');
+        } else {
+          console.warn('[OfflineManager] TripData not available for import');
+        }
+      } else {
+        console.log('[OfflineManager] Trip data already imported');
+      }
+    } catch (error) {
+      console.error('[OfflineManager] Failed to import trip data:', error);
+    }
+  },
+
+  /**
+   * Get network quality information
+   */
+  getNetworkQuality() {
+    return this.networkMonitor ? this.networkMonitor.checkQuality() : {
+      online: navigator.onLine,
+      latency: 0,
+      bandwidth: Infinity,
+      reliability: 1.0,
+      type: 'unknown'
+    };
+  },
+
+  /**
+   * Adaptive content loading based on network quality
+   */
+  loadContentAdaptively(contentTypes) {
+    if (!this.networkMonitor) {
+      return contentTypes.full || contentTypes;
+    }
+
+    return this.networkMonitor.loadContentBasedOnNetwork(contentTypes);
+  },
+
+  /**
+   * Check if network is suitable for media downloads
+   */
+  isNetworkSuitableForMedia() {
+    return this.networkMonitor ? this.networkMonitor.isSuitableForMediaDownload() : navigator.onLine;
+  },
+
+  /**
+   * Check if network is suitable for real-time updates
+   */
+  isNetworkSuitableForRealTime() {
+    return this.networkMonitor ? this.networkMonitor.isSuitableForRealTime() : false;
+  },
+
+  /**
    * Request persistent storage
    */
   async requestPersistentStorage() {
@@ -406,6 +688,55 @@ const OfflineManager = {
     return false;
   }
 };
+
+// Add CSS animations for network quality indicators
+if (!document.querySelector('#network-quality-styles')) {
+  const style = document.createElement('style');
+  style.id = 'network-quality-styles';
+  style.textContent = `
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    @keyframes slideOutRight {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+
+    /* Network quality CSS classes */
+    .is-offline .online-only { display: none !important; }
+    .is-online .offline-only { display: none !important; }
+
+    [data-network-type="slow-2g"] img:not([data-essential]) {
+      opacity: 0.5;
+      filter: blur(1px);
+    }
+
+    [data-network-type="2g"] .low-priority-content {
+      display: none;
+    }
+
+    .network-quality {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      pointer-events: none;
+    }
+
+    .network-quality-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .network-quality-icon {
+      font-size: 14px;
+    }
+
+    .network-quality-text {
+      font-weight: 500;
+    }
+  `;
+  document.head.appendChild(style);
+}
 
 // Initialize offline manager when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {

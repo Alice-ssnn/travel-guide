@@ -130,10 +130,18 @@ class CacheStrategy {
   }
 }
 
+// Export for browser/service worker context
 if (typeof self !== 'undefined') {
   self.CacheStrategy = CacheStrategy;
 }
 
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { CacheStrategy };
+// Export for Node.js/Jest testing context
+// Use try-catch for extra safety in service worker environment
+try {
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { CacheStrategy };
+  }
+} catch (error) {
+  // Silently ignore module export errors in browser context
+  console.debug('[CacheStrategy] Skipping module.exports in browser environment');
 }

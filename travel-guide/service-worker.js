@@ -46,7 +46,10 @@ const MEDIA_PATTERNS = [
 importScripts('./js/services/CacheStrategy.js');
 importScripts('./js/services/OfflineSyncManager.js');
 importScripts('./js/offline-db.js');
-const syncManager = new OfflineSyncManager();
+// Create sync manager with offlineDB instance if available
+const syncManager = new OfflineSyncManager({
+  offlineDB: typeof OfflineDB !== 'undefined' ? OfflineDB : null
+});
 
 // Define cache strategies for different resource types
 const cacheStrategies = {
@@ -208,6 +211,7 @@ async function syncFavorites() {
         type: 'favorite',
         action: 'add',
         activityId: favorite.activityId,
+        favoriteId: favorite.id, // Include favoriteId for marking as synced
         timestamp: favorite.addedAt
       });
     }

@@ -13,13 +13,24 @@ class TravelGuideApp {
   initialize() {
     this.loadFavorites();
     this.setupEventListeners();
-    this.setupRouting();
-    this.renderHomepage();
+
+    // Setup routing - if it doesn't handle a specific route (returns false),
+    // then render the homepage
+    const routeHandled = this.setupRouting();
+    if (!routeHandled) {
+      this.renderHomepage();
+    }
 
     // Add performance monitoring button (development mode only)
     // Use setTimeout to ensure DOM is fully loaded
     setTimeout(() => {
       this.addPerformanceButton();
+      // Initialize Google Maps if available
+      if (typeof MapManager !== 'undefined' && typeof MapManager.init === 'function') {
+        const apiKey = localStorage.getItem('googleMapsApiKey');
+        MapManager.init(apiKey || undefined);
+        console.log('Google Maps initialized', apiKey ? 'with API key' : 'in placeholder mode');
+      }
     }, 100);
   }
 
@@ -100,6 +111,7 @@ class TravelGuideApp {
 
   /**
    * Setup client-side routing
+   * @returns {boolean} True if a route was handled (e.g., day detail), false otherwise
    */
   setupRouting() {
     // Parse URL parameters
@@ -111,12 +123,12 @@ class TravelGuideApp {
       if (dayNumber >= 1 && dayNumber <= TripData.getAllDays().length) {
         this.currentDay = dayNumber;
         this.renderDayDetail(dayNumber);
-        return;
+        return true; // Route handled
       }
     }
 
-    // Default to homepage
-    this.renderHomepage();
+    // Default to homepage - will be rendered by initialize() if needed
+    return false; // No specific route handled
   }
 
   /**
@@ -158,9 +170,18 @@ class TravelGuideApp {
    * Navigate back to homepage
    */
   navigateToHome() {
-    this.currentDay = 1;
-    window.history.pushState({}, '', window.location.pathname);
-    this.renderHomepage();
+    // Check if we're on day.html or index.html
+    const isOnDayPage = window.location.pathname.includes('day.html');
+
+    if (isOnDayPage) {
+      // Navigate back to index.html (homepage)
+      window.location.href = 'index.html';
+    } else {
+      // We're already on index.html, just re-render the homepage
+      this.currentDay = 1;
+      window.history.pushState({}, '', window.location.pathname);
+      this.renderHomepage();
+    }
   }
 
   /**
@@ -699,7 +720,66 @@ class TravelGuideApp {
   }
 }
 
+// Phase 3 PWA Offline Optimization Initialization
+function initPhase3Services() {
+  console.log('[Phase3] Initializing offline services...');
+
+  // Initialize NetworkMonitor if available
+  if (typeof NetworkMonitor !== 'undefined') {
+    window.networkMonitor = new NetworkMonitor();
+    console.log('[Phase3] NetworkMonitor initialized');
+  } else {
+    console.warn('[Phase3] NetworkMonitor not available');
+  }
+
+  // Initialize OfflineSyncManager if available
+  if (typeof OfflineSyncManager !== 'undefined') {
+    // Note: OfflineSyncManager is already initialized in service worker
+    console.log('[Phase3] OfflineSyncManager available');
+  }
+
+  // Initialize OfflineMapService if available
+  if (typeof OfflineMapService !== 'undefined') {
+    window.offlineMapService = new OfflineMapService();
+    console.log('[Phase3] OfflineMapService initialized');
+
+    // Pre-cache static maps if install prompt is available
+    if (window.PWAInstallManager && typeof window.PWAInstallManager.isInstallPromptAvailable === 'function') {
+      if (window.PWAInstallManager.isInstallPromptAvailable()) {
+        window.offlineMapService.precacheImportantAreas().catch(error => {
+          console.warn('[Phase3] Failed to pre-cache maps:', error);
+        });
+      }
+    }
+  } else {
+    console.warn('[Phase3] OfflineMapService not available');
+  }
+
+  // Register for background sync when online
+  if (navigator.onLine && 'serviceWorker' in navigator && 'SyncManager' in window) {
+    registerBackgroundSync();
+  }
+}
+
+// Register background sync for offline actions
+async function registerBackgroundSync() {
+  try {
+    const registration = await navigator.serviceWorker.ready;
+
+    // Register for favorite sync
+    await registration.sync.register('sync-favorites');
+    console.log('[Phase3] Background sync registered for favorites');
+  } catch (error) {
+    console.error('[Phase3] Background sync registration failed:', error);
+  }
+}
+
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
   window.app = new TravelGuideApp();
+
+  // Initialize Phase 3 services after app is created
+  setTimeout(() => {
+    initPhase3Services();
+  }, 100); // Small delay to ensure all scripts are loaded
 });

@@ -24,6 +24,8 @@
       </div>
     </header>
 
+    <offline-status></offline-status>
+
     <main class="main">
       <div class="trip-summary">
         <div class="trip-dates">2026年4月24日 - 5月5日</div>
@@ -44,9 +46,17 @@
     </div>
   </div>
 
+  <script src="js/offline-db.js"></script>
+  <script src="js/utils/network-monitor.js"></script>
   <script src="js/offline.js"></script>
+  <script src="js/pwa-install.js"></script>
+  <script src="js/offline-performance.js"></script>
+  <script src="js/services/CacheStrategy.js"></script>
+  <script src="js/services/OfflineSyncManager.js"></script>
+  <script src="js/services/OfflineMapService.js"></script>
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
   <script src="js/search.js"></script>
+  <script src="js/components/OfflineStatus.js"></script>
 </body>
 </html>
