@@ -44,6 +44,9 @@ const MEDIA_PATTERNS = [
 
 // Import CacheStrategy for smart caching
 importScripts('./js/services/CacheStrategy.js');
+importScripts('./js/services/OfflineSyncManager.js');
+importScripts('./js/offline-db.js');
+const syncManager = new OfflineSyncManager();
 
 // Define cache strategies for different resource types
 const cacheStrategies = {
@@ -172,6 +175,8 @@ self.addEventListener('sync', event => {
 
   if (event.tag === 'sync-favorites') {
     event.waitUntil(syncFavorites());
+  } else if (event.tag === 'sync-all') {
+    event.waitUntil(syncManager.startSync());
   }
 });
 
@@ -197,16 +202,21 @@ async function syncFavorites() {
       return;
     }
 
-    // In a real app, you would send to your server
-    console.log('[ServiceWorker] Would sync favorites:', favorites);
+    // Add each favorite to sync queue
+    for (const favorite of favorites) {
+      await syncManager.addToQueue({
+        type: 'favorite',
+        action: 'add',
+        activityId: favorite.activityId,
+        timestamp: favorite.addedAt
+      });
+    }
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log('[ServiceWorker] Favorites synced successfully');
+    console.log('[ServiceWorker] Favorites added to sync queue');
 
   } catch (error) {
     console.error('[ServiceWorker] Sync failed:', error);
-    throw error; // Will retry on next sync
+    throw error;
   }
 }
 
@@ -257,14 +267,14 @@ async function updateCache(cacheName, urls) {
 
 // Helper function to get favorites from IndexedDB
 async function getFavoritesFromIndexedDB() {
-  // This is a simplified example
-  // In a real app, you would use IndexedDB
-  return new Promise(resolve => {
-    setTimeout(() => {
-      const favorites = JSON.parse(localStorage.getItem('travelGuideFavorites') || '[]');
-      resolve(favorites);
-    }, 100);
-  });
+  // Use OfflineDB to get unsynced favorites
+  try {
+    const unsyncedFavorites = await OfflineDB.getUnsyncedFavorites();
+    return unsyncedFavorites;
+  } catch (error) {
+    console.error('[ServiceWorker] Failed to get unsynced favorites:', error);
+    return [];
+  }
 }
 
 // Push notifications (optional)
