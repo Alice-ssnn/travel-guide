@@ -134,4 +134,6 @@ if (typeof self !== 'undefined') {
   self.CacheStrategy = CacheStrategy;
 }
 
-module.exports = { CacheStrategy };
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { CacheStrategy };
+}
