@@ -1,10 +1,18 @@
-// service-worker.js - Service Worker for offline caching
+// service-worker.js - Service Worker for offline caching with smart strategies
+// Part of Phase 2 Week 4: Offline functionality optimization
 
-const CACHE_NAME = 'travel-guide-v1';
+// Cache configuration
+const CACHE_VERSION = 'v2';
+const CACHE_NAMES = {
+  STATIC: `travel-guide-static-${CACHE_VERSION}`,
+  DATA: `travel-guide-data-${CACHE_VERSION}`,
+  MEDIA: `travel-guide-media-${CACHE_VERSION}`
+};
+
 const OFFLINE_URL = '/offline.html';
 
-// Assets to cache on install
-const PRECACHE_ASSETS = [
+// Assets to precache in STATIC cache (App Shell)
+const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/day.html',
@@ -18,122 +26,303 @@ const PRECACHE_ASSETS = [
   '/js/map.js',
   '/js/search.js',
   '/js/offline.js',
-  '/manifest.json',
-  // Add more assets as needed
+  '/js/offline-db.js',
+  '/manifest.json'
 ];
 
-// Install event - precache assets
-self.addEventListener('install', event => {
-  console.log('[ServiceWorker] Install');
+// Data endpoints to cache in DATA cache
+const DATA_ENDPOINTS = [
+  '/data.json', // If we add a JSON API endpoint
+  // Add other data endpoints here
+];
 
-  // Precache critical assets
+// Media patterns to cache in MEDIA cache
+const MEDIA_PATTERNS = [
+  /\.(png|jpg|jpeg|gif|webp|svg)$/i,
+  /\.(woff|woff2|eot|ttf|otf)$/i
+];
+
+// Import CacheStrategy for smart caching
+importScripts('./js/services/CacheStrategy.js');
+
+// Define cache strategies for different resource types
+const cacheStrategies = {
+  html: new CacheStrategy(CACHE_NAMES.STATIC, {
+    strategy: 'network-first',
+    maxAge: 3600000 // 1 hour
+  }),
+  data: new CacheStrategy(CACHE_NAMES.DATA, {
+    strategy: 'network-first',
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }),
+  media: new CacheStrategy(CACHE_NAMES.MEDIA, {
+    strategy: 'cache-first',
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+  }),
+  static: new CacheStrategy(CACHE_NAMES.STATIC, {
+    strategy: 'cache-first',
+    maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+  })
+};
+
+// Performance monitoring helper
+function sendCacheEvent(type, cacheName) {
+  // Send message to clients for performance tracking
+  self.clients.matchAll().then(clients => {
+    clients.forEach(client => {
+      client.postMessage({
+        type: type,
+        cacheName: cacheName,
+        timestamp: Date.now()
+      });
+    });
+  });
+}
+
+
+// Install event - precache static assets
+self.addEventListener('install', event => {
+  console.log('[ServiceWorker] Install - Precaching static assets');
+
   event.waitUntil(
-    caches.open(CACHE_NAME)
+    caches.open(CACHE_NAMES.STATIC)
       .then(cache => {
-        console.log('[ServiceWorker] Caching app shell');
-        return cache.addAll(PRECACHE_ASSETS);
+        console.log('[ServiceWorker] Caching app shell in STATIC cache');
+        return cache.addAll(STATIC_ASSETS);
       })
       .then(() => {
         console.log('[ServiceWorker] Skip waiting on install');
         return self.skipWaiting();
+      })
+      .catch(error => {
+        console.error('[ServiceWorker] Install failed:', error);
       })
   );
 });
 
 // Activate event - clean up old caches
 self.addEventListener('activate', event => {
-  console.log('[ServiceWorker] Activate');
+  console.log('[ServiceWorker] Activate - Cleaning up old caches');
 
-  // Remove old caches
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
-        cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('[ServiceWorker] Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(() => {
-      console.log('[ServiceWorker] Claiming clients');
-      return self.clients.claim();
-    })
-  );
-});
-
-// Fetch event - serve from cache, fallback to network
-self.addEventListener('fetch', event => {
-  // Skip non-GET requests and Chrome extensions
-  if (event.request.method !== 'GET' ||
-      !event.request.url.startsWith(self.location.origin)) {
-    return;
-  }
-
-  // For HTML pages, try network first, fallback to cache
-  if (event.request.headers.get('accept').includes('text/html')) {
-    event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          // Cache the fetched response
-          const responseClone = response.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, responseClone);
-          });
-          return response;
-        })
-        .catch(() => {
-          // Network failed, try cache
-          return caches.match(event.request)
-            .then(cachedResponse => {
-              if (cachedResponse) {
-                return cachedResponse;
-              }
-              // If not in cache, show offline page
-              return caches.match(OFFLINE_URL);
-            });
-        })
-    );
-    return;
-  }
-
-  // For other assets (CSS, JS, images), try cache first, fallback to network
-  event.respondWith(
-    caches.match(event.request)
-      .then(cachedResponse => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        // Not in cache, fetch from network
-        return fetch(event.request)
-          .then(response => {
-            // Don't cache if not a successful response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
+    caches.keys()
+      .then(cacheNames => {
+        return Promise.all(
+          cacheNames.map(cacheName => {
+            // Delete old caches that don't match current version
+            if (!Object.values(CACHE_NAMES).includes(cacheName)) {
+              console.log('[ServiceWorker] Deleting old cache:', cacheName);
+              return caches.delete(cacheName);
             }
-
-            // Cache the fetched response
-            const responseClone = response.clone();
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, responseClone);
-            });
-
-            return response;
           })
-          .catch(error => {
-            console.error('[ServiceWorker] Fetch failed:', error);
-            // For CSS/JS, return empty response rather than failing
-            if (event.request.url.match(/\.(css|js)$/)) {
-              return new Response('', {
-                headers: { 'Content-Type': 'text/css' }
-              });
-            }
-            throw error;
-          });
+        );
+      })
+      .then(() => {
+        console.log('[ServiceWorker] Claiming clients');
+        return self.clients.claim();
+      })
+      .catch(error => {
+        console.error('[ServiceWorker] Activate failed:', error);
       })
   );
 });
+
+// Smart fetch strategies
+self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+
+  // Skip non-GET requests and cross-origin requests
+  if (event.request.method !== 'GET' || url.origin !== self.location.origin) {
+    return;
+  }
+
+  // Route to appropriate cache strategy
+  if (event.request.headers.get('accept').includes('text/html')) {
+    event.respondWith(cacheStrategies.html.handleRequest(event.request));
+  } else if (isDataRequest(url)) {
+    event.respondWith(cacheStrategies.data.handleRequest(event.request));
+  } else if (isMediaRequest(url)) {
+    event.respondWith(cacheStrategies.media.handleRequest(event.request));
+  } else {
+    event.respondWith(cacheStrategies.static.handleRequest(event.request));
+  }
+});
+
+/**
+ * Determine if request is for data
+ */
+function isDataRequest(url) {
+  return DATA_ENDPOINTS.some(endpoint => url.pathname.includes(endpoint));
+}
+
+/**
+ * Determine if request is for media
+ */
+function isMediaRequest(url) {
+  return MEDIA_PATTERNS.some(pattern => pattern.test(url.pathname));
+}
+
+/**
+ * Handle HTML requests (Network First)
+ */
+async function handleHtmlRequest(event) {
+  const request = event.request;
+
+  try {
+    // Try network first
+    const networkResponse = await fetch(request);
+
+    // Cache the response for future use
+    const responseClone = networkResponse.clone();
+    caches.open(CACHE_NAMES.STATIC).then(cache => {
+      cache.put(request, responseClone);
+    });
+
+    return networkResponse;
+  } catch (error) {
+    console.log('[ServiceWorker] Network failed for HTML, trying cache...');
+
+    // Try cache
+    const cachedResponse = await caches.match(request);
+    if (cachedResponse) {
+      sendCacheEvent('cache-hit', 'static');
+      return cachedResponse;
+    }
+
+    // Show offline page
+    sendCacheEvent('cache-miss', 'static');
+    return caches.match(OFFLINE_URL);
+  }
+}
+
+/**
+ * Handle data requests (Network First with Cache Fallback)
+ */
+async function handleDataRequest(event) {
+  const request = event.request;
+
+  try {
+    // Try network first
+    const networkResponse = await fetch(request);
+
+    // Cache successful responses
+    if (networkResponse.ok) {
+      const responseClone = networkResponse.clone();
+      caches.open(CACHE_NAMES.DATA).then(cache => {
+        cache.put(request, responseClone);
+      });
+    }
+
+    return networkResponse;
+  } catch (error) {
+    console.log('[ServiceWorker] Network failed for data, trying cache...');
+
+    // Try cache
+    const cachedResponse = await caches.match(request, { cacheName: CACHE_NAMES.DATA });
+    if (cachedResponse) {
+      sendCacheEvent('cache-hit', 'data');
+      return cachedResponse;
+    }
+
+    // Return offline data placeholder if available
+    sendCacheEvent('cache-miss', 'data');
+    return new Response(JSON.stringify({
+      error: 'offline',
+      message: 'Data not available offline'
+    }), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+}
+
+/**
+ * Handle media requests (Cache First)
+ */
+async function handleMediaRequest(event) {
+  const request = event.request;
+
+  // Try cache first
+  const cachedResponse = await caches.match(request, { cacheName: CACHE_NAMES.MEDIA });
+  if (cachedResponse) {
+    sendCacheEvent('cache-hit', 'media');
+    return cachedResponse;
+  }
+
+  try {
+    // Try network
+    const networkResponse = await fetch(request);
+
+    // Cache successful responses
+    if (networkResponse.ok) {
+      const responseClone = networkResponse.clone();
+      caches.open(CACHE_NAMES.MEDIA).then(cache => {
+        cache.put(request, responseClone);
+      });
+    }
+
+    return networkResponse;
+  } catch (error) {
+    console.log('[ServiceWorker] Failed to fetch media:', error);
+    sendCacheEvent('cache-miss', 'media');
+
+    // Return placeholder for images
+    if (request.url.match(/\.(png|jpg|jpeg|gif|webp|svg)$/i)) {
+      return new Response(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="#eee"/><text x="50" y="50" text-anchor="middle" dy=".3em" fill="#999">Image</text></svg>',
+        { headers: { 'Content-Type': 'image/svg+xml' } }
+      );
+    }
+
+    throw error;
+  }
+}
+
+/**
+ * Handle static asset requests (Cache First)
+ */
+async function handleStaticRequest(event) {
+  const request = event.request;
+
+  // Try cache first
+  const cachedResponse = await caches.match(request, { cacheName: CACHE_NAMES.STATIC });
+  if (cachedResponse) {
+    sendCacheEvent('cache-hit', 'static');
+    return cachedResponse;
+  }
+
+  try {
+    // Try network
+    const networkResponse = await fetch(request);
+
+    // Cache successful responses
+    if (networkResponse.ok) {
+      const responseClone = networkResponse.clone();
+      caches.open(CACHE_NAMES.STATIC).then(cache => {
+        cache.put(request, responseClone);
+      });
+    }
+
+    return networkResponse;
+  } catch (error) {
+    console.log('[ServiceWorker] Failed to fetch static asset:', error);
+    sendCacheEvent('cache-miss', 'static');
+
+    // Return minimal fallback for CSS/JS to prevent breakage
+    if (request.url.match(/\.css$/)) {
+      return new Response('/* Offline fallback */', {
+        headers: { 'Content-Type': 'text/css' }
+      });
+    }
+
+    if (request.url.match(/\.js$/)) {
+      return new Response('// Offline fallback', {
+        headers: { 'Content-Type': 'application/javascript' }
+      });
+    }
+
+    throw error;
+  }
+}
 
 // Background sync for offline actions
 self.addEventListener('sync', event => {
@@ -184,27 +373,43 @@ async function updateCachedContent() {
   console.log('[ServiceWorker] Updating cached content...');
 
   try {
-    // Open cache
-    const cache = await caches.open(CACHE_NAME);
+    // Update static cache
+    await updateCache(CACHE_NAMES.STATIC, STATIC_ASSETS);
 
-    // Check for updates to critical assets
-    const updatePromises = PRECACHE_ASSETS.map(async assetUrl => {
+    // Update data cache if there are data endpoints
+    if (DATA_ENDPOINTS.length > 0) {
+      await updateCache(CACHE_NAMES.DATA, DATA_ENDPOINTS);
+    }
+
+    console.log('[ServiceWorker] Content update complete');
+  } catch (error) {
+    console.error('[ServiceWorker] Update failed:', error);
+  }
+}
+
+/**
+ * Update a specific cache with fresh network responses
+ */
+async function updateCache(cacheName, urls) {
+  try {
+    const cache = await caches.open(cacheName);
+    const updatePromises = urls.map(async url => {
       try {
-        const networkResponse = await fetch(assetUrl);
+        const networkResponse = await fetch(url);
         if (networkResponse.ok) {
-          await cache.put(assetUrl, networkResponse.clone());
-          console.log(`[ServiceWorker] Updated: ${assetUrl}`);
+          await cache.put(url, networkResponse.clone());
+          console.log(`[ServiceWorker] Updated in ${cacheName}: ${url}`);
         }
       } catch (error) {
-        console.warn(`[ServiceWorker] Failed to update ${assetUrl}:`, error);
+        console.warn(`[ServiceWorker] Failed to update ${url} in ${cacheName}:`, error);
       }
     });
 
     await Promise.all(updatePromises);
-    console.log('[ServiceWorker] Content update complete');
-
+    console.log(`[ServiceWorker] ${cacheName} update completed`);
   } catch (error) {
-    console.error('[ServiceWorker] Update failed:', error);
+    console.error(`[ServiceWorker] Failed to update ${cacheName}:`, error);
+    throw error;
   }
 }
 
