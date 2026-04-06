@@ -1,25 +1,62 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=travel-guide/index.html">
-    <title>瑞士法国旅行指南 - 重定向中</title>
-    <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
-        a { color: #667eea; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#667eea">
+  <title>瑞士法国旅行指南</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 </head>
 <body>
-    <h1>瑞士法国旅行指南</h1>
-    <p>正在重定向到应用程序...</p>
-    <p>如果页面没有自动跳转，请点击 <a href="travel-guide/index.html">这里</a>。</p>
-    <script>
-        // 后备重定向
-        setTimeout(function() {
-            window.location.href = 'travel-guide/index.html';
-        }, 1000);
-    </script>
+  <div class="app">
+    <header class="header">
+      <h1>瑞士法国之旅</h1>
+      <div class="header-actions">
+        <button class="btn btn-today" id="todayBtn">今天</button>
+        <button class="btn btn-search" id="searchBtn" aria-label="搜索行程">搜索</button>
+      </div>
+    </header>
+
+    <offline-status></offline-status>
+
+    <main class="main">
+      <div class="trip-summary">
+        <div class="trip-dates">2026年4月24日 - 5月5日</div>
+        <div class="trip-stats">12天 | 4个国家 | 7个城市</div>
+      </div>
+
+      <div class="days-list" id="daysList">
+        <!-- Day cards will be inserted here by JavaScript -->
+      </div>
+    </main>
+
+    <div class="search-overlay" id="searchOverlay">
+      <div class="search-container">
+        <input type="text" class="search-input" id="searchInput" placeholder="搜索景点、住宿、交通..." aria-label="搜索框">
+        <button class="btn btn-close" id="closeSearchBtn">✕</button>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </div>
+
+  <script src="js/offline-db.js"></script>
+  <script src="js/utils/network-monitor.js"></script>
+  <script src="js/offline.js"></script>
+  <script src="js/pwa-install.js"></script>
+  <script src="js/offline-performance.js"></script>
+  <script src="js/services/CacheStrategy.js"></script>
+  <script src="js/services/OfflineSyncManager.js"></script>
+  <script src="js/services/OfflineMapService.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/components/OfflineStatus.js"></script>
 </body>
 </html>
