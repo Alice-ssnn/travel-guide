@@ -6,7 +6,6 @@ class CacheStrategy {
       strategy: options.strategy || 'cache-first',
       maxAge: options.maxAge || 24 * 60 * 60 * 1000, // 24 hours
       maxEntries: options.maxEntries || 100,
-      backgroundUpdate: options.backgroundUpdate !== false,
       ...options
     };
     this.cache = null;
@@ -20,16 +19,8 @@ class CacheStrategy {
   async handleRequest(request) {
     await this.initialize();
 
-    switch (this.options.strategy) {
-      case 'cache-first':
-        return this.handleCacheFirst(request);
-      case 'network-first':
-        return this.handleNetworkFirst(request);
-      case 'stale-while-revalidate':
-        return this.handleStaleWhileRevalidate(request);
-      default:
-        return this.handleCacheFirst(request);
-    }
+    // Only cache-first strategy is supported per spec
+    return this.handleCacheFirst(request);
   }
 
   async handleCacheFirst(request) {
@@ -56,34 +47,7 @@ class CacheStrategy {
     }
   }
 
-  async handleNetworkFirst(request) {
-    // Try network first
-    try {
-      const networkResponse = await fetch(request);
 
-      // Cache the successful response for future use
-      if (networkResponse.ok) {
-        const responseClone = networkResponse.clone();
-        this.cache.put(request, responseClone);
-      }
-
-      return networkResponse;
-    } catch (error) {
-      // Network failed, try cache
-      const cachedResponse = await this.cache.match(request);
-      if (cachedResponse) {
-        return cachedResponse;
-      }
-
-      // Cache also failed, return offline fallback
-      return this.getOfflineFallback(request);
-    }
-  }
-
-  async handleStaleWhileRevalidate(request) {
-    // TODO: implement stale-while-revalidate strategy
-    return this.handleCacheFirst(request);
-  }
 
   getOfflineFallback(request) {
     // Return appropriate offline fallback based on request type

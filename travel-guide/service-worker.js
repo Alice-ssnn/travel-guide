@@ -48,11 +48,11 @@ importScripts('./js/services/CacheStrategy.js');
 // Define cache strategies for different resource types
 const cacheStrategies = {
   html: new CacheStrategy(CACHE_NAMES.STATIC, {
-    strategy: 'network-first',
+    strategy: 'cache-first',
     maxAge: 3600000 // 1 hour
   }),
   data: new CacheStrategy(CACHE_NAMES.DATA, {
-    strategy: 'network-first',
+    strategy: 'cache-first',
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }),
   media: new CacheStrategy(CACHE_NAMES.MEDIA, {
@@ -162,167 +162,9 @@ function isMediaRequest(url) {
   return MEDIA_PATTERNS.some(pattern => pattern.test(url.pathname));
 }
 
-/**
- * Handle HTML requests (Network First)
- */
-async function handleHtmlRequest(event) {
-  const request = event.request;
 
-  try {
-    // Try network first
-    const networkResponse = await fetch(request);
 
-    // Cache the response for future use
-    const responseClone = networkResponse.clone();
-    caches.open(CACHE_NAMES.STATIC).then(cache => {
-      cache.put(request, responseClone);
-    });
 
-    return networkResponse;
-  } catch (error) {
-    console.log('[ServiceWorker] Network failed for HTML, trying cache...');
-
-    // Try cache
-    const cachedResponse = await caches.match(request);
-    if (cachedResponse) {
-      sendCacheEvent('cache-hit', 'static');
-      return cachedResponse;
-    }
-
-    // Show offline page
-    sendCacheEvent('cache-miss', 'static');
-    return caches.match(OFFLINE_URL);
-  }
-}
-
-/**
- * Handle data requests (Network First with Cache Fallback)
- */
-async function handleDataRequest(event) {
-  const request = event.request;
-
-  try {
-    // Try network first
-    const networkResponse = await fetch(request);
-
-    // Cache successful responses
-    if (networkResponse.ok) {
-      const responseClone = networkResponse.clone();
-      caches.open(CACHE_NAMES.DATA).then(cache => {
-        cache.put(request, responseClone);
-      });
-    }
-
-    return networkResponse;
-  } catch (error) {
-    console.log('[ServiceWorker] Network failed for data, trying cache...');
-
-    // Try cache
-    const cachedResponse = await caches.match(request, { cacheName: CACHE_NAMES.DATA });
-    if (cachedResponse) {
-      sendCacheEvent('cache-hit', 'data');
-      return cachedResponse;
-    }
-
-    // Return offline data placeholder if available
-    sendCacheEvent('cache-miss', 'data');
-    return new Response(JSON.stringify({
-      error: 'offline',
-      message: 'Data not available offline'
-    }), {
-      headers: { 'Content-Type': 'application/json' }
-    });
-  }
-}
-
-/**
- * Handle media requests (Cache First)
- */
-async function handleMediaRequest(event) {
-  const request = event.request;
-
-  // Try cache first
-  const cachedResponse = await caches.match(request, { cacheName: CACHE_NAMES.MEDIA });
-  if (cachedResponse) {
-    sendCacheEvent('cache-hit', 'media');
-    return cachedResponse;
-  }
-
-  try {
-    // Try network
-    const networkResponse = await fetch(request);
-
-    // Cache successful responses
-    if (networkResponse.ok) {
-      const responseClone = networkResponse.clone();
-      caches.open(CACHE_NAMES.MEDIA).then(cache => {
-        cache.put(request, responseClone);
-      });
-    }
-
-    return networkResponse;
-  } catch (error) {
-    console.log('[ServiceWorker] Failed to fetch media:', error);
-    sendCacheEvent('cache-miss', 'media');
-
-    // Return placeholder for images
-    if (request.url.match(/\.(png|jpg|jpeg|gif|webp|svg)$/i)) {
-      return new Response(
-        '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="#eee"/><text x="50" y="50" text-anchor="middle" dy=".3em" fill="#999">Image</text></svg>',
-        { headers: { 'Content-Type': 'image/svg+xml' } }
-      );
-    }
-
-    throw error;
-  }
-}
-
-/**
- * Handle static asset requests (Cache First)
- */
-async function handleStaticRequest(event) {
-  const request = event.request;
-
-  // Try cache first
-  const cachedResponse = await caches.match(request, { cacheName: CACHE_NAMES.STATIC });
-  if (cachedResponse) {
-    sendCacheEvent('cache-hit', 'static');
-    return cachedResponse;
-  }
-
-  try {
-    // Try network
-    const networkResponse = await fetch(request);
-
-    // Cache successful responses
-    if (networkResponse.ok) {
-      const responseClone = networkResponse.clone();
-      caches.open(CACHE_NAMES.STATIC).then(cache => {
-        cache.put(request, responseClone);
-      });
-    }
-
-    return networkResponse;
-  } catch (error) {
-    console.log('[ServiceWorker] Failed to fetch static asset:', error);
-    sendCacheEvent('cache-miss', 'static');
-
-    // Return minimal fallback for CSS/JS to prevent breakage
-    if (request.url.match(/\.css$/)) {
-      return new Response('/* Offline fallback */', {
-        headers: { 'Content-Type': 'text/css' }
-      });
-    }
-
-    if (request.url.match(/\.js$/)) {
-      return new Response('// Offline fallback', {
-        headers: { 'Content-Type': 'application/javascript' }
-      });
-    }
-
-    throw error;
-  }
-}
 
 // Background sync for offline actions
 self.addEventListener('sync', event => {

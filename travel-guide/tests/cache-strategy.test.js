@@ -89,11 +89,11 @@ describe('CacheStrategy', () => {
 
   test('should create instance with custom options', () => {
     const strategy = new CacheStrategy('test-cache', {
-      strategy: 'network-first',
+      strategy: 'cache-first',
       maxAge: 3600000,
       maxEntries: 50
     });
-    expect(strategy.options.strategy).toBe('network-first');
+    expect(strategy.options.strategy).toBe('cache-first');
     expect(strategy.options.maxAge).toBe(3600000);
     expect(strategy.options.maxEntries).toBe(50);
   });
@@ -130,33 +130,6 @@ describe('CacheStrategy', () => {
     expect(global.fetch).toHaveBeenCalledWith(request);
   });
 
-  test('network-first strategy should return network response when available', async () => {
-    const strategy = new CacheStrategy('test-cache', { strategy: 'network-first' });
-    await strategy.initialize();
-
-    const request = new Request('https://example.com/test');
-    const networkResponse = new Response('network data');
-
-    global.fetch = jest.fn(() => Promise.resolve(networkResponse));
-
-    const result = await strategy.handleRequest(request);
-    expect(result).toBe(networkResponse);
-    expect(global.fetch).toHaveBeenCalledWith(request);
-  });
-
-  test('network-first strategy should return cached response when network fails', async () => {
-    const strategy = new CacheStrategy('test-cache', { strategy: 'network-first' });
-    await strategy.initialize();
-
-    const request = new Request('https://example.com/test');
-    const cachedResponse = new Response('cached data');
-    await strategy.cache.put(request, cachedResponse);
-
-    global.fetch = jest.fn(() => Promise.reject(new Error('Network error')));
-
-    const result = await strategy.handleRequest(request);
-    expect(result).toBe(cachedResponse);
-  });
 
   test('should cleanup expired cache entries', async () => {
     const strategy = new CacheStrategy('test-cache', { maxAge: 1000 }); // 1 second
