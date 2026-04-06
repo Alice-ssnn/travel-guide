@@ -2496,210 +2496,1104 @@ const tripData = {
         ]
       }
     },
-    // 第9天：埃兹+摩纳哥（简化）
+    // 第9天 - 5月2日（周五）巴黎地标一日游
     {
       day: 9,
       date: "2026-05-02",
-      title: "埃兹与摩纳哥",
-      city: "埃兹",
-      color: "#af52de",
-      summary: "🌵 埃兹植物园 | 🏎️ 摩纳哥",
-      tags: ["悬崖小镇", "F1赛道", "赌场"],
+      title: "巴黎地标一日游",
+      city: "巴黎",
+      color: "#ff3b30",
+      summary: "🗼 埃菲尔铁塔 | 🏛️ 凯旋门 | 🛍️ 香榭丽舍大街 | 🌃 铁塔夜景",
+      tags: ["埃菲尔铁塔", "凯旋门", "香榭丽舍大街", "夜景", "地铁", "巴黎地标"],
       overview: {
         accommodation: {
-          name: "Hotel Suisse",
-          address: "15 Quai Rauba Capeu, 06300 Nice",
+          name: "Studio opéra paris",
+          address: "22 Avenue de l'Opéra, 75001 Paris",
           checkin: "已入住",
           checkout: "11:00前",
-          coordinates: { lat: 43.6951, lng: 7.2769 }
+          coordinates: { lat: 48.8667, lng: 2.3333 }
         },
         transport: {
-          type: "火车+公交",
-          details: "尼斯→埃兹→摩纳哥→尼斯",
-          cost: "€ 15/人"
+          type: "地铁",
+          details: "巴黎地铁一日游，主要使用地铁8号线、6号线、1号线",
+          cost: "约€ 15/人（地铁票）"
         },
-        importantNotes: []
+        importantNotes: [
+          "埃菲尔铁塔登顶需提前预订顶层票（€29）",
+          "凯旋门登顶284级台阶，有电梯可选",
+          "香榭丽舍大街奢侈品购物街，注意时间",
+          "特罗卡德罗是埃菲尔铁塔最佳拍照点，日落时段占位",
+          "埃菲尔铁塔整点亮灯5分钟，金色闪烁"
+        ]
       },
       timeline: [
         {
-          id: "day9-eze",
-          time: "09:30",
-          duration: 180,
-          icon: "🌵",
-          title: "埃兹小镇",
-          description: "游览悬崖小镇，参观植物园",
+          id: "day9-breakfast",
+          time: "08:30",
+          duration: 30,
+          icon: "🍽️",
+          title: "酒店早餐",
+          description: "附近咖啡厅，体验巴黎早餐文化",
           location: {
-            name: "埃兹",
-            address: "Èze, France",
-            coordinates: { lat: 43.7272, lng: 7.3619 }
+            name: "巴黎歌剧院区",
+            address: "Opéra District, Paris",
+            coordinates: { lat: 48.8719, lng: 2.3319 }
           },
-          category: "景点",
-          cost: "植物园€ 6/人",
+          category: "餐饮",
+          cost: "€8-12",
           actions: [
             { type: "details", label: "详情" },
             { type: "map", label: "地图" }
           ]
-        }
-      ],
-      route: {
-        totalDistance: "40公里",
-        totalTime: "1小时车程",
-        steps: []
-      }
-    },
-    // 第10天：戛纳（简化）
-    {
-      day: 10,
-      date: "2026-05-03",
-      title: "戛纳",
-      city: "戛纳",
-      color: "#ff9500",
-      summary: "🎬 戛纳电影节宫 | 🏖️ 海滨",
-      tags: ["电影节", "海滨"],
-      overview: {
-        accommodation: {
-          name: "Hotel Suisse",
-          address: "15 Quai Rauba Capeu, 06300 Nice",
-          checkin: "已入住",
-          checkout: "11:00前",
-          coordinates: { lat: 43.6951, lng: 7.2769 }
         },
-        transport: {
-          type: "火车",
-          details: "尼斯→戛纳",
-          cost: "€ 10/人"
-        },
-        importantNotes: []
-      },
-      timeline: [
         {
-          id: "day10-cannes",
-          time: "10:00",
-          duration: 180,
-          icon: "🎬",
-          title: "戛纳电影节宫",
-          description: "参观电影节宫",
+          id: "day9-to-eiffel",
+          time: "09:00",
+          duration: 20,
+          icon: "🚇",
+          title: "酒店→埃菲尔铁塔",
+          description: "地铁8号线，Opéra站→École Militaire站",
           location: {
-            name: "戛纳电影节宫",
-            address: "Palais des Festivals, Cannes",
-            coordinates: { lat: 43.5513, lng: 7.0193 }
+            name: "Opéra地铁站",
+            address: "Opéra, Paris",
+            coordinates: { lat: 48.8719, lng: 2.3319 }
+          },
+          destination: {
+            name: "École Militaire地铁站",
+            address: "École Militaire, Paris",
+            coordinates: { lat: 48.8550, lng: 2.3050 }
+          },
+          category: "交通",
+          cost: "€2.15",
+          route: {
+            distance: "3公里",
+            time: "20分钟",
+            steps: ["地铁8号线"],
+            notes: "前往埃菲尔铁塔"
+          },
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" },
+            { type: "navigation", label: "导航" }
+          ]
+        },
+        {
+          id: "day9-eiffel-tower",
+          time: "09:20",
+          duration: 100,
+          icon: "🗼",
+          title: "埃菲尔铁塔登顶",
+          description: "电梯登顶，需提前预订顶层票",
+          location: {
+            name: "埃菲尔铁塔",
+            address: "Champ de Mars, 5 Avenue Anatole France, 75007 Paris",
+            coordinates: { lat: 48.8584, lng: 2.2945 }
           },
           category: "景点",
+          cost: "€29",
+          important: true,
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day9-to-arc",
+          time: "11:00",
+          duration: 20,
+          icon: "🚇",
+          title: "铁塔→凯旋门",
+          description: "地铁6号线，Bir-Hakeim→Charles de Gaulle-Étoile",
+          location: {
+            name: "Bir-Hakeim地铁站",
+            address: "Bir-Hakeim, Paris",
+            coordinates: { lat: 48.8550, lng: 2.2930 }
+          },
+          destination: {
+            name: "Charles de Gaulle-Étoile地铁站",
+            address: "Charles de Gaulle-Étoile, Paris",
+            coordinates: { lat: 48.8738, lng: 2.2950 }
+          },
+          category: "交通",
+          cost: "€2.15",
+          route: {
+            distance: "4公里",
+            time: "20分钟",
+            steps: ["地铁6号线"],
+            notes: "前往凯旋门"
+          },
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" },
+            { type: "navigation", label: "导航" }
+          ]
+        },
+        {
+          id: "day9-arc-de-triomphe",
+          time: "11:20",
+          duration: 90,
+          icon: "🏛️",
+          title: "凯旋门登顶",
+          description: "电梯+台阶，284级台阶，香街全景",
+          location: {
+            name: "凯旋门",
+            address: "Place Charles de Gaulle, 75008 Paris",
+            coordinates: { lat: 48.8738, lng: 2.2950 }
+          },
+          category: "景点",
+          cost: "€13",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day9-lunch-champs",
+          time: "12:50",
+          duration: 60,
+          icon: "🍽️",
+          title: "香街午餐",
+          description: "Ladurée马卡龙，Angelina热巧克力",
+          location: {
+            name: "香榭丽舍大街",
+            address: "Avenue des Champs-Élysées, 75008 Paris",
+            coordinates: { lat: 48.8698, lng: 2.3079 }
+          },
+          category: "餐饮",
+          cost: "€25-35",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day9-champs-elysees",
+          time: "13:50",
+          duration: 100,
+          icon: "🛍️",
+          title: "香榭丽舍大街+协和广场",
+          description: "奢侈品购物街，方尖碑拍照",
+          location: {
+            name: "香榭丽舍大街至协和广场",
+            address: "Champs-Élysées to Place de la Concorde, Paris",
+            coordinates: { lat: 48.8698, lng: 2.3079 }
+          },
+          category: "购物",
+          cost: "购物自费",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day9-to-hotel",
+          time: "15:30",
+          duration: 30,
+          icon: "🚇",
+          title: "协和广场→酒店",
+          description: "地铁1号线，Concorde→Palais Royal站",
+          location: {
+            name: "Concorde地铁站",
+            address: "Concorde, Paris",
+            coordinates: { lat: 48.8656, lng: 2.3215 }
+          },
+          destination: {
+            name: "Palais Royal地铁站",
+            address: "Palais Royal, Paris",
+            coordinates: { lat: 48.8667, lng: 2.3333 }
+          },
+          category: "交通",
+          cost: "€2.15",
+          route: {
+            distance: "1公里",
+            time: "30分钟",
+            steps: ["地铁1号线"],
+            notes: "返回酒店休息"
+          },
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" },
+            { type: "navigation", label: "导航" }
+          ]
+        },
+        {
+          id: "day9-hotel-rest",
+          time: "16:00",
+          duration: 90,
+          icon: "💤",
+          title: "酒店休息",
+          description: "为晚上拍照蓄力",
+          location: {
+            name: "Studio opéra paris",
+            address: "22 Avenue de l'Opéra, 75001 Paris",
+            coordinates: { lat: 48.8667, lng: 2.3333 }
+          },
+          category: "休息",
+          cost: "免费",
+          actions: [
+            { type: "details", label: "详情" }
+          ]
+        },
+        {
+          id: "day9-to-trocadero",
+          time: "17:30",
+          duration: 60,
+          icon: "🚇",
+          title: "酒店→特罗卡德罗",
+          description: "地铁8→6，Opéra→Trocadéro，换乘Châtelet",
+          location: {
+            name: "Opéra地铁站",
+            address: "Opéra, Paris",
+            coordinates: { lat: 48.8719, lng: 2.3319 }
+          },
+          destination: {
+            name: "Trocadéro地铁站",
+            address: "Trocadéro, Paris",
+            coordinates: { lat: 48.8620, lng: 2.2877 }
+          },
+          category: "交通",
+          cost: "€2.15",
+          route: {
+            distance: "4公里",
+            time: "60分钟",
+            steps: ["地铁8号线", "换乘", "地铁6号线"],
+            notes: "前往特罗卡德罗观景台"
+          },
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" },
+            { type: "navigation", label: "导航" }
+          ]
+        },
+        {
+          id: "day9-trocadero-sunset",
+          time: "18:30",
+          duration: 60,
+          icon: "🌅",
+          title: "特罗卡德罗占位+日落",
+          description: "铁塔最佳拍照点，日落时段",
+          location: {
+            name: "特罗卡德罗广场",
+            address: "Place du Trocadéro, 75016 Paris",
+            coordinates: { lat: 48.8620, lng: 2.2877 }
+          },
+          category: "摄影",
           cost: "免费",
           actions: [
             { type: "details", label: "详情" },
             { type: "map", label: "地图" }
           ]
+        },
+        {
+          id: "day9-eiffel-night",
+          time: "19:30",
+          duration: 90,
+          icon: "🌃",
+          title: "埃菲尔铁塔夜景拍摄",
+          description: "整点亮灯5分钟，金色闪烁",
+          location: {
+            name: "埃菲尔铁塔",
+            address: "Champ de Mars, 5 Avenue Anatole France, 75007 Paris",
+            coordinates: { lat: 48.8584, lng: 2.2945 }
+          },
+          category: "摄影",
+          cost: "免费",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day9-dinner-seine",
+          time: "21:00",
+          duration: 60,
+          icon: "🍽️",
+          title: "塞纳河畔晚餐",
+          description: "河边餐厅，夜色巴黎",
+          location: {
+            name: "塞纳河畔餐厅",
+            address: "Seine River, Paris",
+            coordinates: { lat: 48.8566, lng: 2.3522 }
+          },
+          category: "餐饮",
+          cost: "€40-60",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day9-return-hotel",
+          time: "22:00",
+          duration: 30,
+          icon: "🚇",
+          title: "返回酒店",
+          description: "地铁6→1，Bir-Hakeim→Palais Royal",
+          location: {
+            name: "Bir-Hakeim地铁站",
+            address: "Bir-Hakeim, Paris",
+            coordinates: { lat: 48.8550, lng: 2.2930 }
+          },
+          destination: {
+            name: "Palais Royal地铁站",
+            address: "Palais Royal, Paris",
+            coordinates: { lat: 48.8667, lng: 2.3333 }
+          },
+          category: "交通",
+          cost: "€2.15",
+          route: {
+            distance: "3公里",
+            time: "30分钟",
+            steps: ["地铁6号线", "换乘", "地铁1号线"],
+            notes: "返回酒店结束一日游"
+          },
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" },
+            { type: "navigation", label: "导航" }
+          ]
         }
       ],
       route: {
-        totalDistance: "32公里",
-        totalTime: "30分钟",
-        steps: []
+        totalDistance: "20公里",
+        totalTime: "全天游览",
+        steps: [
+          {
+            from: "歌剧院区",
+            to: "埃菲尔铁塔",
+            transport: "地铁8号线",
+            distance: "3km",
+            time: "20m",
+            route: "Opéra→École Militaire",
+            details: "€2.15"
+          },
+          {
+            from: "埃菲尔铁塔",
+            to: "凯旋门",
+            transport: "地铁6号线",
+            distance: "4km",
+            time: "20m",
+            route: "Bir-Hakeim→Charles de Gaulle-Étoile",
+            details: "€2.15"
+          },
+          {
+            from: "凯旋门",
+            to: "协和广场",
+            transport: "步行",
+            distance: "2km",
+            time: "30m",
+            route: "香榭丽舍大街",
+            details: "购物观光"
+          },
+          {
+            from: "协和广场",
+            to: "特罗卡德罗",
+            transport: "地铁1号线+8号线+6号线",
+            distance: "5km",
+            time: "60m",
+            route: "多次换乘",
+            details: "€2.15"
+          }
+        ]
       }
     },
-    // 第11天：阿维尼翁（简化）
+    // 第10天：卢浮宫+塞纳河文化游
+    {
+      day: 10,
+      date: "2026-05-03",
+      title: "卢浮宫+塞纳河文化游",
+      city: "巴黎",
+      color: "#ff9500",
+      summary: "🏛️ 卢浮宫 | 🖼️ 奥赛博物馆 | 📚 莎士比亚书店",
+      tags: ["博物馆", "文化艺术", "塞纳河", "巴黎"],
+      overview: {
+        accommodation: {
+          name: "Studio opéra paris",
+          address: "22 Avenue de l'Opéra, 75001 Paris",
+          checkin: "已入住",
+          checkout: "11:00前",
+          coordinates: { lat: 48.8667, lng: 2.3333 }
+        },
+        transport: {
+          type: "步行+地铁",
+          details: "主要步行，部分地铁",
+          cost: "€ 2.15/次"
+        },
+        importantNotes: ["卢浮宫需提前购票", "奥赛博物馆周一闭馆（当天为周六）", "圣母院外观参观"]
+      },
+      timeline: [
+        {
+          id: "day10-breakfast",
+          time: "08:00",
+          duration: 30,
+          icon: "🍽️",
+          title: "酒店早餐",
+          description: "简单早餐，为博物馆游做准备",
+          location: {
+            name: "Studio opéra paris附近",
+            address: "22 Avenue de l'Opéra, 75001 Paris",
+            coordinates: { lat: 48.8667, lng: 2.3333 }
+          },
+          category: "餐饮",
+          cost: "€8-10",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day10-to-louvre",
+          time: "08:30",
+          duration: 10,
+          icon: "🚶",
+          title: "酒店→卢浮宫",
+          description: "步行8分钟，住宿地点优势",
+          location: {
+            name: "Studio opéra paris",
+            address: "22 Avenue de l'Opéra, 75001 Paris",
+            coordinates: { lat: 48.8667, lng: 2.3333 }
+          },
+          destination: {
+            name: "卢浮宫入口",
+            address: "Pyramid du Louvre, 75001 Paris",
+            coordinates: { lat: 48.8606, lng: 2.3376 }
+          },
+          category: "交通",
+          cost: "免费",
+          route: {
+            distance: "0.6公里",
+            time: "8分钟",
+            steps: ["步行"],
+            notes: "前往卢浮宫"
+          },
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" },
+            { type: "navigation", label: "导航" }
+          ]
+        },
+        {
+          id: "day10-louvre-queue",
+          time: "08:40",
+          duration: 20,
+          icon: "⏳",
+          title: "卢浮宫排队入场",
+          description: "09:00开门，建议提早到达",
+          location: {
+            name: "卢浮宫金字塔入口",
+            address: "Pyramid du Louvre, 75001 Paris",
+            coordinates: { lat: 48.8606, lng: 2.3376 }
+          },
+          category: "准备",
+          cost: "免费",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day10-louvre-tour",
+          time: "09:00",
+          duration: 210,
+          icon: "🏛️",
+          title: "卢浮宫深度游览",
+          description: "蒙娜丽莎+维纳斯+胜利女神，中文语音导览推荐",
+          location: {
+            name: "卢浮宫博物馆",
+            address: "Rue de Rivoli, 75001 Paris",
+            coordinates: { lat: 48.8606, lng: 2.3376 }
+          },
+          category: "博物馆",
+          cost: "€17",
+          important: true,
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day10-lunch-louvre",
+          time: "12:30",
+          duration: 60,
+          icon: "🍽️",
+          title: "卢浮宫内午餐",
+          description: "Café Marly，金字塔景观餐厅",
+          location: {
+            name: "Café Marly",
+            address: "93 Rue de Rivoli, 75001 Paris",
+            coordinates: { lat: 48.8610, lng: 2.3365 }
+          },
+          category: "餐饮",
+          cost: "€20-30",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day10-tuileries",
+          time: "13:30",
+          duration: 60,
+          icon: "🌳",
+          title: "杜乐丽花园",
+          description: "法式园林，塞纳河畔漫步",
+          location: {
+            name: "杜乐丽花园",
+            address: "Place de la Concorde, 75001 Paris",
+            coordinates: { lat: 48.8636, lng: 2.3272 }
+          },
+          category: "公园",
+          cost: "免费",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day10-to-orsay",
+          time: "14:30",
+          duration: 30,
+          icon: "🚶",
+          title: "杜乐丽→奥赛博物馆",
+          description: "步行25分钟，跨越塞纳河，经过皇家桥",
+          location: {
+            name: "杜乐丽花园",
+            address: "Place de la Concorde, 75001 Paris",
+            coordinates: { lat: 48.8636, lng: 2.3272 }
+          },
+          destination: {
+            name: "奥赛博物馆",
+            address: "1 Rue de la Légion d'Honneur, 75007 Paris",
+            coordinates: { lat: 48.8600, lng: 2.3266 }
+          },
+          category: "交通",
+          cost: "免费",
+          route: {
+            distance: "1.5公里",
+            time: "25分钟",
+            steps: ["步行"],
+            notes: "前往奥赛博物馆"
+          },
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" },
+            { type: "navigation", label: "导航" }
+          ]
+        },
+        {
+          id: "day10-orsay",
+          time: "15:00",
+          duration: 150,
+          icon: "🖼️",
+          title: "奥赛博物馆",
+          description: "印象派大师：莫奈、雷诺阿、梵高",
+          location: {
+            name: "奥赛博物馆",
+            address: "1 Rue de la Légion d'Honneur, 75007 Paris",
+            coordinates: { lat: 48.8600, lng: 2.3266 }
+          },
+          category: "博物馆",
+          cost: "€16",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day10-saint-germain",
+          time: "17:30",
+          duration: 60,
+          icon: "☕",
+          title: "左岸圣日耳曼区",
+          description: "知识分子聚集地，咖啡文化",
+          location: {
+            name: "圣日耳曼区",
+            address: "Saint-Germain-des-Prés, 75006 Paris",
+            coordinates: { lat: 48.8530, lng: 2.3333 }
+          },
+          category: "休闲",
+          cost: "€5-10",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day10-shakespeare-notre-dame",
+          time: "18:30",
+          duration: 90,
+          icon: "📚",
+          title: "莎士比亚书店+圣母院外观",
+          description: "文艺朝圣地，哥特建筑外观参观",
+          location: {
+            name: "莎士比亚书店",
+            address: "37 Rue de la Bûcherie, 75005 Paris",
+            coordinates: { lat: 48.8525, lng: 2.3469 }
+          },
+          destination: {
+            name: "巴黎圣母院",
+            address: "6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris",
+            coordinates: { lat: 48.8530, lng: 2.3500 }
+          },
+          category: "文化",
+          cost: "免费",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day10-dinner-latin",
+          time: "20:00",
+          duration: 90,
+          icon: "🍽️",
+          title: "拉丁区晚餐",
+          description: "传统法餐，鹅肝+红酒",
+          location: {
+            name: "拉丁区餐厅",
+            address: "Latin Quarter, 75005 Paris",
+            coordinates: { lat: 48.8489, lng: 2.3469 }
+          },
+          category: "餐饮",
+          cost: "€45-65",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day10-return-hotel",
+          time: "21:30",
+          duration: 30,
+          icon: "🚇",
+          title: "返回酒店",
+          description: "地铁4→1，Saint-Michel→Palais Royal",
+          location: {
+            name: "Saint-Michel地铁站",
+            address: "Saint-Michel, 75005 Paris",
+            coordinates: { lat: 48.8530, lng: 2.3430 }
+          },
+          destination: {
+            name: "Palais Royal地铁站",
+            address: "Palais Royal, 75001 Paris",
+            coordinates: { lat: 48.8667, lng: 2.3333 }
+          },
+          category: "交通",
+          cost: "€2.15",
+          route: {
+            distance: "2公里",
+            time: "30分钟",
+            steps: ["地铁4号线", "换乘", "地铁1号线"],
+            notes: "返回酒店"
+          },
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" },
+            { type: "navigation", label: "导航" }
+          ]
+        }
+      ],
+      route: {
+        totalDistance: "8公里",
+        totalTime: "全天游览",
+        steps: [
+          {
+            from: "歌剧院区",
+            to: "卢浮宫",
+            transport: "步行",
+            distance: "0.6km",
+            time: "8m",
+            route: "步行路线",
+            details: "免费"
+          },
+          {
+            from: "卢浮宫",
+            to: "奥赛博物馆",
+            transport: "步行",
+            distance: "1.5km",
+            time: "25m",
+            route: "塞纳河畔",
+            details: "免费"
+          },
+          {
+            from: "奥赛博物馆",
+            to: "圣母院",
+            transport: "步行",
+            distance: "2km",
+            time: "30m",
+            route: "左岸漫步",
+            details: "免费"
+          },
+          {
+            from: "圣母院",
+            to: "歌剧院区",
+            transport: "地铁",
+            distance: "4km",
+            time: "30m",
+            route: "地铁4→1号线",
+            details: "€2.15"
+          }
+        ]
+      }
+    },
+    // 第11天：迪士尼乐园
     {
       day: 11,
       date: "2026-05-04",
-      title: "普罗旺斯：阿维尼翁",
-      city: "阿维尼翁",
+      title: "迪士尼乐园",
+      city: "巴黎",
       color: "#af52de",
-      summary: "🏰 教皇宫 | 🌉 断桥",
-      tags: ["历史", "古城", "普罗旺斯"],
+      summary: "🏰 迪士尼乐园 | 🎢 游乐设施 | 🎆 烟花秀",
+      tags: ["主题公园", "游乐设施", "烟花", "迪士尼"],
       overview: {
         accommodation: {
-          name: "Hotel de l'Horloge",
-          address: "1 Rue Félicien David, 84000 Avignon",
-          checkin: "15:00后",
+          name: "Studio opéra paris",
+          address: "22 Avenue de l'Opéra, 75001 Paris",
+          checkin: "已入住",
           checkout: "11:00前",
-          coordinates: { lat: 43.9493, lng: 4.8053 }
+          coordinates: { lat: 48.8667, lng: 2.3333 }
         },
         transport: {
-          type: "火车",
-          details: "尼斯→阿维尼翁TGV",
-          duration: "3小时",
-          cost: "€ 75/人"
+          type: "RER A线",
+          details: "巴黎→迪士尼乐园",
+          duration: "40分钟",
+          cost: "€ 7.5/单程"
         },
-        importantNotes: []
+        importantNotes: ["门票已含FastPass", "提前下载迪士尼APP", "烟花秀时间可能调整"]
       },
       timeline: [
         {
-          id: "day11-palace",
-          time: "14:00",
-          duration: 150,
-          icon: "🏰",
-          title: "教皇宫",
-          description: "参观教皇宫殿",
+          id: "day11-breakfast-prep",
+          time: "07:30",
+          duration: 30,
+          icon: "🍽️",
+          title: "酒店早餐+准备",
+          description: "简单早餐，带好充电宝、零食、雨具",
           location: {
-            name: "阿维尼翁教皇宫",
-            address: "Place du Palais, 84000 Avignon",
-            coordinates: { lat: 43.9511, lng: 4.8079 }
+            name: "Studio opéra paris",
+            address: "22 Avenue de l'Opéra, 75001 Paris",
+            coordinates: { lat: 48.8667, lng: 2.3333 }
           },
-          category: "景点",
-          cost: "€ 12/人",
+          category: "准备",
+          cost: "€8-10",
           actions: [
             { type: "details", label: "详情" },
             { type: "map", label: "地图" }
           ]
+        },
+        {
+          id: "day11-to-disney",
+          time: "08:00",
+          duration: 90,
+          icon: "🚇",
+          title: "前往迪士尼",
+          description: "RER A线，Auber→Marne-la-Vallée/Chessy",
+          location: {
+            name: "Auber车站",
+            address: "Auber, 75009 Paris",
+            coordinates: { lat: 48.8725, lng: 2.3296 }
+          },
+          destination: {
+            name: "Marne-la-Vallée/Chessy站",
+            address: "Disneyland Paris, 77700 Chessy",
+            coordinates: { lat: 48.8722, lng: 2.7758 }
+          },
+          category: "交通",
+          cost: "€7.5",
+          route: {
+            distance: "32公里",
+            time: "40分钟",
+            steps: ["RER A线"],
+            notes: "直达迪士尼乐园"
+          },
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" },
+            { type: "navigation", label: "导航" }
+          ]
+        },
+        {
+          id: "day11-disney-park",
+          time: "09:30",
+          duration: 540,
+          icon: "🏰",
+          title: "迪士尼乐园游玩",
+          description: "利用FastPass优先游玩热门项目：加勒比海盗、星球大战、恐怖塔",
+          location: {
+            name: "巴黎迪士尼乐园",
+            address: "Disneyland Paris, 77700 Chessy",
+            coordinates: { lat: 48.8722, lng: 2.7758 }
+          },
+          category: "主题公园",
+          cost: "€56（已含门票）",
+          important: true,
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day11-dinner-disney",
+          time: "18:30",
+          duration: 60,
+          icon: "🍽️",
+          title: "迪士尼小镇晚餐",
+          description: "迪士尼小镇餐厅，选择多样",
+          location: {
+            name: "迪士尼小镇",
+            address: "Disney Village, 77700 Chessy",
+            coordinates: { lat: 48.8720, lng: 2.7770 }
+          },
+          category: "餐饮",
+          cost: "€25-35",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day11-fireworks",
+          time: "19:30",
+          duration: 120,
+          icon: "🎆",
+          title: "迪士尼烟花秀",
+          description: "迪士尼城堡灯光烟花秀，最佳观景点提前占位",
+          location: {
+            name: "睡美人城堡前",
+            address: "Sleeping Beauty Castle, Disneyland Paris",
+            coordinates: { lat: 48.8725, lng: 2.7765 }
+          },
+          category: "娱乐",
+          cost: "免费",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day11-return-paris",
+          time: "21:30",
+          duration: 60,
+          icon: "🚇",
+          title: "返回巴黎",
+          description: "RER A线返回市区",
+          location: {
+            name: "Marne-la-Vallée/Chessy站",
+            address: "Disneyland Paris, 77700 Chessy",
+            coordinates: { lat: 48.8722, lng: 2.7758 }
+          },
+          destination: {
+            name: "Auber车站",
+            address: "Auber, 75009 Paris",
+            coordinates: { lat: 48.8725, lng: 2.3296 }
+          },
+          category: "交通",
+          cost: "€7.5",
+          route: {
+            distance: "32公里",
+            time: "40分钟",
+            steps: ["RER A线"],
+            notes: "返回巴黎市区"
+          },
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" },
+            { type: "navigation", label: "导航" }
+          ]
         }
       ],
       route: {
-        totalDistance: "260公里",
-        totalTime: "3小时",
-        steps: []
+        totalDistance: "64公里",
+        totalTime: "全天游览",
+        steps: [
+          {
+            from: "歌剧院区",
+            to: "迪士尼乐园",
+            transport: "RER A线",
+            distance: "32km",
+            time: "40m",
+            route: "Auber→Marne-la-Vallée/Chessy",
+            details: "€7.5"
+          },
+          {
+            from: "迪士尼乐园",
+            to: "歌剧院区",
+            transport: "RER A线",
+            distance: "32km",
+            time: "40m",
+            route: "Marne-la-Vallée/Chessy→Auber",
+            details: "€7.5"
+          }
+        ]
       }
     },
-    // 第12天：前往巴黎（简化）
+    // 第12天：返程日
     {
       day: 12,
       date: "2026-05-05",
-      title: "前往巴黎",
+      title: "返程日",
       city: "巴黎",
       color: "#ff3b30",
-      summary: "🚄 阿维尼翁→巴黎 | 🗼 埃菲尔铁塔",
-      tags: ["高铁", "转场", "首都"],
+      summary: "🛍️ 最后购物 | 🚗 前往机场 | ✈️ 返程航班",
+      tags: ["购物", "机场", "返程", "巴黎"],
       overview: {
         accommodation: {
-          name: "Hotel Eiffel Turenne",
-          address: "20 Avenue de Tourville, 75007 Paris",
-          checkin: "15:00后",
+          name: "Studio opéra paris",
+          address: "22 Avenue de l'Opéra, 75001 Paris",
+          checkin: "已入住",
           checkout: "11:00前",
-          coordinates: { lat: 48.8550, lng: 2.3050 }
+          coordinates: { lat: 48.8667, lng: 2.3333 }
         },
         transport: {
-          type: "高铁",
-          details: "阿维尼翁→巴黎TGV",
-          duration: "2小时40分",
-          cost: "€ 85/人"
+          type: "出租车/机场大巴",
+          details: "巴黎市区→戴高乐机场",
+          duration: "45-60分钟",
+          cost: "€ 50-70"
         },
-        importantNotes: []
+        importantNotes: ["提前3小时到达机场", "办理退税（如有购物）", "确认航班信息"]
       },
       timeline: [
         {
-          id: "day12-eiffel",
-          time: "16:00",
-          duration: 120,
-          icon: "🗼",
-          title: "埃菲尔铁塔",
-          description: "参观铁塔",
+          id: "day12-breakfast",
+          time: "08:30",
+          duration: 60,
+          icon: "🍽️",
+          title: "酒店早餐+退房",
+          description: "最后一天早餐，11:00前退房",
           location: {
-            name: "埃菲尔铁塔",
-            address: "Champ de Mars, Paris",
-            coordinates: { lat: 48.8584, lng: 2.2945 }
+            name: "Studio opéra paris",
+            address: "22 Avenue de l'Opéra, 75001 Paris",
+            coordinates: { lat: 48.8667, lng: 2.3333 }
           },
-          category: "景点",
-          cost: "登塔€ 25/人",
+          category: "餐饮",
+          cost: "€8-12",
           actions: [
             { type: "details", label: "详情" },
             { type: "map", label: "地图" }
           ]
+        },
+        {
+          id: "day12-last-shopping",
+          time: "09:30",
+          duration: 120,
+          icon: "🛍️",
+          title: "最后购物",
+          description: "附近老佛爷百货、巴黎春天，购买伴手礼",
+          location: {
+            name: "老佛爷百货",
+            address: "40 Boulevard Haussmann, 75009 Paris",
+            coordinates: { lat: 48.8742, lng: 2.3325 }
+          },
+          category: "购物",
+          cost: "购物自费",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day12-lunch",
+          time: "11:30",
+          duration: 60,
+          icon: "🍽️",
+          title: "午餐",
+          description: "巴黎最后一餐，附近餐厅",
+          location: {
+            name: "歌剧院区餐厅",
+            address: "Opéra District, 75009 Paris",
+            coordinates: { lat: 48.8719, lng: 2.3319 }
+          },
+          category: "餐饮",
+          cost: "€20-30",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day12-to-airport",
+          time: "12:30",
+          duration: 60,
+          icon: "🚗",
+          title: "前往戴高乐机场",
+          description: "出租车或机场大巴，建议提前出发",
+          location: {
+            name: "Studio opéra paris",
+            address: "22 Avenue de l'Opéra, 75001 Paris",
+            coordinates: { lat: 48.8667, lng: 2.3333 }
+          },
+          destination: {
+            name: "巴黎戴高乐机场",
+            address: "Roissy-en-France, 95700 Paris",
+            coordinates: { lat: 49.0097, lng: 2.5479 }
+          },
+          category: "交通",
+          cost: "€50-70",
+          route: {
+            distance: "25公里",
+            time: "45-60分钟",
+            steps: ["出租车或机场大巴"],
+            notes: "前往机场"
+          },
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" },
+            { type: "navigation", label: "导航" }
+          ]
+        },
+        {
+          id: "day12-airport-checkin",
+          time: "13:30",
+          duration: 90,
+          icon: "🏢",
+          title: "机场办理登机",
+          description: "办理登机手续、行李托运、安检",
+          location: {
+            name: "戴高乐机场航站楼",
+            address: "Paris Charles de Gaulle Airport",
+            coordinates: { lat: 49.0097, lng: 2.5479 }
+          },
+          category: "机场",
+          cost: "免费",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day12-flight",
+          time: "15:00",
+          duration: 120,
+          icon: "✈️",
+          title: "返程航班",
+          description: "航班返程，结束瑞士法国之旅",
+          location: {
+            name: "戴高乐机场登机口",
+            address: "Paris Charles de Gaulle Airport",
+            coordinates: { lat: 49.0097, lng: 2.5479 }
+          },
+          category: "航班",
+          cost: "已购机票",
+          important: true,
+          actions: [
+            { type: "details", label: "详情" }
+          ]
         }
       ],
       route: {
-        totalDistance: "650公里",
-        totalTime: "2小时40分",
-        steps: []
+        totalDistance: "25公里",
+        totalTime: "全天行程",
+        steps: [
+          {
+            from: "歌剧院区",
+            to: "戴高乐机场",
+            transport: "出租车/机场大巴",
+            distance: "25km",
+            time: "45-60m",
+            route: "高速公路",
+            details: "€50-70"
+          }
+        ]
       }
     }
   ]
