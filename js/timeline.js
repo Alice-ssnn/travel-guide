@@ -403,11 +403,6 @@ const TimelineRenderer = {
   renderTimeBlock(block, blockIndex) {
     return `
       <div class="time-block ${block.period.toLowerCase()}">
-        <div class="time-block-header">
-          <div class="time-block-icon">${block.icon}</div>
-          <div class="time-block-title">${block.period}</div>
-        </div>
-
         <div class="time-block-activities">
           ${block.activities.map((activity, index) => this.renderActivity(activity, blockIndex, index)).join('')}
         </div>
@@ -425,10 +420,6 @@ const TimelineRenderer = {
 
     return `
       <div class="activity ${statusClass} ${isImportant ? 'activity-important' : ''}" data-activity-id="${activity.id}">
-        <div class="activity-timeline">
-          <div class="activity-status-indicator"></div>
-        </div>
-
         <div class="activity-card card">
           <div class="card-body">
             <div class="activity-time-inline">
