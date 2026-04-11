@@ -591,23 +591,21 @@
 .activity-time-inline {
   display: flex;
   align-items: center;
-  -webkit-gap: var(--space-xs, 8px);
-  -moz-gap: var(--space-xs, 8px);
-  gap: var(--space-xs, 8px);
-  margin-bottom: var(--space-xs, 8px);
-  font-size: var(--font-size-xs, 12px);
+  -webkit-gap: var(--space-xs, 12px);
+  -moz-gap: var(--space-xs, 12px);
+  gap: var(--space-xs, 12px);
+  margin-bottom: var(--space-sm, 12px);
+  font-size: 24px;
 }
 
 .activity-time-inline .inline-time {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary, #1d1d1f);
-  background: var(--background-secondary, #f2f2f7);
-  padding: 2px 8px;
-  border-radius: 4px;
 }
 
 .activity-time-inline .inline-duration {
   color: var(--text-secondary, #8e8e93);
+  font-weight: 500;
 }
 
 .activity-status-indicator {
@@ -640,6 +638,7 @@
 .activity-card {
   flex: 1;
   margin-bottom: 0;
+  border: 2px solid var(--border, #d1d1d6);
 }
 
 .activity-card .card-body {
