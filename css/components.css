@@ -638,7 +638,7 @@
 .activity-card {
   flex: 1;
   margin-bottom: 0;
-  border: 2px solid var(--border, #d1d1d6);
+  border: 1px solid var(--day-color, #e0e0e0);
 }
 
 .activity-card .card-body {
@@ -710,10 +710,48 @@
   margin-bottom: var(--space-md, 16px);
 }
 
+.activity-transit {
+  display: flex;
+  -webkit-gap: var(--space-sm, 8px);
+  -moz-gap: var(--space-sm, 8px);
+  gap: var(--space-sm, 8px);
+  margin-bottom: var(--space-md, 16px);
+}
+
+.transit-segment {
+  display: flex;
+  align-items: center;
+  -webkit-gap: 4px;
+  -moz-gap: 4px;
+  gap: 4px;
+  flex-wrap: wrap;
+  font-size: var(--font-size-xs, 12px);
+  line-height: 1.4;
+}
+
+.transit-line {
+  font-weight: 600;
+  color: var(--primary, #667eea);
+}
+
+.transit-arrow {
+  color: var(--text-tertiary, #aeaeb2);
+}
+
+.transit-stops {
+  color: var(--text-tertiary, #aeaeb2);
+}
+
+.transit-payment {
+  font-size: var(--font-size-xs, 11px);
+  color: var(--text-secondary, #8e8e93);
+  margin-top: 2px;
+}
+
 .detail-icon {
-  font-size: 16px;
-  width: 24px;
-  height: 24px;
+  font-size: 14px;
+  width: 18px;
+  height: 18px;
   display: flex;
   align-items: center;
   justify-content: center;

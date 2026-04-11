@@ -2222,6 +2222,11 @@ const tripData = {
           duration: "1小时30分",
           cost: "机票已预订 €873×2"
         },
+        climate: {
+          temp: "尼斯日间约17-21°C；巴黎5月上旬日间约16-20°C，夜间约9-13°C",
+          weather: "巴黎阵雨多，尼斯日照偏多",
+          clothing: "下飞机加衣；风衣+防水鞋；与尼斯温差大"
+        },
         importantNotes: [
           "值机安检建议提前2小时到达机场",
           "奥利机场相对较小，提取行李较快",
@@ -2322,7 +2327,10 @@ const tripData = {
           duration: 75,
           icon: "🚌",
           title: "奥利机场→巴黎市中心",
-          description: "OrlyBus→Denfert，换地铁4号线，€8.70",
+          description: "地铁14号线直达酒店附近，OrlyBus已于2025年停运",
+          transit: [
+            { line: "M14（机场快线）", boarding: "Aéroport d'Orly", alighting: "Pyramides", stops: "约8-10站（经Maison Blanche、Bibliothèque François Mitterrand、Bercy、Gare de Lyon、Châtelet等）", payment: "Navigo周卡1-5区已含，或机场区间票约€11-13/人" }
+          ],
           location: {
             name: "巴黎奥利机场",
             address: "Paris Orly Airport",
@@ -2518,6 +2526,11 @@ const tripData = {
           details: "巴黎地铁一日游，主要使用地铁8号线、6号线、1号线、12号线",
           cost: "约€ 15/人（地铁票）"
         },
+        climate: {
+          temp: "日间约16-20°C，夜间约9-13°C",
+          weather: "5月降水日偏多，多为短时阵雨",
+          clothing: "风衣或防水外套；防水舒适鞋；薄围巾早晚可用"
+        },
         importantNotes: [
           "埃菲尔铁塔登顶需提前预订顶层票（€29）",
           "凯旋门登顶284级台阶，有电梯可选",
@@ -2552,6 +2565,10 @@ const tripData = {
           icon: "🚇",
           title: "酒店→埃菲尔铁塔",
           description: "地铁8→6，Opéra→Bir-Hakeim",
+          transit: [
+            { line: "M8（往Balard方向）", boarding: "Opéra", alighting: "Invalides", stops: "2站（Madeleine、Concorde）" },
+            { line: "M6（往Nation方向）", boarding: "Invalides", alighting: "Bir-Hakeim", stops: "2站（Alma-Marceau、Passy）" }
+          ],
           location: {
             name: "Opéra地铁站",
             address: "Opéra, Paris",
@@ -2603,6 +2620,9 @@ const tripData = {
           icon: "🚇",
           title: "铁塔→凯旋门",
           description: "地铁6号线，Bir-Hakeim→Charles de Gaulle-Étoile",
+          transit: [
+            { line: "M6（往Charles de Gaulle – Étoile方向）", boarding: "Bir-Hakeim", alighting: "Charles de Gaulle – Étoile", stops: "4站（Passy、Trocadéro、Boissière、Kléber）" }
+          ],
           location: {
             name: "Bir-Hakeim地铁站",
             address: "Bir-Hakeim, Paris",
@@ -2672,6 +2692,10 @@ const tripData = {
           icon: "🚇",
           title: "香街→奥赛博物馆",
           description: "地铁1→12或打车，预留安检时间",
+          transit: [
+            { line: "M1（往Château de Vincennes方向）", boarding: "Charles de Gaulle – Étoile", alighting: "Concorde", stops: "3站（George V、Franklin D. Roosevelt、Champs-Élysées – Clemenceau）" },
+            { line: "M12（往Mairie d'Issy方向）", boarding: "Concorde", alighting: "Solférino", stops: "1站（Assemblée nationale）" }
+          ],
           location: {
             name: "香榭丽舍大街",
             address: "Avenue des Champs-Élysées, 75008 Paris",
@@ -2780,6 +2804,10 @@ const tripData = {
           icon: "🌃",
           title: "特罗卡德罗夜景二刷（可选）",
           description: "整点亮灯5分钟，铁塔夜景最佳观景点",
+          transit: [
+            { line: "M4（往Mairie de Montrouge方向）", boarding: "Saint-Germain-des-Prés", alighting: "Montparnasse – Bienvenüe", stops: "约4站（Saint-Sulpice、Saint-Placide、Vavin等）" },
+            { line: "M6（往Charles de Gaulle – Étoile方向）", boarding: "Montparnasse – Bienvenüe", alighting: "Trocadéro", stops: "约6-7站（Pasteur、Cambronne、La Motte-Picquet – Grenelle等）" }
+          ],
           location: {
             name: "特罗卡德罗广场",
             address: "Place du Trocadéro, 75016 Paris",
@@ -2799,6 +2827,11 @@ const tripData = {
           icon: "🚇",
           title: "返回酒店",
           description: "地铁9→8或打车",
+          transit: [
+            { line: "M6（往Charles de Gaulle – Étoile方向）", boarding: "Trocadéro", alighting: "Charles de Gaulle – Étoile", stops: "1站（Kléber）" },
+            { line: "M1（往La Défense方向）", boarding: "Charles de Gaulle – Étoile", alighting: "Palais Royal – Musée du Louvre", stops: "约5站（George V、Franklin D. Roosevelt、Champs-Élysées – Clemenceau、Concorde、Tuileries）" },
+            { line: "M7（往La Courneuve方向）", boarding: "Palais Royal – Musée du Louvre", alighting: "Pyramides", stops: "直达（0站）" }
+          ],
           location: {
             name: "Trocadéro地铁站",
             address: "Trocadéro, Paris",
@@ -2897,6 +2930,11 @@ const tripData = {
           type: "步行+地铁",
           details: "主要步行，部分地铁",
           cost: "€ 2.15/次"
+        },
+        climate: {
+          temp: "日间约16-20°C，夜间约9-13°C",
+          weather: "5月短时阵雨常见",
+          clothing: "防水舒适鞋；折叠伞；薄长袖"
         },
         importantNotes: [
           "卢浮宫需提前购票",
@@ -3141,6 +3179,10 @@ const tripData = {
           icon: "🚇",
           title: "返回酒店",
           description: "地铁4→14/7→步行，或打车",
+          transit: [
+            { line: "M4（往Porte de Clignancourt方向）", boarding: "Saint-Michel – Notre-Dame", alighting: "Châtelet", stops: "1站（Les Halles）" },
+            { line: "M14（往Saint-Denis Pleyel方向）", boarding: "Châtelet", alighting: "Pyramides", stops: "直达（0站）" }
+          ],
           location: {
             name: "Latin Quarter地铁站",
             address: "Latin Quarter, 75005 Paris",
@@ -3250,6 +3292,11 @@ const tripData = {
           duration: "40分钟",
           cost: "€ 7.5/单程"
         },
+        climate: {
+          temp: "日间约16-20°C，夜间约9-13°C",
+          weather: "与巴黎市区相近，园区户外全天",
+          clothing: "薄外套（排队/夜间）；舒适鞋；清晨/烟花后体感偏凉"
+        },
         importantNotes: ["门票已含FastPass", "提前下载迪士尼APP", "烟花秀时间可能调整"]
       },
       timeline: [
@@ -3279,6 +3326,10 @@ const tripData = {
           icon: "🚇",
           title: "前往迪士尼",
           description: "RER A线，Auber→Marne-la-Vallée/Chessy",
+          transit: [
+            { line: "M14（往Olympiades/Aéroport d'Orly方向）", boarding: "Pyramides", alighting: "Châtelet", stops: "直达（0站）" },
+            { line: "RER A（往Marne-la-Vallée – Chessy方向）", boarding: "Châtelet – Les Halles", alighting: "Marne-la-Vallée – Chessy", stops: "约10-12站（经Nation、Vincennes、Val de Fontenay等）" }
+          ],
           location: {
             name: "Auber车站",
             address: "Auber, 75009 Paris",
@@ -3368,6 +3419,10 @@ const tripData = {
           icon: "🚇",
           title: "返回巴黎",
           description: "RER A线返回市区",
+          transit: [
+            { line: "RER A（往Paris方向）", boarding: "Marne-la-Vallée – Chessy", alighting: "Châtelet – Les Halles", stops: "约10-12站" },
+            { line: "M14", boarding: "Châtelet", alighting: "Pyramides", stops: "直达（0站）" }
+          ],
           location: {
             name: "Marne-la-Vallée/Chessy站",
             address: "Disneyland Paris, 77700 Chessy",
@@ -3441,127 +3496,152 @@ const tripData = {
           duration: "45-60分钟",
           cost: "€ 50-70"
         },
+        climate: {
+          temp: "凌晨约9-13°C（偏区间下限）",
+          weather: "风冷感明显，机舱恒温",
+          clothing: "去机场备薄羽绒/厚外套；航段以机舱恒温为主，可备保湿与颈枕"
+        },
         importantNotes: ["提前3小时到达机场", "办理退税（如有购物）", "确认航班信息"]
       },
       timeline: [
         {
-          id: "day12-breakfast",
-          time: "08:30",
-          duration: 60,
-          icon: "🍽️",
-          title: "酒店早餐+退房",
-          description: "最后一天早餐，11:00前退房",
+          id: "day12-checkout",
+          time: "05:30",
+          duration: 30,
+          icon: "🧳",
+          title: "酒店退房",
+          description: "提前一晚结账，行李打包完毕",
           location: {
             name: "Studio opéra paris",
             address: "22 Avenue de l'Opéra, 75001 Paris",
             coordinates: { lat: 48.8667, lng: 2.3333 }
           },
-          category: "餐饮",
-          cost: "€8-12",
+          category: "准备",
+          cost: "免费",
           actions: [
-            { type: "details", label: "详情" },
-            { type: "map", label: "地图" }
+            { type: "details", label: "详情" }
           ]
         },
         {
-          id: "day12-last-shopping",
-          time: "09:30",
-          duration: 120,
-          icon: "🛍️",
-          title: "最后购物",
-          description: "附近老佛爷百货、巴黎春天，购买伴手礼",
+          id: "day12-to-chatelet",
+          time: "06:00",
+          duration: 15,
+          icon: "🚇",
+          title: "酒店→Châtelet（地铁）",
+          description: "M14直达，衔接RER B去机场",
+          transit: [
+            { line: "M14（往Olympiades/Aéroport d'Orly方向）", boarding: "Pyramides", alighting: "Châtelet", stops: "直达（0站）" }
+          ],
           location: {
-            name: "老佛爷百货",
-            address: "40 Boulevard Haussmann, 75009 Paris",
-            coordinates: { lat: 48.8742, lng: 2.3325 }
-          },
-          category: "购物",
-          cost: "购物自费",
-          actions: [
-            { type: "details", label: "详情" },
-            { type: "map", label: "地图" }
-          ]
-        },
-        {
-          id: "day12-lunch",
-          time: "11:30",
-          duration: 60,
-          icon: "🍽️",
-          title: "午餐",
-          description: "巴黎最后一餐，附近餐厅",
-          location: {
-            name: "歌剧院区餐厅",
-            address: "Opéra District, 75009 Paris",
-            coordinates: { lat: 48.8719, lng: 2.3319 }
-          },
-          category: "餐饮",
-          cost: "€20-30",
-          actions: [
-            { type: "details", label: "详情" },
-            { type: "map", label: "地图" }
-          ]
-        },
-        {
-          id: "day12-to-airport",
-          time: "12:30",
-          duration: 60,
-          icon: "🚗",
-          title: "前往戴高乐机场",
-          description: "出租车或机场大巴，建议提前出发",
-          location: {
-            name: "Studio opéra paris",
-            address: "22 Avenue de l'Opéra, 75001 Paris",
+            name: "Pyramides地铁站",
+            address: "Pyramides, Paris",
             coordinates: { lat: 48.8667, lng: 2.3333 }
           },
           destination: {
-            name: "巴黎戴高乐机场",
-            address: "Roissy-en-France, 95700 Paris",
+            name: "Châtelet地铁站",
+            address: "Châtelet, Paris",
+            coordinates: { lat: 48.8583, lng: 2.3472 }
+          },
+          category: "交通",
+          cost: "€2.50",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" }
+          ]
+        },
+        {
+          id: "day12-to-cdg",
+          time: "06:15",
+          duration: 65,
+          icon: "🚇",
+          title: "Châtelet→戴高乐机场（RER B）",
+          description: "RER B往机场方向，约50分钟到CDG",
+          transit: [
+            { line: "RER B（往Aéroport Charles de Gaulle方向）", boarding: "Châtelet – Les Halles", alighting: "Aéroport Charles de Gaulle 1 – Roissy", stops: "约7-9站（经Gare du Nord、Parc des Expositions等）" }
+          ],
+          location: {
+            name: "Châtelet – Les Halles站",
+            address: "Châtelet – Les Halles, Paris",
+            coordinates: { lat: 48.8583, lng: 2.3472 }
+          },
+          destination: {
+            name: "戴高乐机场T1",
+            address: "Aéroport Charles de Gaulle, Terminal 1",
             coordinates: { lat: 49.0097, lng: 2.5479 }
           },
           category: "交通",
-          cost: "€50-70",
-          route: {
-            distance: "25公里",
-            time: "45-60分钟",
-            steps: ["出租车或机场大巴"],
-            notes: "前往机场"
-          },
+          cost: "€11.45",
           actions: [
             { type: "details", label: "详情" },
-            { type: "map", label: "查看路线" },
-            { type: "navigation", label: "导航" }
+            { type: "map", label: "查看路线" }
           ]
         },
         {
           id: "day12-airport-checkin",
-          time: "13:30",
-          duration: 90,
+          time: "07:20",
+          duration: 70,
           icon: "🏢",
-          title: "机场办理登机",
-          description: "办理登机手续、行李托运、安检",
+          title: "机场值机+安检",
+          description: "汉莎航空柜台，国际航班提前3小时，安检+退税+候机",
           location: {
-            name: "戴高乐机场航站楼",
-            address: "Paris Charles de Gaulle Airport",
+            name: "戴高乐机场T1",
+            address: "Paris Charles de Gaulle Airport, Terminal 1",
             coordinates: { lat: 49.0097, lng: 2.5479 }
           },
           category: "机场",
           cost: "免费",
           actions: [
-            { type: "details", label: "详情" },
-            { type: "map", label: "地图" }
+            { type: "details", label: "详情" }
           ]
         },
         {
-          id: "day12-flight",
-          time: "15:00",
-          duration: 120,
+          id: "day12-flight-cdg-fra",
+          time: "10:35",
+          duration: 75,
           icon: "✈️",
-          title: "返程航班",
-          description: "航班返程，结束瑞士法国之旅",
+          title: "CDG→法兰克福（LH1029）",
+          description: "汉莎航空，飞行1小时15分",
           location: {
             name: "戴高乐机场登机口",
-            address: "Paris Charles de Gaulle Airport",
+            address: "Paris Charles de Gaulle Airport, Terminal 1",
             coordinates: { lat: 49.0097, lng: 2.5479 }
+          },
+          category: "航班",
+          cost: "已购机票",
+          important: true,
+          actions: [
+            { type: "details", label: "详情" }
+          ]
+        },
+        {
+          id: "day12-transfer-fra",
+          time: "11:50",
+          duration: 230,
+          icon: "🔄",
+          title: "法兰克福转机",
+          description: "T1转机3小时50分钟，免税购物+午餐",
+          location: {
+            name: "法兰克福机场T1",
+            address: "Frankfurt Airport, Terminal 1",
+            coordinates: { lat: 50.0379, lng: 8.5622 }
+          },
+          category: "转机",
+          cost: "€20-30（午餐）",
+          actions: [
+            { type: "details", label: "详情" }
+          ]
+        },
+        {
+          id: "day12-flight-fra-pvg",
+          time: "15:40",
+          duration: 635,
+          icon: "✈️",
+          title: "法兰克福→上海（LH728）",
+          description: "汉莎航空A380，飞行10.5小时",
+          location: {
+            name: "法兰克福机场登机口",
+            address: "Frankfurt Airport, Terminal 1",
+            coordinates: { lat: 50.0379, lng: 8.5622 }
           },
           category: "航班",
           cost: "已购机票",
@@ -3572,17 +3652,44 @@ const tripData = {
         }
       ],
       route: {
-        totalDistance: "25公里",
+        totalDistance: "约30公里",
         totalTime: "全天行程",
         steps: [
           {
-            from: "歌剧院区",
-            to: "戴高乐机场",
-            transport: "出租车/机场大巴",
+            from: "Pyramides",
+            to: "Châtelet",
+            transport: "地铁M14",
+            distance: "1km",
+            time: "5m",
+            route: "Pyramides→Châtelet",
+            details: "€2.50"
+          },
+          {
+            from: "Châtelet – Les Halles",
+            to: "戴高乐机场T1",
+            transport: "RER B",
             distance: "25km",
-            time: "45-60m",
-            route: "高速公路",
-            details: "€50-70"
+            time: "50m",
+            route: "Châtelet→Aéroport CDG 1",
+            details: "€11.45"
+          },
+          {
+            from: "戴高乐机场T1",
+            to: "法兰克福T1",
+            transport: "LH1029",
+            distance: "480km",
+            time: "1h15m",
+            route: "汉莎航空",
+            details: "已购机票"
+          },
+          {
+            from: "法兰克福T1",
+            to: "上海浦东T2",
+            transport: "LH728",
+            distance: "8,900km",
+            time: "10h30m",
+            route: "汉莎航空A380",
+            details: "已购机票，09:15+1抵达"
           }
         ]
       }

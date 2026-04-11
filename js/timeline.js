@@ -184,7 +184,7 @@ const TimelineRenderer = {
 
     // Render the complete day detail view with segmented control
     container.innerHTML = `
-      <div class="day-detail-content">
+      <div class="day-detail-content" style="--day-color: ${day.color};">
         ${this.renderDayHeader(day)}
         ${this.renderSegmentedControl()}
         <div class="day-view-container">
@@ -267,12 +267,24 @@ const TimelineRenderer = {
   renderDayOverview(day) {
     if (!day.overview) return '';
 
-    const { accommodation, transport } = day.overview;
+    const { accommodation, transport, climate } = day.overview;
 
     return `
       <div class="day-overview card">
         <div class="card-body">
           <h2 class="section-title">当天概览</h2>
+
+          ${climate ? `
+            <div class="overview-section">
+              <div class="overview-icon">🌤️</div>
+              <div class="overview-content">
+                <div class="overview-label">气候与着装</div>
+                <div class="overview-value">${climate.temp}</div>
+                <div class="overview-detail">${climate.weather}</div>
+                ${climate.clothing ? `<div class="overview-subdetail">👔 ${climate.clothing}</div>` : ''}
+              </div>
+            </div>
+          ` : ''}
 
           ${accommodation ? `
             <div class="overview-section">
@@ -454,6 +466,25 @@ const TimelineRenderer = {
                     <div class="detail-label">地点</div>
                     <div class="detail-value">${activity.location.name}</div>
                     ${activity.location.address ? `<div class="detail-subtext">${activity.location.address}</div>` : ''}
+                  </div>
+                </div>
+              ` : ''}
+
+              ${activity.transit && activity.transit.length > 0 ? `
+                <div class="activity-transit">
+                  <div class="detail-icon">🚇</div>
+                  <div class="detail-content">
+                    <div class="detail-label">交通</div>
+                    ${activity.transit.map((seg, i) => `
+                      <div class="transit-segment">
+                        <span class="transit-line">${seg.line}</span>
+                        <span class="transit-from">${seg.boarding}</span>
+                        <span class="transit-arrow">→</span>
+                        <span class="transit-to">${seg.alighting}</span>
+                        ${seg.stops ? `<span class="transit-stops">(${seg.stops}站)</span>` : ''}
+                      </div>
+                    `).join('')}
+                    ${activity.transit[0].payment ? `<div class="transit-payment">${activity.transit[0].payment}</div>` : ''}
                   </div>
                 </div>
               ` : ''}
