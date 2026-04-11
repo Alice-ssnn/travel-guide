@@ -45,6 +45,11 @@ const tripData = {
           airline: "Austrian Airlines",
           duration: "13小时30分（含转机）"
         },
+        climate: {
+          temp: "苏黎世日间约14-17°C，夜间约4-7°C",
+          weather: "春季多变，阵雨常见",
+          clothing: "洋葱式叠穿；防风防水薄外套；舒适步行鞋"
+        },
         importantNotes: [
           "维也纳转机时间1小时55分，注意时间衔接",
           "苏黎世机场到酒店乘火车15分钟，费用约CHF 6-8",
@@ -132,6 +137,9 @@ const tripData = {
           icon: "🚆",
           title: "乘火车前往酒店",
           description: "机场站→Zürich HB，15分钟",
+          transit: [
+            { line: "S2/S24（往Zürich HB方向）", boarding: "Zürich Flughafen", alighting: "Zürich HB", stops: "约1次（常见经停Zürich Oerlikon）", payment: "SBB Mobile / 售票机 / 柜台；约CHF 6.80（二等座市区段）" }
+          ],
           location: {
             name: "苏黎世机场火车站",
             address: "Flughafen Zürich, 8058 Zürich",
@@ -243,6 +251,11 @@ const tripData = {
           bookingRef: "1159263500",
           cost: "CHF 1066"
         },
+        climate: {
+          temp: "苏黎世日间约14-17°C；湖区日间约12-18°C，夜间约2-8°C",
+          weather: "湖风偏大，山区晴雨快变",
+          clothing: "薄羽绒/抓绒；防风外套；舒适步行鞋；注意防晒"
+        },
         importantNotes: [
           "租车需准备：护照、中国驾照、国际驾照认证件、信用卡",
           "满油取还车，注意还车时间",
@@ -295,6 +308,9 @@ const tripData = {
           icon: "🚆",
           title: "前往机场取车点",
           description: "火车13分钟+找到Parking 3",
+          transit: [
+            { line: "S2/S16/S24（往机场方向）", boarding: "Zürich HB", alighting: "Zürich Flughafen", stops: "约1次（常见经停Zürich Oerlikon）", payment: "SBB Mobile / 售票机；约CHF 6.80" }
+          ],
           location: {
             name: "Zurich HB火车站",
             address: "Bahnhofplatz 1, 8001 Zurich",
@@ -562,6 +578,11 @@ const tripData = {
           type: "自驾",
           details: "因特拉肯周边自驾",
           cost: "油费约CHF 15"
+        },
+        climate: {
+          temp: "谷地日间约12-18°C，夜间约2-8°C；清晨跳伞前约5-10°C或更低",
+          weather: "山区晴雨快变，厄希嫩湖比城区低约3-6°C",
+          clothing: "防风外套、薄手套、遮阳帽；背包雨披；跳伞前加厚"
         },
         importantNotes: [
           "直升机跳伞已预订：CHF 490×2，09:00集合",
@@ -875,6 +896,11 @@ const tripData = {
           duration: "1小时5分",
           cost: "机票已预订"
         },
+        climate: {
+          temp: "日内瓦日间约15-18°C，夜间约6-9°C；尼斯日间约17-21°C，夜间约10-14°C",
+          weather: "日内瓦湖区偶阵雨；尼斯日照偏多，海风偏凉",
+          clothing: "日内瓦同苏黎世+折叠伞；抵尼斯后加薄长袖+薄外套"
+        },
         importantNotes: [
           "租车需满油交还，附近有Shell加油站",
           "日内瓦机场→市区火车6分钟，CHF 3.6",
@@ -978,6 +1004,9 @@ const tripData = {
           icon: "🚂",
           title: "机场→日内瓦市区",
           description: "火车6分钟直达Cornavin中央站",
+          transit: [
+            { line: "Léman Express S线/RegioExpress（往市中心方向）", boarding: "Genève-Aéroport", alighting: "Genève-Cornavin", stops: "多数车次0次（直达约6分钟）", payment: "SBB Mobile / 车站售票机 / 柜台；约CHF 3.60" }
+          ],
           location: {
             name: "日内瓦机场站",
             address: "Geneva Airport Station",
@@ -1182,7 +1211,10 @@ const tripData = {
           duration: 50,
           icon: "🚌",
           title: "尼斯机场→市区",
-          description: "Bus 98或99到市中心",
+          description: "有轨电车T2，少步行优先",
+          transit: [
+            { line: "有轨电车T2（往Jean Médecin/Port Lympia方向）", boarding: "Grand Arénas", alighting: "Jean Médecin", stops: "约10-12次（经停Parc Phoenix、Magnan、Alsace-Lorraine等）", payment: "Lignes d'Azur交通卡/App/上车购票；单次约€1.70" }
+          ],
           location: {
             name: "尼斯蔚蓝海岸机场",
             address: "Nice Côte d'Azur Airport",
@@ -1310,6 +1342,11 @@ const tripData = {
           type: "步行",
           details: "尼斯市区步行游览",
           cost: "步行免费"
+        },
+        climate: {
+          temp: "日间约17-21°C，夜间约10-14°C；清晨看日出体感可略低于10°C",
+          weather: "日照偏多，海风偏凉；偶有阵雨",
+          clothing: "轻薄长袖+薄开衫；海边加防风；舒适鞋"
         },
         importantNotes: [
           "城堡山电梯€1.2或步行20分钟登顶",
@@ -1586,6 +1623,11 @@ const tripData = {
           details: "尼斯→埃兹82路公交，埃兹→摩纳哥82路换乘，摩纳哥→尼斯100路公交",
           cost: "€1.70/段"
         },
+        climate: {
+          temp: "尼斯/摩纳哥一带日间约17-21°C，夜间约10-14°C",
+          weather: "海岸公路风大，体感可再低2-4°C",
+          clothing: "薄风衣/开衫；赌场入内宜整洁长裤/有领上衣"
+        },
         importantNotes: [
           "关键信息：82路公交15分钟一班，末班车19:30",
           "起点：Nice Gare Routière，终点：Èze Village",
@@ -1619,6 +1661,10 @@ const tripData = {
           icon: "🚌",
           title: "尼斯→埃兹村",
           description: "公交82路，25分钟，€1.70，08:30发车，上车买票",
+          transit: [
+            { line: "有轨电车T2", boarding: "Jean Médecin", alighting: "Parc Phoenix", stops: "约2-3次", payment: "Lignes d'Azur交通卡/App；约€1.70" },
+            { line: "Bus 82", boarding: "Parc Phoenix", alighting: "Èze Village", stops: "约6-10次", payment: "同上；约€1.70（与T2是否合并计费以当地规则为准）" }
+          ],
           location: {
             name: "Nice Gare Routière",
             address: "Nice Bus Station",
@@ -1669,6 +1715,10 @@ const tripData = {
           icon: "🚌",
           title: "埃兹村→摩纳哥",
           description: "公交82路，20分钟，下行至Èze Bord de Mer换乘，€1.70",
+          transit: [
+            { line: "Bus 82（下行）", boarding: "Èze Village", alighting: "Èze Gare SNCF", stops: "约1-3次（山路弯多）" },
+            { line: "Bus 100", boarding: "Èze Gare SNCF", alighting: "Monte-Carlo Casino", stops: "沿海经停约4-8次", payment: "同上；每段约€1.70-2.50" }
+          ],
           location: {
             name: "Èze Village",
             address: "Èze, France",
@@ -1794,6 +1844,9 @@ const tripData = {
           icon: "🚌",
           title: "摩纳哥→尼斯",
           description: "公交100路，45分钟，沿海公路返程，海景，€1.70",
+          transit: [
+            { line: "Bus 100（往尼斯方向）", boarding: "Monte-Carlo Casino", alighting: "Port Lympia", stops: "沿途经停约15-25次", payment: "上车购票/App/交通卡；约€1.70-2.50" }
+          ],
           location: {
             name: "Monaco Monte-Carlo",
             address: "Monte Carlo, Monaco",
@@ -1912,6 +1965,11 @@ const tripData = {
           details: "尼斯→安提布火车往返，尼斯市区公交",
           cost: "€4.10/段火车，€1.70公交"
         },
+        climate: {
+          temp: "尼斯/安提布海滨日间约17-21°C，夜间约10-14°C；Cimiez山坡略凉约1-2°C",
+          weather: "日照偏多，偶有阵雨",
+          clothing: "薄长袖（博物馆内空调偏凉）；舒适鞋"
+        },
         importantNotes: [
           "安提布毕加索博物馆€4.10门票",
           "马蒂斯博物馆€10门票",
@@ -1944,7 +2002,10 @@ const tripData = {
           duration: 30,
           icon: "🚄",
           title: "前往安提布",
-          description: "火车前往安提布老城",
+          description: "TER火车前往安提布老城",
+          transit: [
+            { line: "TER（Provence-Alpes-Côte d'Azur）", boarding: "Nice-Ville", alighting: "Antibes", stops: "常见2-4次（经停Cagnes-sur-Mer、Juan-les-Pins等，视车次）", payment: "SNCF Connect / 售票机；约€4.10" }
+          ],
           location: {
             name: "Nice Ville Station",
             address: "Gare de Nice-Ville",
@@ -2031,7 +2092,10 @@ const tripData = {
           duration: 15,
           icon: "🚄",
           title: "返回尼斯",
-          description: "火车返回尼斯",
+          description: "TER火车返回尼斯",
+          transit: [
+            { line: "TER", boarding: "Antibes", alighting: "Nice-Ville", stops: "常见2-4次（视车次）", payment: "SNCF Connect / 售票机；约€4.10" }
+          ],
           location: {
             name: "Antibes Station",
             address: "Gare d'Antibes",
@@ -2099,7 +2163,10 @@ const tripData = {
           duration: 60,
           icon: "🧳",
           title: "返回住宿整理行李",
-          description: "公交返回住宿，明日飞巴黎准备",
+          description: "公交17路返回住宿，明日飞巴黎准备",
+          transit: [
+            { line: "Bus 17（下山方向）", boarding: "Arènes / Musée Matisse", alighting: "Jean Médecin", stops: "约6-10次", payment: "交通卡/App/上车购票；约€1.70" }
+          ],
           location: {
             name: "马蒂斯博物馆",
             address: "Musée Matisse, Nice",
