@@ -2496,15 +2496,15 @@ const tripData = {
         ]
       }
     },
-    // 第9天 - 5月2日（周五）巴黎地标一日游
+    // 第9天 - 5月2日（周五）巴黎地标+奥赛博物馆
     {
       day: 9,
       date: "2026-05-02",
-      title: "巴黎地标一日游",
+      title: "巴黎地标+奥赛博物馆",
       city: "巴黎",
       color: "#ff3b30",
-      summary: "🗼 埃菲尔铁塔 | 🏛️ 凯旋门 | 🛍️ 香榭丽舍大街 | 🌃 铁塔夜景",
-      tags: ["埃菲尔铁塔", "凯旋门", "香榭丽舍大街", "夜景", "地铁", "巴黎地标"],
+      summary: "🗼 埃菲尔铁塔 | 🏛️ 凯旋门 | 🖼️ 奥赛博物馆 | 🌃 铁塔夜景",
+      tags: ["埃菲尔铁塔", "凯旋门", "奥赛博物馆", "香榭丽舍大街", "夜景", "地铁", "巴黎地标"],
       overview: {
         accommodation: {
           name: "Studio opéra paris",
@@ -2515,15 +2515,14 @@ const tripData = {
         },
         transport: {
           type: "地铁",
-          details: "巴黎地铁一日游，主要使用地铁8号线、6号线、1号线",
+          details: "巴黎地铁一日游，主要使用地铁8号线、6号线、1号线、12号线",
           cost: "约€ 15/人（地铁票）"
         },
         importantNotes: [
           "埃菲尔铁塔登顶需提前预订顶层票（€29）",
           "凯旋门登顶284级台阶，有电梯可选",
-          "香榭丽舍大街奢侈品购物街，注意时间",
-          "特罗卡德罗是埃菲尔铁塔最佳拍照点，日落时段占位",
-          "埃菲尔铁塔整点亮灯5分钟，金色闪烁"
+          "奥赛博物馆已改签15:00门票，建议提前40分钟到达",
+          "特罗卡德罗整点亮灯5分钟，金色闪烁"
         ]
       },
       timeline: [
@@ -2549,26 +2548,26 @@ const tripData = {
         {
           id: "day9-to-eiffel",
           time: "09:00",
-          duration: 20,
+          duration: 30,
           icon: "🚇",
           title: "酒店→埃菲尔铁塔",
-          description: "地铁8号线，Opéra站→École Militaire站",
+          description: "地铁8→6，Opéra→Bir-Hakeim",
           location: {
             name: "Opéra地铁站",
             address: "Opéra, Paris",
             coordinates: { lat: 48.8719, lng: 2.3319 }
           },
           destination: {
-            name: "École Militaire地铁站",
-            address: "École Militaire, Paris",
-            coordinates: { lat: 48.8550, lng: 2.3050 }
+            name: "Bir-Hakeim地铁站",
+            address: "Bir-Hakeim, Paris",
+            coordinates: { lat: 48.8550, lng: 2.2930 }
           },
           category: "交通",
           cost: "€2.15",
           route: {
             distance: "3公里",
-            time: "20分钟",
-            steps: ["地铁8号线"],
+            time: "30分钟",
+            steps: ["地铁8号线", "换乘", "地铁6号线"],
             notes: "前往埃菲尔铁塔"
           },
           actions: [
@@ -2579,8 +2578,8 @@ const tripData = {
         },
         {
           id: "day9-eiffel-tower",
-          time: "09:20",
-          duration: 100,
+          time: "09:30",
+          duration: 90,
           icon: "🗼",
           title: "埃菲尔铁塔登顶",
           description: "电梯登顶，需提前预订顶层票",
@@ -2600,7 +2599,7 @@ const tripData = {
         {
           id: "day9-to-arc",
           time: "11:00",
-          duration: 20,
+          duration: 30,
           icon: "🚇",
           title: "铁塔→凯旋门",
           description: "地铁6号线，Bir-Hakeim→Charles de Gaulle-Étoile",
@@ -2618,7 +2617,7 @@ const tripData = {
           cost: "€2.15",
           route: {
             distance: "4公里",
-            time: "20分钟",
+            time: "30分钟",
             steps: ["地铁6号线"],
             notes: "前往凯旋门"
           },
@@ -2630,8 +2629,8 @@ const tripData = {
         },
         {
           id: "day9-arc-de-triomphe",
-          time: "11:20",
-          duration: 90,
+          time: "11:30",
+          duration: 60,
           icon: "🏛️",
           title: "凯旋门登顶",
           description: "电梯+台阶，284级台阶，香街全景",
@@ -2649,8 +2648,8 @@ const tripData = {
         },
         {
           id: "day9-lunch-champs",
-          time: "12:50",
-          duration: 60,
+          time: "12:30",
+          duration: 70,
           icon: "🍽️",
           title: "香街午餐",
           description: "Ladurée马卡龙，Angelina热巧克力",
@@ -2667,111 +2666,120 @@ const tripData = {
           ]
         },
         {
-          id: "day9-champs-elysees",
-          time: "13:50",
-          duration: 100,
-          icon: "🛍️",
-          title: "香榭丽舍大街+协和广场",
-          description: "奢侈品购物街，方尖碑拍照",
+          id: "day9-to-orsay",
+          time: "13:40",
+          duration: 40,
+          icon: "🚇",
+          title: "香街→奥赛博物馆",
+          description: "地铁1→12或打车，预留安检时间",
           location: {
-            name: "香榭丽舍大街至协和广场",
-            address: "Champs-Élysées to Place de la Concorde, Paris",
+            name: "香榭丽舍大街",
+            address: "Avenue des Champs-Élysées, 75008 Paris",
             coordinates: { lat: 48.8698, lng: 2.3079 }
           },
-          category: "购物",
-          cost: "购物自费",
+          destination: {
+            name: "奥赛博物馆",
+            address: "1 Rue de la Légion d'Honneur, 75007 Paris",
+            coordinates: { lat: 48.8600, lng: 2.3266 }
+          },
+          category: "交通",
+          cost: "€2.15",
+          route: {
+            distance: "3公里",
+            time: "40分钟",
+            steps: ["地铁1号线", "换乘", "地铁12号线"],
+            notes: "前往奥赛博物馆，预留安检时间"
+          },
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "查看路线" },
+            { type: "navigation", label: "导航" }
+          ]
+        },
+        {
+          id: "day9-orsay-queue",
+          time: "14:20",
+          duration: 40,
+          icon: "⏳",
+          title: "奥赛馆外排队+安检",
+          description: "已购15:00门票，建议提前40分钟到达",
+          location: {
+            name: "奥赛博物馆入口",
+            address: "1 Rue de la Légion d'Honneur, 75007 Paris",
+            coordinates: { lat: 48.8600, lng: 2.3266 }
+          },
+          category: "准备",
+          cost: "免费",
           actions: [
             { type: "details", label: "详情" },
             { type: "map", label: "地图" }
           ]
         },
         {
-          id: "day9-to-hotel",
-          time: "15:30",
-          duration: 30,
-          icon: "🚇",
-          title: "协和广场→酒店",
-          description: "地铁1号线，Concorde→Palais Royal站",
+          id: "day9-orsay",
+          time: "15:00",
+          duration: 150,
+          icon: "🖼️",
+          title: "奥赛博物馆",
+          description: "印象派大师：莫奈、雷诺阿、梵高",
           location: {
-            name: "Concorde地铁站",
-            address: "Concorde, Paris",
-            coordinates: { lat: 48.8656, lng: 2.3215 }
+            name: "奥赛博物馆",
+            address: "1 Rue de la Légion d'Honneur, 75007 Paris",
+            coordinates: { lat: 48.8600, lng: 2.3266 }
           },
-          destination: {
-            name: "Palais Royal地铁站",
-            address: "Palais Royal, Paris",
-            coordinates: { lat: 48.8667, lng: 2.3333 }
-          },
-          category: "交通",
-          cost: "€2.15",
-          route: {
-            distance: "1公里",
-            time: "30分钟",
-            steps: ["地铁1号线"],
-            notes: "返回酒店休息"
-          },
+          category: "博物馆",
+          cost: "€16",
+          important: true,
           actions: [
             { type: "details", label: "详情" },
-            { type: "map", label: "查看路线" },
-            { type: "navigation", label: "导航" }
+            { type: "map", label: "地图" }
           ]
         },
         {
-          id: "day9-hotel-rest",
-          time: "16:00",
-          duration: 90,
-          icon: "💤",
-          title: "酒店休息",
-          description: "为晚上拍照蓄力",
-          location: {
-            name: "Studio opéra paris",
-            address: "22 Avenue de l'Opéra, 75001 Paris",
-            coordinates: { lat: 48.8667, lng: 2.3333 }
-          },
-          category: "休息",
-          cost: "免费",
-          actions: [
-            { type: "details", label: "详情" }
-          ]
-        },
-        {
-          id: "day9-to-trocadero",
+          id: "day9-seine-walk",
           time: "17:30",
           duration: 60,
-          icon: "🚇",
-          title: "酒店→特罗卡德罗",
-          description: "地铁8→6，Opéra→Trocadéro，换乘Châtelet",
+          icon: "🚶",
+          title: "塞纳河左岸散步",
+          description: "奥赛→皇家桥→杜乐丽，黄金时段拍照",
           location: {
-            name: "Opéra地铁站",
-            address: "Opéra, Paris",
-            coordinates: { lat: 48.8719, lng: 2.3319 }
+            name: "塞纳河左岸",
+            address: "Rive Gauche, Seine, Paris",
+            coordinates: { lat: 48.8600, lng: 2.3266 }
           },
-          destination: {
-            name: "Trocadéro地铁站",
-            address: "Trocadéro, Paris",
-            coordinates: { lat: 48.8620, lng: 2.2877 }
-          },
-          category: "交通",
-          cost: "€2.15",
-          route: {
-            distance: "4公里",
-            time: "60分钟",
-            steps: ["地铁8号线", "换乘", "地铁6号线"],
-            notes: "前往特罗卡德罗观景台"
-          },
+          category: "摄影",
+          cost: "免费",
           actions: [
             { type: "details", label: "详情" },
-            { type: "map", label: "查看路线" },
-            { type: "navigation", label: "导航" }
+            { type: "map", label: "地图" }
           ]
         },
         {
-          id: "day9-trocadero-sunset",
+          id: "day9-dinner-saint-germain",
           time: "18:30",
-          duration: 60,
-          icon: "🌅",
-          title: "特罗卡德罗占位+日落",
-          description: "铁塔最佳拍照点，日落时段",
+          duration: 90,
+          icon: "🍽️",
+          title: "圣日耳曼晚餐",
+          description: "左岸经典法餐，咖啡文化浓厚",
+          location: {
+            name: "圣日耳曼区",
+            address: "Saint-Germain-des-Prés, 75006 Paris",
+            coordinates: { lat: 48.8530, lng: 2.3333 }
+          },
+          category: "餐饮",
+          cost: "€40-60",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day9-trocadero-night",
+          time: "20:00",
+          duration: 90,
+          icon: "🌃",
+          title: "特罗卡德罗夜景二刷（可选）",
+          description: "整点亮灯5分钟，铁塔夜景最佳观景点",
           location: {
             name: "特罗卡德罗广场",
             address: "Place du Trocadéro, 75016 Paris",
@@ -2785,67 +2793,29 @@ const tripData = {
           ]
         },
         {
-          id: "day9-eiffel-night",
-          time: "19:30",
-          duration: 90,
-          icon: "🌃",
-          title: "埃菲尔铁塔夜景拍摄",
-          description: "整点亮灯5分钟，金色闪烁",
-          location: {
-            name: "埃菲尔铁塔",
-            address: "Champ de Mars, 5 Avenue Anatole France, 75007 Paris",
-            coordinates: { lat: 48.8584, lng: 2.2945 }
-          },
-          category: "摄影",
-          cost: "免费",
-          actions: [
-            { type: "details", label: "详情" },
-            { type: "map", label: "地图" }
-          ]
-        },
-        {
-          id: "day9-dinner-seine",
-          time: "21:00",
-          duration: 60,
-          icon: "🍽️",
-          title: "塞纳河畔晚餐",
-          description: "河边餐厅，夜色巴黎",
-          location: {
-            name: "塞纳河畔餐厅",
-            address: "Seine River, Paris",
-            coordinates: { lat: 48.8566, lng: 2.3522 }
-          },
-          category: "餐饮",
-          cost: "€40-60",
-          actions: [
-            { type: "details", label: "详情" },
-            { type: "map", label: "地图" }
-          ]
-        },
-        {
           id: "day9-return-hotel",
-          time: "22:00",
+          time: "21:30",
           duration: 30,
           icon: "🚇",
           title: "返回酒店",
-          description: "地铁6→1，Bir-Hakeim→Palais Royal",
+          description: "地铁9→8或打车",
           location: {
-            name: "Bir-Hakeim地铁站",
-            address: "Bir-Hakeim, Paris",
-            coordinates: { lat: 48.8550, lng: 2.2930 }
+            name: "Trocadéro地铁站",
+            address: "Trocadéro, Paris",
+            coordinates: { lat: 48.8620, lng: 2.2877 }
           },
           destination: {
-            name: "Palais Royal地铁站",
-            address: "Palais Royal, Paris",
-            coordinates: { lat: 48.8667, lng: 2.3333 }
+            name: "Opéra地铁站",
+            address: "Opéra, Paris",
+            coordinates: { lat: 48.8719, lng: 2.3319 }
           },
           category: "交通",
           cost: "€2.15",
           route: {
-            distance: "3公里",
+            distance: "4公里",
             time: "30分钟",
-            steps: ["地铁6号线", "换乘", "地铁1号线"],
-            notes: "返回酒店结束一日游"
+            steps: ["地铁9号线", "换乘", "地铁8号线"],
+            notes: "返回酒店"
           },
           actions: [
             { type: "details", label: "详情" },
@@ -2855,16 +2825,16 @@ const tripData = {
         }
       ],
       route: {
-        totalDistance: "20公里",
+        totalDistance: "22公里",
         totalTime: "全天游览",
         steps: [
           {
             from: "歌剧院区",
             to: "埃菲尔铁塔",
-            transport: "地铁8号线",
+            transport: "地铁8→6",
             distance: "3km",
-            time: "20m",
-            route: "Opéra→École Militaire",
+            time: "30m",
+            route: "Opéra→Bir-Hakeim",
             details: "€2.15"
           },
           {
@@ -2872,40 +2842,49 @@ const tripData = {
             to: "凯旋门",
             transport: "地铁6号线",
             distance: "4km",
-            time: "20m",
+            time: "30m",
             route: "Bir-Hakeim→Charles de Gaulle-Étoile",
             details: "€2.15"
           },
           {
             from: "凯旋门",
-            to: "协和广场",
-            transport: "步行",
-            distance: "2km",
-            time: "30m",
-            route: "香榭丽舍大街",
-            details: "购物观光"
+            to: "奥赛博物馆",
+            transport: "地铁1→12",
+            distance: "6km",
+            time: "40m",
+            route: "香街→奥赛",
+            details: "€2.15"
           },
           {
-            from: "协和广场",
+            from: "奥赛博物馆",
+            to: "圣日耳曼区",
+            transport: "步行",
+            distance: "1km",
+            time: "15m",
+            route: "左岸散步",
+            details: "免费"
+          },
+          {
+            from: "圣日耳曼区",
             to: "特罗卡德罗",
-            transport: "地铁1号线+8号线+6号线",
-            distance: "5km",
-            time: "60m",
-            route: "多次换乘",
+            transport: "地铁/打车",
+            distance: "3km",
+            time: "20m",
+            route: "夜景可选",
             details: "€2.15"
           }
         ]
       }
     },
-    // 第10天：卢浮宫+塞纳河文化游
+    // 第10天 - 5月3日（周六）卢浮宫+巴黎文化漫游
     {
       day: 10,
       date: "2026-05-03",
-      title: "卢浮宫+塞纳河文化游",
+      title: "卢浮宫+巴黎文化漫游",
       city: "巴黎",
       color: "#ff9500",
-      summary: "🏛️ 卢浮宫 | 🖼️ 奥赛博物馆 | 📚 莎士比亚书店",
-      tags: ["博物馆", "文化艺术", "塞纳河", "巴黎"],
+      summary: "🏛️ 卢浮宫 | 🌳 杜乐丽花园 | 📚 莎士比亚书店 | 🏞️ 卢森堡公园",
+      tags: ["卢浮宫", "博物馆", "文化艺术", "杜乐丽花园", "莎士比亚书店", "卢森堡公园", "巴黎"],
       overview: {
         accommodation: {
           name: "Studio opéra paris",
@@ -2919,7 +2898,13 @@ const tripData = {
           details: "主要步行，部分地铁",
           cost: "€ 2.15/次"
         },
-        importantNotes: ["卢浮宫需提前购票", "奥赛博物馆周一闭馆（当天为周六）", "圣母院外观参观"]
+        importantNotes: [
+          "卢浮宫需提前购票",
+          "必看三宝：蒙娜丽莎（德农翼1层）、断臂维纳斯（叙利翼底层）、胜利女神（德农翼1层）",
+          "中文语音导览€5，强烈推荐",
+          "参观路线：德农翼→叙利翼→黎塞留翼",
+          "蒙娜丽莎前人多，建议早上或下午晚些时候"
+        ]
       },
       timeline: [
         {
@@ -3035,8 +3020,8 @@ const tripData = {
           time: "13:30",
           duration: 60,
           icon: "🌳",
-          title: "杜乐丽花园",
-          description: "法式园林，塞纳河畔漫步",
+          title: "杜乐丽花园+协和广场",
+          description: "法式园林、方尖碑、塞纳河畔漫步",
           location: {
             name: "杜乐丽花园",
             address: "Place de la Concorde, 75001 Paris",
@@ -3050,69 +3035,19 @@ const tripData = {
           ]
         },
         {
-          id: "day10-to-orsay",
+          id: "day10-cite-walk",
           time: "14:30",
-          duration: 30,
-          icon: "🚶",
-          title: "杜乐丽→奥赛博物馆",
-          description: "步行25分钟，跨越塞纳河，经过皇家桥",
-          location: {
-            name: "杜乐丽花园",
-            address: "Place de la Concorde, 75001 Paris",
-            coordinates: { lat: 48.8636, lng: 2.3272 }
-          },
-          destination: {
-            name: "奥赛博物馆",
-            address: "1 Rue de la Légion d'Honneur, 75007 Paris",
-            coordinates: { lat: 48.8600, lng: 2.3266 }
-          },
-          category: "交通",
-          cost: "免费",
-          route: {
-            distance: "1.5公里",
-            time: "25分钟",
-            steps: ["步行"],
-            notes: "前往奥赛博物馆"
-          },
-          actions: [
-            { type: "details", label: "详情" },
-            { type: "map", label: "查看路线" },
-            { type: "navigation", label: "导航" }
-          ]
-        },
-        {
-          id: "day10-orsay",
-          time: "15:00",
-          duration: 150,
-          icon: "🖼️",
-          title: "奥赛博物馆",
-          description: "印象派大师：莫奈、雷诺阿、梵高",
-          location: {
-            name: "奥赛博物馆",
-            address: "1 Rue de la Légion d'Honneur, 75007 Paris",
-            coordinates: { lat: 48.8600, lng: 2.3266 }
-          },
-          category: "博物馆",
-          cost: "€16",
-          actions: [
-            { type: "details", label: "详情" },
-            { type: "map", label: "地图" }
-          ]
-        },
-        {
-          id: "day10-saint-germain",
-          time: "17:30",
           duration: 60,
-          icon: "☕",
-          title: "左岸圣日耳曼区",
-          description: "知识分子聚集地，咖啡文化",
+          icon: "🚶",
+          title: "西岱岛方向散步",
+          description: "新桥、河岸建筑、经典巴黎街景",
           location: {
-            name: "圣日耳曼区",
-            address: "Saint-Germain-des-Prés, 75006 Paris",
-            coordinates: { lat: 48.8530, lng: 2.3333 }
+            name: "新桥",
+            address: "Pont Neuf, 75001 Paris",
+            coordinates: { lat: 48.8566, lng: 2.3414 }
           },
           category: "休闲",
-          cost: "€5-10",
+          cost: "免费",
           actions: [
             { type: "details", label: "详情" },
             { type: "map", label: "地图" }
@@ -3120,11 +3055,11 @@ const tripData = {
         },
         {
           id: "day10-shakespeare-notre-dame",
-          time: "18:30",
-          duration: 90,
+          time: "15:30",
+          duration: 60,
           icon: "📚",
           title: "莎士比亚书店+圣母院外观",
-          description: "文艺朝圣地，哥特建筑外观参观",
+          description: "文艺朝圣地，哥特建筑",
           location: {
             name: "莎士比亚书店",
             address: "37 Rue de la Bûcherie, 75005 Paris",
@@ -3143,9 +3078,47 @@ const tripData = {
           ]
         },
         {
-          id: "day10-dinner-latin",
-          time: "20:00",
+          id: "day10-latin-coffee",
+          time: "16:30",
+          duration: 60,
+          icon: "☕",
+          title: "拉丁区咖啡时光",
+          description: "休息补能，感受学生区氛围",
+          location: {
+            name: "拉丁区",
+            address: "Latin Quarter, 75005 Paris",
+            coordinates: { lat: 48.8489, lng: 2.3469 }
+          },
+          category: "休闲",
+          cost: "€5-10",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day10-luxembourg",
+          time: "17:30",
           duration: 90,
+          icon: "🏞️",
+          title: "卢森堡公园散步",
+          description: "节奏放缓，适合旅行中后段",
+          location: {
+            name: "卢森堡公园",
+            address: "75006 Paris",
+            coordinates: { lat: 48.8462, lng: 2.3372 }
+          },
+          category: "公园",
+          cost: "免费",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day10-dinner-latin",
+          time: "19:00",
+          duration: 120,
           icon: "🍽️",
           title: "拉丁区晚餐",
           description: "传统法餐，鹅肝+红酒",
@@ -3163,27 +3136,27 @@ const tripData = {
         },
         {
           id: "day10-return-hotel",
-          time: "21:30",
+          time: "21:00",
           duration: 30,
           icon: "🚇",
           title: "返回酒店",
-          description: "地铁4→1，Saint-Michel→Palais Royal",
+          description: "地铁4→14/7→步行，或打车",
           location: {
-            name: "Saint-Michel地铁站",
-            address: "Saint-Michel, 75005 Paris",
-            coordinates: { lat: 48.8530, lng: 2.3430 }
+            name: "Latin Quarter地铁站",
+            address: "Latin Quarter, 75005 Paris",
+            coordinates: { lat: 48.8489, lng: 2.3430 }
           },
           destination: {
-            name: "Palais Royal地铁站",
-            address: "Palais Royal, 75001 Paris",
-            coordinates: { lat: 48.8667, lng: 2.3333 }
+            name: "Opéra地铁站",
+            address: "Opéra, Paris",
+            coordinates: { lat: 48.8719, lng: 2.3319 }
           },
           category: "交通",
           cost: "€2.15",
           route: {
             distance: "2公里",
             time: "30分钟",
-            steps: ["地铁4号线", "换乘", "地铁1号线"],
+            steps: ["地铁4号线", "换乘", "地铁14号线/7号线"],
             notes: "返回酒店"
           },
           actions: [
@@ -3194,7 +3167,7 @@ const tripData = {
         }
       ],
       route: {
-        totalDistance: "8公里",
+        totalDistance: "10公里",
         totalTime: "全天游览",
         steps: [
           {
@@ -3208,29 +3181,47 @@ const tripData = {
           },
           {
             from: "卢浮宫",
-            to: "奥赛博物馆",
+            to: "杜乐丽花园",
             transport: "步行",
-            distance: "1.5km",
-            time: "25m",
+            distance: "1km",
+            time: "15m",
             route: "塞纳河畔",
             details: "免费"
           },
           {
-            from: "奥赛博物馆",
-            to: "圣母院",
+            from: "杜乐丽花园",
+            to: "西岱岛",
             transport: "步行",
-            distance: "2km",
-            time: "30m",
+            distance: "1.5km",
+            time: "20m",
+            route: "新桥方向",
+            details: "免费"
+          },
+          {
+            from: "西岱岛",
+            to: "拉丁区",
+            transport: "步行",
+            distance: "0.5km",
+            time: "10m",
             route: "左岸漫步",
             details: "免费"
           },
           {
-            from: "圣母院",
+            from: "拉丁区",
+            to: "卢森堡公园",
+            transport: "步行",
+            distance: "1km",
+            time: "15m",
+            route: "巴黎街区",
+            details: "免费"
+          },
+          {
+            from: "拉丁区",
             to: "歌剧院区",
             transport: "地铁",
             distance: "4km",
             time: "30m",
-            route: "地铁4→1号线",
+            route: "地铁4→14/7",
             details: "€2.15"
           }
         ]
