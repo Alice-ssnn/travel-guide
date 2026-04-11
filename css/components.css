@@ -1516,16 +1516,16 @@
   }
 
   .activity-timeline {
-    width: 50px;
+    width: 32px;
     margin-right: var(--space-md, 16px);
   }
 
   .time-block:not(:last-child)::after {
-    left: 25px;
+    left: 16px;
   }
 
   .time-block-activities {
-    margin-left: 20px;
+    margin-left: 12px;
   }
 
   .activity-status-indicator {
