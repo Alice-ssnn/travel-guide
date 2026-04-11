@@ -426,13 +426,15 @@ const TimelineRenderer = {
     return `
       <div class="activity ${statusClass} ${isImportant ? 'activity-important' : ''}" data-activity-id="${activity.id}">
         <div class="activity-timeline">
-          <div class="activity-time">${activity.time}</div>
-          <div class="activity-duration">${activity.duration}分钟</div>
           <div class="activity-status-indicator"></div>
         </div>
 
         <div class="activity-card card">
           <div class="card-body">
+            <div class="activity-time-inline">
+              <span class="inline-time">${activity.time}</span>
+              <span class="inline-duration">${activity.duration}分钟</span>
+            </div>
             <div class="activity-header">
               <div class="activity-icon">${activity.icon}</div>
               <div class="activity-main">
