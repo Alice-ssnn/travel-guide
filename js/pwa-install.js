@@ -164,7 +164,7 @@ const PWAInstallManager = {
       position: fixed;
       bottom: 80px;
       right: 20px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #ff385c;
       color: white;
       border: none;
       border-radius: 50px;
@@ -461,7 +461,7 @@ const PWAInstallManager = {
             background: #e5e5e7;
           }
           .pwa-install-confirm {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #ff385c;
             color: white;
           }
           .pwa-install-confirm:hover {
@@ -568,7 +568,7 @@ const PWAInstallManager = {
     closeBtn.style.cssText = `
       margin-top: 20px;
       padding: 10px 24px;
-      background: #667eea;
+      background: #ff385c;
       color: white;
       border: none;
       border-radius: 8px;

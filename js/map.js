@@ -214,7 +214,7 @@ const MapManager = {
         icon: {
           path: google.maps.SymbolPath.CIRCLE,
           scale: 10,
-          fillColor: day.color || '#667eea',
+          fillColor: day.color || '#ff385c',
           fillOpacity: 1,
           strokeColor: 'white',
           strokeWeight: 2
@@ -262,7 +262,7 @@ const MapManager = {
         </div>
         <div style="margin-top: 12px; display: flex; gap: 8px;">
           <button onclick="MapManager.openInGoogleMaps(${activity.location?.coordinates?.lat}, ${activity.location?.coordinates?.lng})"
-                  style="padding: 4px 8px; background: #667eea; color: white; border: none; border-radius: 4px; font-size: 12px; cursor: pointer;">
+                  style="padding: 4px 8px; background: #ff385c; color: white; border: none; border-radius: 4px; font-size: 12px; cursor: pointer;">
             导航
           </button>
         </div>
@@ -323,7 +323,7 @@ const MapManager = {
         // Customize route display
         this.directionsRenderer.setOptions({
           polylineOptions: {
-            strokeColor: day.color || '#667eea',
+            strokeColor: day.color || '#ff385c',
             strokeOpacity: 0.8,
             strokeWeight: 4
           },

@@ -1,28 +1,28 @@
 /* style.css - Global styles and CSS variables */
 
 :root {
-  /* Color system - Apple design inspired */
-  --primary: #667eea;
-  --primary-dark: #764ba2;
-  --secondary: #ff9500;
-  --success: #30d158;
-  --danger: #ff3b30;
-  --warning: #ffcc00;
-  --primary-hover: #5a6fd8;
-  --label-primary-bg: #e8f3ff;
-  --label-secondary-bg: #fff0e6;
-  --label-success-bg: #e6f4ea;
+  /* Color system - Airbnb design inspired */
+  --primary: #ff385c;        /* Rausch Red - primary CTA, brand accent */
+  --primary-dark: #e00b41;   /* Deep Rausch - pressed/dark variant */
+  --primary-hover: #e00b41;  /* Rausch Red hover state */
+  --secondary: #ff9500;      /* Warm orange accent */
+  --success: #30d158;        /* Success / check-in states */
+  --danger: #ff385c;         /* Rausch Red - align with primary brand */
+  --warning: #ffcc00;        /* Warning / slow network */
+  --label-primary-bg: #fff0f2;   /* Rausch Red light background */
+  --label-secondary-bg: #fff0e6; /* Secondary label background */
+  --label-success-bg: #e6f4ea;   /* Success label background */
 
-  /* Neutral colors */
-  --text-primary: #1d1d1f;
-  --text-secondary: #8e8e93;
-  --text-tertiary: #aeaeb2;
-  --background: #ffffff;
-  --background-secondary: #f2f2f7;
-  --background-tertiary: #e5e5ea;
-  --border: #c7c7cc;
+  /* Neutral colors - Airbnb warm palette */
+  --text-primary: #222222;       /* Near black - warm, not cold */
+  --text-secondary: #6a6a6a;     /* Secondary gray - descriptions */
+  --text-tertiary: #929292;      /* Tertiary gray - disabled links */
+  --background: #ffffff;         /* Pure white canvas */
+  --background-secondary: #f7f7f7; /* Airbnb light surface */
+  --background-tertiary: #ebeb eb;  /* Airbnb border/divider gray */
+  --border: #e0e0e0;             /* Warm border gray */
 
-  /* Spacing */
+  /* Spacing - Airbnb 8px base grid */
   --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 16px;
@@ -30,8 +30,8 @@
   --space-xl: 32px;
   --space-2xl: 48px;
 
-  /* Typography */
-  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Typography - Airbnb Cereal VF inspired */
+  --font-family: 'Circular', -apple-system, system-ui, Roboto, Helvetica Neue, sans-serif;
   --font-size-xs: 12px;
   --font-size-sm: 14px;
   --font-size-md: 16px;
@@ -40,16 +40,16 @@
   --font-size-2xl: 24px;
   --font-size-3xl: 32px;
 
-  /* Border radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-full: 9999px;
+  /* Border radius - Airbnb generous rounding */
+  --radius-sm: 8px;    /* Buttons, tabs */
+  --radius-md: 14px;   /* Badges */
+  --radius-lg: 20px;   /* Cards */
+  --radius-full: 50%;  /* Nav controls */
 
-  /* Shadows */
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.16);
+  /* Shadows - Airbnb three-layer warm lift */
+  --shadow-sm: rgba(0, 0, 0, 0.02) 0px 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 2px 6px, rgba(0, 0, 0, 0.1) 0px 4px 8px;
+  --shadow-md: rgba(0, 0, 0, 0.04) 0px 4px 8px, rgba(0, 0, 0, 0.1) 0px 8px 16px;
+  --shadow-lg: rgba(0, 0, 0, 0.08) 0px 4px 12px, rgba(0, 0, 0, 0.12) 0px 12px 32px;
 
   /* Transitions */
   --transition-fast: 150ms ease;
@@ -66,13 +66,14 @@
 }
 
 body {
-  font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-family: var(--font-family, 'Circular', -apple-system, system-ui, Roboto, Helvetica Neue, sans-serif);
   font-size: var(--font-size-md, 16px);
   line-height: 1.5;
-  color: var(--text-primary, #1d1d1f);
+  color: var(--text-primary, #222222);
   background-color: var(--background, #ffffff);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.05px;
 }
 
 .app {
@@ -94,10 +95,10 @@ body {
   border: 0;
 }
 
-.text-primary { color: var(--text-primary, #1d1d1f); }
-.text-secondary { color: var(--text-secondary, #8e8e93); }
-.text-tertiary { color: var(--text-tertiary, #aeaeb2); }
+.text-primary { color: var(--text-primary, #222222); }
+.text-secondary { color: var(--text-secondary, #6a6a6a); }
+.text-tertiary { color: var(--text-tertiary, #929292); }
 
-.bg-primary { background-color: var(--primary, #667eea); }
-.bg-secondary { background-color: var(--background-secondary, #f2f2f7); }
-.bg-tertiary { background-color: var(--background-tertiary, #e5e5ea); }
+.bg-primary { background-color: var(--primary, #ff385c); }
+.bg-secondary { background-color: var(--background-secondary, #f7f7f7); }
+.bg-tertiary { background-color: var(--background-tertiary, #ebebeb); }

@@ -320,7 +320,7 @@ const OfflineManager = {
       position: fixed;
       top: 20px;
       right: 20px;
-      background: var(--primary, #667eea);
+      background: var(--primary, #ff385c);
       color: white;
       padding: 12px 16px;
       border-radius: 8px;
@@ -347,7 +347,7 @@ const OfflineManager = {
       padding: 4px 12px;
       font-size: 12px;
       background: white;
-      color: var(--primary, #667eea);
+      color: var(--primary, #ff385c);
       border: none;
       border-radius: 4px;
       cursor: pointer;

@@ -32,7 +32,7 @@
   }
 
   .card {
-    border-radius: var(--radius-lg, 16px);
+    border-radius: var(--radius-lg, 20px);
   }
 
   .card-body {
@@ -50,7 +50,7 @@
   .app {
     max-width: 1024px;
     margin: 0 auto;
-    box-shadow: var(--shadow-lg, 0 8px 24px rgba(0, 0, 0, 0.16));
+    box-shadow: var(--shadow-lg, rgba(0, 0, 0, 0.08) 0px 4px 12px, rgba(0, 0, 0, 0.12) 0px 12px 32px);
   }
 
   .days-list {
@@ -66,7 +66,7 @@
     margin: 0 auto;
     top: var(--space-xl, 32px);
     bottom: var(--space-xl, 32px);
-    border-radius: var(--radius-lg, 16px);
+    border-radius: var(--radius-lg, 20px);
     overflow: hidden;
   }
 }
@@ -87,7 +87,7 @@
 
   .card {
     box-shadow: none;
-    border: 1px solid var(--border, #c7c7cc);
+    border: 1px solid var(--border, #e0e0e0);
   }
 
   body {
