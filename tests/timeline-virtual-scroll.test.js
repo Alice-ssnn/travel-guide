@@ -11,6 +11,43 @@ require('../js/timeline.js'); // Sets window.TimelineRenderer
 
 const TimelineRenderer = window.TimelineRenderer;
 
+/** 用于桌面端 VirtualScroll 路径：>32 条、时间可排序 */
+function makeBulkTimeline(n) {
+  return Array.from({ length: n }, (_, i) => {
+    const totalMins = 9 * 60 + i;
+    const h = Math.floor(totalMins / 60);
+    const m = totalMins % 60;
+    return {
+      id: `act-bulk-${i}`,
+      time: `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`,
+      title: `活动${i}`,
+      description: '测试',
+      icon: '📍',
+      category: '景点',
+      location: { name: '测试', address: '测试' },
+      cost: '',
+      important: false
+    };
+  });
+}
+
+function mockMatchMediaDesktop() {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    configurable: true,
+    value: jest.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn()
+    }))
+  });
+}
+
 describe('TimelineRenderer Virtual Scroll Integration', () => {
   let dayData;
   let container;
@@ -144,25 +181,18 @@ describe('TimelineRenderer Virtual Scroll Integration', () => {
     expect(timelineContainer.className).toBe('timeline-container');
   });
 
-  test('should initialize virtual scroll after render', (done) => {
+  test('uses flow layout for typical days (≤32) — no virtualScroll instance', (done) => {
     // Render day
     TimelineRenderer.renderDay(dayData, container);
 
-    // Wait for virtual scroll initialization (setTimeout in initializeTimelineVirtualScroll)
     setTimeout(() => {
-      // Check that virtual scroll instance was created
-      expect(TimelineRenderer.virtualScroll).toBeTruthy();
-      expect(TimelineRenderer.virtualScroll).toBeInstanceOf(window.VirtualScroll);
-
-      // Check that virtual scroll has the correct number of items
-      expect(TimelineRenderer.virtualScroll.items.length).toBe(4);
-
-      // Check that items are sorted by time
-      const times = TimelineRenderer.virtualScroll.items.map(item => item.time);
-      expect(times).toEqual(['09:00', '11:00', '15:00', '19:00']);
+      expect(TimelineRenderer.virtualScroll).toBeFalsy();
+      const timelineContainer = document.getElementById('timeline-container-1');
+      const activityElements = timelineContainer.querySelectorAll('.activity');
+      expect(activityElements.length).toBe(4);
 
       done();
-    }, 100); // Wait longer than the 50ms delay
+    }, 100);
   });
 
   test('should render activity items via virtual scroll', (done) => {
@@ -173,11 +203,9 @@ describe('TimelineRenderer Virtual Scroll Integration', () => {
       const timelineContainer = document.getElementById('timeline-container-1');
       expect(timelineContainer).toBeTruthy();
 
-      // Check that activity elements are rendered (not all 4 because of virtual scrolling)
-      // At least some activities should be rendered
+      // 流式布局下四条全部在 DOM 中
       const activityElements = timelineContainer.querySelectorAll('.activity');
-      expect(activityElements.length).toBeGreaterThan(0);
-      expect(activityElements.length).toBeLessThanOrEqual(4);
+      expect(activityElements.length).toBe(4);
 
       // Check that activity data is present
       const firstActivity = activityElements[0];
@@ -197,8 +225,7 @@ describe('TimelineRenderer Virtual Scroll Integration', () => {
     TimelineRenderer.renderDay(emptyDayData, container);
 
     setTimeout(() => {
-      expect(TimelineRenderer.virtualScroll).toBeTruthy();
-      expect(TimelineRenderer.virtualScroll.items.length).toBe(0);
+      expect(TimelineRenderer.virtualScroll).toBeFalsy();
 
       const timelineContainer = document.getElementById('timeline-container-1');
       expect(timelineContainer).toBeTruthy();
@@ -226,31 +253,38 @@ describe('TimelineRenderer Virtual Scroll Integration', () => {
     expect(sorted.map(item => item.time)).toEqual(['09:00', '11:00', '15:00']);
   });
 
-  test('should destroy virtual scroll instance when new day is rendered', (done) => {
-    // Render first day
+  test('re-renders timeline when a new day is shown (flow layout: no vscroll to swap)', (done) => {
     TimelineRenderer.renderDay(dayData, container);
 
     setTimeout(() => {
-      const firstInstance = TimelineRenderer.virtualScroll;
-      expect(firstInstance).toBeTruthy();
+      expect(TimelineRenderer.virtualScroll).toBeFalsy();
 
-      // Render second day (simulating day change)
       const secondDayData = {
         ...dayData,
         day: 2,
-        timeline: [{ id: 'act-new', time: '10:00', title: '新活动' }]
+        timeline: [
+          {
+            id: 'act-new',
+            time: '10:00',
+            title: '新活动',
+            description: '测试',
+            icon: '📍',
+            category: '景点',
+            location: { name: '测试', address: '测试' },
+            cost: '',
+            important: false
+          }
+        ]
       };
       TimelineRenderer.renderDay(secondDayData, container);
 
-      // Wait for new initialization
       setTimeout(() => {
-        const secondInstance = TimelineRenderer.virtualScroll;
-        expect(secondInstance).toBeTruthy();
-        // Should be a new instance (old one destroyed)
-        expect(secondInstance).not.toBe(firstInstance);
-        // Should have correct data for second day
-        expect(secondInstance.items.length).toBe(1);
-        expect(secondInstance.items[0].id).toBe('act-new');
+        expect(TimelineRenderer.virtualScroll).toBeFalsy();
+        const timelineContainer = document.getElementById('timeline-container-2');
+        expect(timelineContainer).toBeTruthy();
+        const activities = timelineContainer.querySelectorAll('.activity');
+        expect(activities.length).toBe(1);
+        expect(activities[0].dataset.activityId).toBe('act-new');
 
         done();
       }, 100);
@@ -267,30 +301,50 @@ describe('TimelineRenderer Virtual Scroll Integration', () => {
     expect(element.querySelector('.activity-title').textContent).toBe('早餐');
   });
 
-  test('updateData should update virtual scroll with new activities', (done) => {
-    // Render day first
-    TimelineRenderer.renderDay(dayData, container);
+  describe('when desktop width and more than 32 activities', () => {
+    const origMatchMedia = window.matchMedia;
 
-    setTimeout(() => {
-      expect(TimelineRenderer.virtualScroll).toBeTruthy();
-      expect(TimelineRenderer.virtualScroll.items.length).toBe(4);
+    beforeEach(() => {
+      mockMatchMediaDesktop();
+    });
 
-      // Create new activities
-      const newActivities = [
-        { id: 'act-new-1', time: '08:00', title: '新活动1' },
-        { id: 'act-new-2', time: '12:00', title: '新活动2' }
-      ];
+    afterEach(() => {
+      if (origMatchMedia) {
+        Object.defineProperty(window, 'matchMedia', {
+          value: origMatchMedia,
+          writable: true,
+          configurable: true
+        });
+      } else {
+        delete window.matchMedia;
+      }
+    });
 
-      // Update timeline data
-      TimelineRenderer.updateData(newActivities);
+    test('updateData should update virtual scroll with new items', (done) => {
+      const bulkDay = {
+        ...dayData,
+        day: 50,
+        timeline: makeBulkTimeline(33)
+      };
+      TimelineRenderer.renderDay(bulkDay, container);
 
-      // Check that virtual scroll instance has new data
-      expect(TimelineRenderer.virtualScroll.items.length).toBe(2);
-      expect(TimelineRenderer.virtualScroll.items[0].id).toBe('act-new-1');
-      expect(TimelineRenderer.virtualScroll.items[1].id).toBe('act-new-2');
+      setTimeout(() => {
+        expect(TimelineRenderer.virtualScroll).toBeTruthy();
+        expect(TimelineRenderer.virtualScroll.items.length).toBe(33);
 
-      done();
-    }, 100);
+        const newActivities = [
+          { id: 'act-new-1', time: '08:00', title: '新活动1' },
+          { id: 'act-new-2', time: '12:00', title: '新活动2' }
+        ];
+        TimelineRenderer.updateData(newActivities);
+
+        expect(TimelineRenderer.virtualScroll.items.length).toBe(2);
+        expect(TimelineRenderer.virtualScroll.items[0].id).toBe('act-new-1');
+        expect(TimelineRenderer.virtualScroll.items[1].id).toBe('act-new-2');
+
+        done();
+      }, 100);
+    });
   });
 
   test('updateData should warn if virtual scroll not initialized', () => {

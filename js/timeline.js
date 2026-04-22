@@ -1067,16 +1067,6 @@ const TimelineRenderer = {
     // Start performance measurement
     const renderStart = this.startPerformanceMeasurement('Virtual scroll initialization');
 
-    // Check if VirtualScroll class is available
-    if (!window.VirtualScroll) {
-      console.error('VirtualScroll class not found. Make sure virtual-scroll.js is loaded.');
-      this.endPerformanceMeasurement(renderStart, 'Virtual scroll initialization failed');
-
-      // Fallback: render activities directly without virtual scroll
-      this.renderActivitiesFallback(day, container);
-      return;
-    }
-
     // Clean up existing instance if any
     if (this.virtualScroll) {
       this.virtualScroll.destroy();
@@ -1084,21 +1074,37 @@ const TimelineRenderer = {
     }
 
     const activities = this.getAllActivitiesSorted(day);
+    const isMobile =
+      typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(max-width: 768px)').matches;
 
-    // Create virtual scroll instance
+    // 手机：全量流式布局。虚拟列表用绝对定位+固定行高，多行卡（轨交/地址）时易与下一条时间行叠字、破版
+    // 一般单日 ≤32 点，直接渲染可接受
+    if (!window.VirtualScroll || isMobile || activities.length <= 32) {
+      if (!window.VirtualScroll) {
+        console.error('VirtualScroll class not found. Make sure virtual-scroll.js is loaded.');
+        this.endPerformanceMeasurement(renderStart, 'Virtual scroll initialization failed');
+      }
+      this.renderActivitiesFallback(day, container);
+      this.endPerformanceMeasurement(
+        renderStart,
+        isMobile || activities.length <= 32 ? 'Timeline list (flow layout)' : 'Timeline fallback (no vscroll)'
+      );
+      return;
+    }
+
     this.virtualScroll = new window.VirtualScroll(
       container,
       activities,
       (activity, index) => this.renderActivityItem(activity, index),
       {
-        // 行步长 ≈ 时间行 + 紧凑卡片 + 与下一条的间隔（与 .timeline-container 手机端 gap 12px 对齐）
-        itemHeight: 180,
+        itemHeight: 220,
         rowGap: 12,
         bufferItems: 2
       }
     );
 
-    // End performance measurement
     this.endPerformanceMeasurement(renderStart, 'Timeline virtual scroll initialized');
   },
 

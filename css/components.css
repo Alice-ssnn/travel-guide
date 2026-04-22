@@ -2326,15 +2326,16 @@ div.app .day-card .card-body {
   }
 
   .timeline-container {
+    gap: 0;
+  }
+
+  /* 行程块之间只依赖 gap，避免 margin+gap 叠出不一致间距；与下一条时间行衔接清晰 */
+  .time-block-activities {
     gap: 12px;
   }
 
-  .time-block-activities {
-    gap: 10px;
-  }
-
   .virtual-scroll-activity-wrapper {
-    margin-bottom: 10px;
+    margin-bottom: 0;
   }
 
   .day-main-content {
@@ -2351,14 +2352,22 @@ div.app .day-card .card-body {
     font-size: 16px;
   }
 
-  /* 时间线卡片点击区域优化 */
+  .activity-time-row {
+    margin-bottom: 6px;
+  }
+
+  .activity-time-row .activity-time-inline {
+    margin-bottom: 0;
+  }
+
+  .activity-card {
+    overflow: visible;
+  }
+
+  /* 时间线卡片点击区域优化：间距交给父级 flex gap，不再叠 margin */
   .activity {
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    margin-bottom: 10px;
-  }
-
-  .activity:last-child {
     margin-bottom: 0;
   }
 
