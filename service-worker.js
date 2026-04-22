@@ -2,7 +2,8 @@
 // Part of Phase 2 Week 4: Offline functionality optimization
 
 // Cache configuration
-const CACHE_VERSION = 'v2';
+// Bump when shell CSS/JS changes so clients don't stay on stale cache (cache-first for static)
+const CACHE_VERSION = 'v10';
 const CACHE_NAMES = {
   STATIC: `travel-guide-static-${CACHE_VERSION}`,
   DATA: `travel-guide-data-${CACHE_VERSION}`,
@@ -23,6 +24,7 @@ const STATIC_ASSETS = [
   '/js/data.js',
   '/js/app.js',
   '/js/timeline.js',
+  '/js/utils/virtual-scroll.js',
   '/js/map.js',
   '/js/search.js',
   '/js/offline.js',

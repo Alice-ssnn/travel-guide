@@ -185,6 +185,7 @@ const TimelineRenderer = {
     // Render the complete day detail view with segmented control
     container.innerHTML = `
       <div class="day-detail-content" style="--day-color: ${day.color};">
+        ${this.renderDayTopBar(day)}
         ${this.renderDayHeader(day)}
         ${this.renderSegmentedControl()}
         <div class="day-view-container">
@@ -223,14 +224,32 @@ const TimelineRenderer = {
   },
 
   /**
+   * Sticky top bar with back link (mobile-friendly)
+   */
+  renderDayTopBar(day) {
+    return `
+      <div class="day-top-bar" role="navigation" aria-label="页面导航">
+        <button type="button" class="day-back-btn" onclick="if(window.app) app.navigateToHome(); else window.location.href='index.html';" aria-label="返回首页">
+          <span class="day-back-icon" aria-hidden="true">←</span>
+          <span>首页</span>
+        </button>
+        <span class="day-top-bar-title">第${day.day}天 · ${day.city}</span>
+        <span class="day-top-bar-spacer" aria-hidden="true"></span>
+      </div>
+    `;
+  },
+
+  /**
    * Render day header with title, date, and city
    */
   renderDayHeader(day) {
+    const sub = day.locationContext ? `<p class="day-subtitle">${day.locationContext}</p>` : '';
     return `
       <div class="day-header" style="background: linear-gradient(135deg, ${day.color}20 0%, ${day.color}40 100%);">
         <div class="day-header-content">
           <div class="day-day-number">第${day.day}天</div>
           <h1 class="day-title">${day.title}</h1>
+          ${sub}
           <div class="day-location">
             <div class="city-dot" style="background: ${day.color};"></div>
             <span class="city-name">${day.city}</span>
@@ -267,12 +286,22 @@ const TimelineRenderer = {
   renderDayOverview(day) {
     if (!day.overview) return '';
 
-    const { accommodation, transport, climate } = day.overview;
+    const { accommodation, transport, climate, scheduleHint, hikingRoute } = day.overview;
 
     return `
       <div class="day-overview card">
         <div class="card-body">
           <h2 class="section-title">当天概览</h2>
+
+          ${scheduleHint ? `
+            <div class="overview-section overview-aux">
+              <div class="overview-icon">⏱️</div>
+              <div class="overview-content">
+                <div class="overview-label">班次建议</div>
+                <div class="overview-prose">${scheduleHint}</div>
+              </div>
+            </div>
+          ` : ''}
 
           ${climate ? `
             <div class="overview-section">
@@ -294,6 +323,7 @@ const TimelineRenderer = {
                 <div class="overview-value">${accommodation.name}</div>
                 <div class="overview-detail">${accommodation.address}</div>
                 ${accommodation.checkin ? `<div class="overview-subdetail">入住: ${accommodation.checkin} | 退房: ${accommodation.checkout || '12:00前'}</div>` : ''}
+                ${accommodation.bookingRef ? `<div class="overview-subdetail overview-booking">预订号: ${accommodation.bookingRef}${accommodation.bookingPin ? ` · PIN: ${accommodation.bookingPin}` : ''}</div>` : ''}
               </div>
             </div>
           ` : ''}
@@ -306,6 +336,16 @@ const TimelineRenderer = {
                 <div class="overview-value">${transport.type}: ${transport.details}</div>
                 ${transport.duration ? `<div class="overview-detail">时长: ${transport.duration}</div>` : ''}
                 ${transport.cost ? `<div class="overview-subdetail">费用: ${transport.cost}</div>` : ''}
+              </div>
+            </div>
+          ` : ''}
+
+          ${hikingRoute ? `
+            <div class="overview-section overview-hiking">
+              <div class="overview-icon">🚶</div>
+              <div class="overview-content">
+                <div class="overview-label">徒步导航（不回头）</div>
+                <div class="overview-prose">${hikingRoute}</div>
               </div>
             </div>
           ` : ''}
@@ -430,82 +470,7 @@ const TimelineRenderer = {
     const statusClass = `activity-status-${status}`;
     const isImportant = activity.important || false;
 
-    return `
-      <div class="activity ${statusClass} ${isImportant ? 'activity-important' : ''}" data-activity-id="${activity.id}">
-        <div class="activity-time-inline">
-          <span class="inline-time">${activity.time}</span>
-          <span class="inline-duration">${activity.duration}分钟</span>
-        </div>
-        <div class="activity-card card">
-          <div class="card-body">
-            <div class="activity-header">
-              <div class="activity-icon">${activity.icon}</div>
-              <div class="activity-main">
-                <div class="activity-title">${activity.title}</div>
-                <div class="activity-description">${activity.description}</div>
-                ${activity.image ? `
-                  <div class="activity-image-container">
-                    <img class="lazy-image"
-                         data-src="${activity.image.src}"
-                         alt="${activity.image.alt || activity.title}"
-                         ${activity.image.width ? `width="${activity.image.width}"` : ''}
-                         ${activity.image.height ? `height="${activity.image.height}"` : ''}
-                         loading="lazy">
-                    ${activity.image.caption ? `<div class="image-caption">${activity.image.caption}</div>` : ''}
-                  </div>
-                ` : ''}
-              </div>
-              ${isImportant ? '<div class="activity-important-badge">重要</div>' : ''}
-            </div>
-
-            <div class="activity-details">
-              ${activity.location ? `
-                <div class="activity-location">
-                  <div class="detail-icon">📍</div>
-                  <div class="detail-content">
-                    <div class="detail-label">地点</div>
-                    <div class="detail-value">${activity.location.name}</div>
-                    ${activity.location.address ? `<div class="detail-subtext">${activity.location.address}</div>` : ''}
-                  </div>
-                </div>
-              ` : ''}
-
-              ${activity.transit && activity.transit.length > 0 ? `
-                <div class="activity-transit">
-                  <div class="detail-icon">🚇</div>
-                  <div class="detail-content">
-                    <div class="detail-label">交通</div>
-                    ${activity.transit.map((seg, i) => `
-                      <div class="transit-segment">
-                        <span class="transit-line">${seg.line}</span>
-                        <span class="transit-from">${seg.boarding}</span>
-                        <span class="transit-arrow">→</span>
-                        <span class="transit-to">${seg.alighting}</span>
-                        ${seg.stops ? `<span class="transit-stops">(${seg.stops}站)</span>` : ''}
-                      </div>
-                    `).join('')}
-                    ${activity.transit[0].payment ? `<div class="transit-payment">${activity.transit[0].payment}</div>` : ''}
-                  </div>
-                </div>
-              ` : ''}
-
-              <div class="activity-meta">
-                ${activity.category ? `
-                  <div class="activity-category label ${this.getCategoryLabelClass(activity.category)}">
-                    ${activity.category}
-                  </div>
-                ` : ''}
-
-                ${activity.cost ? `
-                  <div class="activity-cost">
-                    <div class="cost-label">费用</div>
-                    <div class="cost-value">${activity.cost}</div>
-                  </div>
-                ` : ''}
-              </div>
-            </div>
-
-            <div class="activity-actions">
+    const actionButtons = `
               ${activity.actions && activity.actions.length > 0 ? activity.actions.map(action => `
                 <button class="btn ${action.type === 'navigation' ? 'btn-primary' : 'btn-secondary'} btn-small activity-action"
                         data-action-type="${action.type}"
@@ -514,12 +479,80 @@ const TimelineRenderer = {
                   ${action.label}
                 </button>
               `).join('') : ''}
-              <button class="btn btn-small activity-action btn-favorite"
+              <button class="btn btn-small activity-action activity-action--fav btn-favorite"
                       data-action-type="favorite"
                       data-activity-id="${activity.id}"
+                      type="button"
+                      aria-label="${window.app && window.app.isFavorited(activity.id, 'activity') ? '取消收藏' : '收藏'}"
                       title="${window.app && window.app.isFavorited(activity.id, 'activity') ? '取消收藏' : '收藏'}">
-                ${window.app && window.app.isFavorited(activity.id, 'activity') ? '❤️ 已收藏' : '🤍 收藏'}
+                ${window.app && window.app.isFavorited(activity.id, 'activity') ? '❤️' : '🤍'}
               </button>
+            `;
+
+    return `
+      <div class="activity ${statusClass} ${isImportant ? 'activity-important' : ''}" data-activity-id="${activity.id}">
+        <div class="activity-time-row">
+          <div class="activity-time-inline">
+            <span class="inline-time">${activity.time}</span>
+            <span class="inline-duration">${activity.duration}分钟</span>
+          </div>
+          <div class="activity-time-meta" aria-label="活动类型">
+            ${isImportant ? '<span class="activity-important-badge activity-important-badge--time">重要</span>' : ''}
+            ${activity.category ? `<span class="activity-cat label ${this.getCategoryLabelClass(activity.category)}">${activity.category}</span>` : ''}
+          </div>
+        </div>
+        <div class="activity-card card">
+          <div class="card-body activity-compact">
+            <div class="activity-top">
+              <div class="activity-top-primary">
+                <span class="activity-ico" aria-hidden="true">${activity.icon}</span>
+                <div class="activity-titles">
+                  <div class="activity-title">${activity.title}</div>
+                  <div class="activity-description">${activity.description}</div>
+                </div>
+              </div>
+              <div class="activity-top-actions" role="toolbar" aria-label="行程操作">
+                ${actionButtons}
+              </div>
+            </div>
+            ${activity.image ? `
+              <div class="activity-image-container">
+                <img class="lazy-image"
+                     data-src="${activity.image.src}"
+                     alt="${activity.image.alt || activity.title}"
+                     ${activity.image.width ? `width="${activity.image.width}"` : ''}
+                     ${activity.image.height ? `height="${activity.image.height}"` : ''}
+                     loading="lazy">
+                ${activity.image.caption ? `<div class="image-caption">${activity.image.caption}</div>` : ''}
+              </div>
+            ` : ''}
+            <div class="activity-detail-stack">
+              ${activity.location ? `
+                <div class="activity-loc-tight">
+                  <div class="loc-line1"><span class="loc-ico" aria-hidden="true">📍</span><span class="loc-name">${activity.location.name}</span></div>
+                  ${activity.location.address ? `<div class="loc-line2">${activity.location.address}</div>` : ''}
+                </div>
+              ` : ''}
+              ${activity.transit && activity.transit.length > 0 ? `
+                <div class="activity-transit-tight">
+                  ${activity.transit.map((seg) => {
+  const stopTxt = seg.stops
+    ? `(${/站|次|分钟/.test(String(seg.stops)) ? seg.stops : `${seg.stops}站`})`
+    : '';
+  return `
+                    <div class="transit-line-compact">
+                      <span class="transit-ico" aria-hidden="true">🚇</span>
+                      <span class="transit-join">${seg.line} <span class="t-from">${seg.boarding}</span> <span class="t-arr">→</span> <span class="t-to">${seg.alighting}</span> ${stopTxt ? `<span class="t-stops">${stopTxt}</span>` : ''}</span>
+                    </div>`;
+}).join('')}
+                  ${activity.transit[0].payment ? `<div class="transit-payment-compact">${activity.transit[0].payment}</div>` : ''}
+                </div>
+              ` : ''}
+              ${activity.cost ? `
+                <div class="activity-foot">
+                  <span class="activity-cost-tight">费用 <strong class="activity-cost-value">${activity.cost}</strong></span>
+                </div>
+              ` : ''}
             </div>
           </div>
         </div>
@@ -1058,8 +1091,10 @@ const TimelineRenderer = {
       activities,
       (activity, index) => this.renderActivityItem(activity, index),
       {
-        itemHeight: 150, // Approximate height of an activity card
-        bufferItems: 3
+        // 行步长 ≈ 时间行 + 紧凑卡片 + 与下一条的间隔（与 .timeline-container 手机端 gap 12px 对齐）
+        itemHeight: 180,
+        rowGap: 12,
+        bufferItems: 2
       }
     );
 

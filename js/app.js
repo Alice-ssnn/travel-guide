@@ -1,10 +1,80 @@
 // app.js - Main application logic and routing
 
+/** 首页点击某天 → day.html 时，在部分 PWA/浏览器中 ?day= 会丢；用 sessionStorage + hash 双备份 */
+const TRAVEL_GUIDE_TARGET_DAY_KEY = 'travelGuideTargetDay';
+
 class TravelGuideApp {
   constructor() {
     this.currentDay = 1;
     this.favorites = new Set();
     this.initialize();
+  }
+
+  _setTargetDayHandoff(dayNumber) {
+    try {
+      sessionStorage.setItem(TRAVEL_GUIDE_TARGET_DAY_KEY, String(dayNumber));
+    } catch (e) {
+      /* 无痕模式等可忽略 */
+    }
+  }
+
+  _clearTargetDayHandoff() {
+    try {
+      sessionStorage.removeItem(TRAVEL_GUIDE_TARGET_DAY_KEY);
+    } catch (e) {
+      /* ignore */
+    }
+  }
+
+  _takeTargetDayHandoff(maxDay) {
+    try {
+      const raw = sessionStorage.getItem(TRAVEL_GUIDE_TARGET_DAY_KEY);
+      if (raw == null) return null;
+      const n = parseInt(raw, 10);
+      if (isNaN(n) || n < 1 || n > maxDay) {
+        this._clearTargetDayHandoff();
+        return null;
+      }
+      this._clearTargetDayHandoff();
+      return n;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /** 优先 ?day=，没有则读 # 里的 day=（部分环境会保留 hash） */
+  _getDayParamFromPage() {
+    const fromQuery = new URLSearchParams(window.location.search).get('day');
+    if (fromQuery != null && fromQuery !== '' && !isNaN(fromQuery)) {
+      return fromQuery;
+    }
+    const h = (window.location.hash && window.location.hash.length > 1)
+      ? window.location.hash.replace(/^#/, '')
+      : '';
+    if (h) {
+      const fromHash = new URLSearchParams(h).get('day');
+      if (fromHash != null && fromHash !== '' && !isNaN(fromHash)) {
+        return fromHash;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * 是否为单日行程页（day.html 或静态服务器将 /day 指到同页时）
+   */
+  isDayViewPage() {
+    const p = (window.location.pathname || '').toLowerCase();
+    if (p.includes('day.html')) return true;
+    if (p === '/day' || p.endsWith('/day/') || p.endsWith('/day')) return true;
+    return false;
+  }
+
+  /**
+   * 是否当前为「带行程列表」的首页（index 壳）
+   */
+  isHomeListPage() {
+    return Boolean(document.getElementById('daysList'));
   }
 
   /**
@@ -114,21 +184,51 @@ class TravelGuideApp {
    * @returns {boolean} True if a route was handled (e.g., day detail), false otherwise
    */
   setupRouting() {
-    // Parse URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const dayParam = urlParams.get('day');
+    const maxDay = TripData.getAllDays().length;
+    const path = window.location.pathname;
+
+    if (this.isDayViewPage()) {
+      const effective = this._getDayParamFromPage();
+      let dayNumber = 1;
+
+      if (effective && !isNaN(effective)) {
+        const parsed = parseInt(effective, 10);
+        if (parsed >= 1 && parsed <= maxDay) {
+          dayNumber = parsed;
+        } else {
+          dayNumber = Math.min(maxDay, Math.max(1, parsed));
+        }
+        this._clearTargetDayHandoff();
+        const u = new URL(window.location.href);
+        if (u.searchParams.get('day') !== String(dayNumber) || u.hash) {
+          u.searchParams.set('day', String(dayNumber));
+          u.hash = '';
+          window.history.replaceState({}, '', `${u.pathname}${u.search}`);
+        }
+      } else {
+        const fromHandoff = this._takeTargetDayHandoff(maxDay);
+        if (fromHandoff != null) {
+          dayNumber = fromHandoff;
+        }
+        window.history.replaceState({}, '', `${path}?day=${dayNumber}`);
+      }
+      this.currentDay = dayNumber;
+      this.renderDayDetail(dayNumber);
+      return true;
+    }
 
     if (dayParam && !isNaN(dayParam)) {
       const dayNumber = parseInt(dayParam, 10);
-      if (dayNumber >= 1 && dayNumber <= TripData.getAllDays().length) {
+      if (dayNumber >= 1 && dayNumber <= maxDay) {
         this.currentDay = dayNumber;
         this.renderDayDetail(dayNumber);
-        return true; // Route handled
+        return true;
       }
     }
 
-    // Default to homepage - will be rendered by initialize() if needed
-    return false; // No specific route handled
+    return false;
   }
 
   /**
@@ -137,6 +237,33 @@ class TravelGuideApp {
   handlePopState(event) {
     const urlParams = new URLSearchParams(window.location.search);
     const dayParam = urlParams.get('day');
+    const maxDay = TripData.getAllDays().length;
+    const path = window.location.pathname;
+
+    if (this.isDayViewPage()) {
+      const effective = this._getDayParamFromPage();
+      let dayNumber = 1;
+      if (effective && !isNaN(effective)) {
+        const n = parseInt(effective, 10);
+        dayNumber = n >= 1 && n <= maxDay ? n : Math.min(maxDay, Math.max(1, n));
+        this._clearTargetDayHandoff();
+        const u = new URL(window.location.href);
+        if (u.searchParams.get('day') !== String(dayNumber) || u.hash) {
+          u.searchParams.set('day', String(dayNumber));
+          u.hash = '';
+          window.history.replaceState(event.state || {}, '', `${u.pathname}${u.search}`);
+        }
+      } else {
+        const fromHandoff = this._takeTargetDayHandoff(maxDay);
+        if (fromHandoff != null) {
+          dayNumber = fromHandoff;
+        }
+        window.history.replaceState(event.state || {}, '', `${path}?day=${dayNumber}`);
+      }
+      this.currentDay = dayNumber;
+      this.renderDayDetail(dayNumber);
+      return;
+    }
 
     if (dayParam && !isNaN(dayParam)) {
       const dayNumber = parseInt(dayParam, 10);
@@ -158,36 +285,42 @@ class TravelGuideApp {
 
     this.currentDay = dayNumber;
 
-    // Update URL without page reload
-    const newUrl = `${window.location.pathname}?day=${dayNumber}`;
-    window.history.pushState({ day: dayNumber }, '', newUrl);
+    if (this.isDayViewPage()) {
+      const next = new URL(window.location.href);
+      next.searchParams.set('day', String(dayNumber));
+      window.history.pushState({ day: dayNumber }, '', `${next.pathname}${next.search}${next.hash}`);
+      this.renderDayDetail(dayNumber);
+      return;
+    }
 
-    // Render day detail
-    this.renderDayDetail(dayNumber);
+    // 从首页等进入：query/hash/sessionStorage 三重备份，避免 PWA/部分 WebView 丢 ?day= 时总落在第 1 天
+    this._setTargetDayHandoff(dayNumber);
+    const next = new URL('day.html', window.location.href);
+    next.searchParams.set('day', String(dayNumber));
+    next.hash = `day=${dayNumber}`;
+    window.location.assign(next.href);
   }
 
   /**
    * Navigate back to homepage
    */
   navigateToHome() {
-    // Check if we're on day.html or index.html
-    const isOnDayPage = window.location.pathname.includes('day.html');
-
-    if (isOnDayPage) {
-      // Navigate back to index.html (homepage)
-      window.location.href = 'index.html';
-    } else {
-      // We're already on index.html, just re-render the homepage
+    if (this.isHomeListPage()) {
       this.currentDay = 1;
       window.history.pushState({}, '', window.location.pathname);
       this.renderHomepage();
+      return;
     }
+    // day.html 等没有 #daysList；若仅靠 isDayViewPage 易误判，整页回首页
+    const home = new URL('index.html', window.location.href);
+    window.location.assign(home.href);
   }
 
   /**
    * Render homepage with day cards
    */
   renderHomepage() {
+    this._clearTargetDayHandoff();
     const appElement = document.querySelector('.app');
     if (!appElement) return;
 
@@ -267,11 +400,8 @@ class TravelGuideApp {
     const appElement = document.querySelector('.app');
     if (!appElement) return;
 
-    // Check if we're on day.html or index.html
-    const isOnDayPage = window.location.pathname.includes('day.html');
-
-    if (!isOnDayPage) {
-      // Navigate to day.html with day parameter
+    if (!this.isDayViewPage()) {
+      // 首页带 ?day= 时跳转到标准行程页（与静态部署路径一致用 day.html）
       window.location.href = `day.html?day=${dayNumber}`;
       return;
     }

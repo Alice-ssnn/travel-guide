@@ -21,6 +21,18 @@ const tripData = {
     { name: "戛纳", color: "#ff9500" },
     { name: "巴黎", color: "#ff3b30" }
   ],
+  meta: {
+    sourceDoc: "巴黎12日攻略-最新版.md",
+    lastSynced: "2026-04-23"
+  },
+  flightsSummary: [
+    "4/24 上海浦东T2 → 维也纳T3 | OS016 | 09:30-15:55",
+    "4/24 维也纳T3 → 苏黎世 | OS145 | 18:40-20:00",
+    "4/27 日内瓦T1 → 尼斯T2 | easyJet U21399 | 15:20-16:25",
+    "5/1 尼斯T2 → 巴黎奥利T1 | easyJet U21633 | 10:30-12:00",
+    "5/5 巴黎戴高乐T1 → 法兰克福T1 | LH1029 | 10:35-11:50",
+    "5/5 法兰克福T1 → 上海浦东T2 | LH728 | 15:40-09:15+1"
+  ],
   days: [
     // 第1天：原始数据
     {
@@ -29,21 +41,24 @@ const tripData = {
       title: "抵达苏黎世",
       city: "苏黎世",
       color: "#30d158",
+      locationContext: "瑞士 苏黎世（市中心/车站周边）",
       summary: "✈️ 上海→维也纳→苏黎世 | 🏨 ibis Styles Zurich",
       tags: ["飞行", "抵达", "酒店"],
       overview: {
+        scheduleHint: "20:30–20:40 机场火车站上车 → S2/S24 → 约 20:45 到 Zürich HB（SBB Mobile 查当日最近一班）。",
         accommodation: {
           name: "ibis Styles Zurich City Center",
           address: "Stampfenbachstrasse 60, 8006 Zurich",
           checkin: "15:00-23:00",
           checkout: "12:00前",
+          bookingRef: "2604240606",
           coordinates: { lat: 47.3782, lng: 8.5390 }
         },
         transport: {
           type: "飞机",
           details: "奥地利航空OS016 + OS145联程",
           airline: "Austrian Airlines",
-          duration: "13小时30分（含转机）"
+          duration: "约13小时30分（含转机1小时45分）"
         },
         climate: {
           temp: "苏黎世日间约14-17°C，夜间约4-7°C",
@@ -51,9 +66,9 @@ const tripData = {
           clothing: "洋葱式叠穿；防风防水薄外套；舒适步行鞋"
         },
         importantNotes: [
-          "维也纳转机时间1小时55分，注意时间衔接",
-          "苏黎世机场到酒店乘火车15分钟，费用约CHF 6-8",
-          "酒店入住时间15:00-23:00，提前到达可寄存行李"
+          "维也纳转机时间约1小时45分，注意登机口与衔接",
+          "苏黎世机场站→Zürich HB 约 10–12 分钟，票价以购票时为准（约 CHF 6.80 市区段）",
+          "酒店入住 15:00-23:00，提前到达可询前台寄存"
         ]
       },
       timeline: [
@@ -79,10 +94,10 @@ const tripData = {
         {
           id: "day1-transfer",
           time: "15:55",
-          duration: 115,
+          duration: 105,
           icon: "🔄",
           title: "维也纳转机",
-          description: "转机时间1小时45分钟，无需取行李",
+          description: "转机时间约1小时45分，无需取行李",
           location: {
             name: "维也纳国际机场T3",
             address: "Flughafen Wien, 1300 Wien, Austria",
@@ -231,22 +246,25 @@ const tripData = {
     {
       day: 2,
       date: "2026-04-25",
-      title: "苏黎世→因特拉肯自驾日",
+      title: "取车直达因特拉肯",
       city: "因特拉肯",
       color: "#ff9500",
-      summary: "🚗 取车自驾 | 🏔️ 图恩湖 | 🏨 Hotel Rosengärtli",
+      locationContext: "苏黎世机场取车 → 自驾 → 因特拉肯 / Leissigen（图恩湖区）",
+      summary: "🚗 取车自驾 | 🏔️ 图恩湖畔 | 🏨 Hotel Rosengärtli",
       tags: ["自驾", "酒店", "湖泊"],
       overview: {
+        scheduleHint: "08:00–08:10 抵达 Zürich HB 站台 → 乘往机场 S2/S16/S24，08:20 前到 Zürich Flughafen。",
         accommodation: {
           name: "Hotel Rosengärtli",
           address: "Hauptstrasse 73, 3706 Leissigen",
           checkin: "14:00-20:00",
           checkout: "11:00前",
+          bookingRef: "6574630467",
           coordinates: { lat: 46.6475, lng: 7.7681 }
         },
         transport: {
           type: "自驾租车",
-          details: "Europcar苏黎世机场取车",
+          details: "Europcar 苏黎世机场 Parking 3 取车",
           company: "Europcar",
           bookingRef: "1159263500",
           cost: "CHF 1066"
@@ -257,9 +275,9 @@ const tripData = {
           clothing: "薄羽绒/抓绒；防风外套；舒适步行鞋；注意防晒"
         },
         importantNotes: [
-          "租车需准备：护照、中国驾照、国际驾照认证件、信用卡",
-          "满油取还车，注意还车时间",
-          "山区驾驶注意安全，部分路段有陡坡和弯道"
+          "取车点：Europcar Parking 3，提前备好护照、驾照、认证件、信用卡；全面验车拍照",
+          "满油还车；瑞士高速通行含在租车/年票方案内，以合约为准",
+          "山区与湖区弯多，控速、不疲劳驾驶"
         ]
       },
       timeline: [
@@ -464,18 +482,18 @@ const tripData = {
           ]
         },
         {
-          id: "day2-thun-lake-walk",
+          id: "day2-lake-walk",
           time: "15:30",
           duration: 90,
-          icon: "🏞️",
+          icon: "🚶",
           title: "图恩湖畔漫步",
-          description: "熟悉环境，欣赏阿尔卑斯湖景",
+          description: "熟悉环境，欣赏阿尔卑斯与湖景",
           location: {
-            name: "图恩湖畔",
+            name: "图恩湖（Leissigen 沿岸）",
             address: "Lake Thun, Leissigen",
             coordinates: { lat: 46.6500, lng: 7.7600 }
           },
-          category: "景点",
+          category: "休闲",
           cost: "免费",
           actions: [
             { type: "details", label: "详情" },
@@ -487,19 +505,18 @@ const tripData = {
           time: "17:00",
           duration: 60,
           icon: "🏘️",
-          title: "因特拉肯小镇游览",
-          description: "开车15分钟，何维克街购物，跳伞公司确认明日安排",
+          title: "因特拉肯小镇",
+          description: "驾车约15分钟；何维克街购物，向跳伞基地确认明日集合与天气",
           location: {
-            name: "因特拉肯小镇",
-            address: "Höheweg, Interlaken, Switzerland",
+            name: "因特拉肯市中心",
+            address: "Interlaken, Switzerland",
             coordinates: { lat: 46.6863, lng: 7.8632 }
           },
-          category: "景点",
-          cost: "停车费CHF 5",
+          category: "购物",
+          cost: "停车约 CHF 5",
           actions: [
             { type: "details", label: "详情" },
-            { type: "map", label: "地图" },
-            { type: "navigation", label: "导航" }
+            { type: "map", label: "地图" }
           ]
         },
         {
@@ -564,9 +581,11 @@ const tripData = {
       title: "因特拉肯跳伞+徒步",
       city: "因特拉肯",
       color: "#ff9500",
+      locationContext: "因特拉肯（跳伞）→ 厄希嫩湖徒步 → 施皮茨",
       summary: "🪂 直升机跳伞 | 🏞️ 厄希嫩湖徒步 | 🏰 施皮茨城堡日落",
       tags: ["跳伞", "徒步", "城堡", "冒险"],
       overview: {
+        scheduleHint: "无固定班车主导行程；07:45 前自驾从酒店出发可从容衔接 09:00 跳伞集合。",
         accommodation: {
           name: "Hotel Rosengärtli",
           address: "Hauptstrasse 73, 3706 Leissigen",
@@ -576,7 +595,7 @@ const tripData = {
         },
         transport: {
           type: "自驾",
-          details: "因特拉肯周边自驾",
+          details: "因特拉肯、厄希嫩湖、施皮茨间自驾",
           cost: "油费约CHF 15"
         },
         climate: {
@@ -878,19 +897,22 @@ const tripData = {
       title: "瑞士湖区→尼斯",
       city: "尼斯",
       color: "#ff2d55",
+      locationContext: "因特拉肯 → 日内瓦机场还车 → 日内瓦市区短停 → 飞尼斯 → 英格大道/Rue Lamartine 住宿区",
       summary: "🚗 还车+日内瓦游览 | ✈️ 飞往尼斯 | 🏖️ 天使湾日落",
       tags: ["还车", "日内瓦", "飞行", "尼斯", "海滩"],
       overview: {
+        scheduleHint: "还车后 10:45–10:50 上机场→市郊列车，11:00 前可开始市区游览；离境赴机场列车建议 14:18–14:22 从 Cornavin 发车。抵尼斯后 T2 建议 16:40–16:50 到 Grand Arénas 站。",
         accommodation: {
           name: "Holiday Nice Studio",
           address: "18 Rue Lamartine, 06000 Nice",
           checkin: "16:00-22:00",
           checkout: "11:00前",
+          bookingRef: "6621102123",
           coordinates: { lat: 43.7000, lng: 7.2667 }
         },
         transport: {
-          type: "自驾+飞机",
-          details: "因特拉肯→日内瓦机场还车，EasyJet飞往尼斯",
+          type: "自驾+飞机+轨交",
+          details: "因特拉肯→日内瓦机场还车；EasyJet 日内瓦→尼斯；抵机场后 T2 至 Jean Médecin",
           company: "EasyJet",
           flight: "U21399",
           duration: "1小时5分",
@@ -901,10 +923,11 @@ const tripData = {
           weather: "日内瓦湖区偶阵雨；尼斯日照偏多，海风偏凉",
           clothing: "日内瓦同苏黎世+折叠伞；抵尼斯后加薄长袖+薄外套"
         },
+        hikingRoute: "到住宿当晚若体力允许：「18 Rue Lamartine」→ Jean Médecin（约8分钟）→ Place Masséna（约12分钟）→ Promenade du Paillon（约10分钟）→ Cours Saleya（约8分钟）→ 英国人大道（约20分钟）→ 歌剧院/老城方向可乘 Tram L2 回 Jean Médecin，再步行回酒店。约 4–6 km / 1.5–2.5h。",
         importantNotes: [
-          "租车需满油交还，附近有Shell加油站",
-          "日内瓦机场→市区火车6分钟，CHF 3.6",
-          "尼斯机场到市区Bus 98/99，50分钟，€1.7"
+          "还车：日内瓦机场 Europcar，满油、Parking P51，与工作人员共验车",
+          "机场↔市郊铁路 Cornavin 约 6 分钟、约 CHF 3.60（以购票时为准）",
+          "尼斯的机场衔接：T1/T2 按标识至 Grand Arénas 乘 Ligne T2 至 Jean Médecin 再步行至公寓（比公交绕路更少步行）"
         ]
       },
       timeline: [
@@ -1209,11 +1232,11 @@ const tripData = {
           id: "day4-bus-nice",
           time: "16:25",
           duration: 50,
-          icon: "🚌",
-          title: "尼斯机场→市区",
-          description: "有轨电车T2，少步行优先",
+          icon: "🚊",
+          title: "尼斯机场→市区（T2）",
+          description: "抵达后按 Tram 标识至 Grand Arénas 乘 T2，少步行优先",
           transit: [
-            { line: "有轨电车T2（往Jean Médecin/Port Lympia方向）", boarding: "Grand Arénas", alighting: "Jean Médecin", stops: "约10-12次（经停Parc Phoenix、Magnan、Alsace-Lorraine等）", payment: "Lignes d'Azur交通卡/App/上车购票；单次约€1.70" }
+            { line: "有轨电车T2（往 Jean Médecin / Port Lympia 方向，以屏幕为准）", boarding: "Grand Arénas", alighting: "Jean Médecin", stops: "约10-12次经停", payment: "Lignes d'Azur 卡/App/上车购票；单次约€1.70（以当年票价为准）" }
           ],
           location: {
             name: "尼斯蔚蓝海岸机场",
@@ -1221,17 +1244,17 @@ const tripData = {
             coordinates: { lat: 43.6584, lng: 7.2159 }
           },
           destination: {
-            name: "尼斯市中心",
-            address: "Nice City Center",
-            coordinates: { lat: 43.6951, lng: 7.2769 }
+            name: "Jean Médecin 站附近",
+            address: "步行至 18 Rue Lamartine 约5-8分钟",
+            coordinates: { lat: 43.6951, lng: 7.2667 }
           },
           category: "交通",
-          cost: "€1.7/人",
+          cost: "约€1.7/人",
           route: {
-            distance: "8公里",
-            time: "50分钟",
-            steps: ["Bus 98/99"],
-            notes: "前往酒店"
+            distance: "约8公里",
+            time: "约25-35分钟",
+            steps: ["机场连廊/摆渡车→Grand Arénas", "T2→Jean Médecin"],
+            notes: "Jean Médecin 下车步行到住宿"
           },
           actions: [
             { type: "details", label: "详情" },
@@ -1328,20 +1351,24 @@ const tripData = {
       title: "尼斯市内深度游",
       city: "尼斯",
       color: "#ff2d55",
+      locationContext: "法国 尼斯：天使湾、城堡山、萨雷亚市场、英国人大道",
       summary: "🌅 天使湾日出 | 🏰 城堡山 | 🛍️ 老城市场 | 🌊 英国人漫步大道",
       tags: ["日出", "城堡", "老城", "海滨", "购物"],
       overview: {
+        scheduleHint: "以步行与市内公交为主，无固定班次；公交约 10–15 分钟一班。",
+        hikingRoute: "酒店 → Place Masséna → Cours Saleya → 城堡山（上）→ 从港口侧下山到 Port Lympia → 沿海到 Negresco 一带 → 可乘 Tram L2 回 Jean Médecin 收尾。约 8–10 km，4–6 小时含拍照。",
         accommodation: {
           name: "Holiday Nice Studio",
           address: "18 Rue Lamartine, 06000 Nice",
           checkin: "已入住",
           checkout: "11:00前",
+          bookingRef: "6621102123",
           coordinates: { lat: 43.7000, lng: 7.2667 }
         },
         transport: {
-          type: "步行",
-          details: "尼斯市区步行游览",
-          cost: "步行免费"
+          type: "步行+轨交/公交",
+          details: "尼斯市区步行与公交衔接",
+          cost: "按次票/日票"
         },
         climate: {
           temp: "日间约17-21°C，夜间约10-14°C；清晨看日出体感可略低于10°C",
@@ -1608,14 +1635,18 @@ const tripData = {
       title: "埃兹村+摩纳哥一日游",
       city: "尼斯",
       color: "#ff2d55",
+      locationContext: "尼斯 → 埃兹山顶村（Èze Village）→ 摩纳哥 → 返尼斯",
       summary: "🚌 埃兹中世纪村 | 🏎️ 摩纳哥F1赛道 | 🏰 蒙特卡洛赌场 | ⛵ 摩纳哥港口",
       tags: ["埃兹", "摩纳哥", "赌场", "F1赛道", "悬崖小镇"],
       overview: {
+        scheduleHint: "08:30 前到 Jean Médecin 乘 T2；08:45–08:50 在 Parc Phoenix 衔接 82 路；返城 100 路注意末班，以 Lignes d'Azur 当日时刻为准。",
+        hikingRoute: "Jean Médecin (T2) → Parc Phoenix（转 82）→ Èze Village；Èze Gare（82 下山）→ Monte-Carlo Casino（100）→ 王宫/港口/赛道顺时针步行；返 Port Lympia 后 Tram L2 回 Jean Médecin。城市步行约 7–9 km（不含公交段）。",
         accommodation: {
           name: "Holiday Nice Studio",
           address: "18 Rue Lamartine, 06000 Nice",
           checkin: "已入住",
           checkout: "11:00前",
+          bookingRef: "6621102123",
           coordinates: { lat: 43.7000, lng: 7.2667 }
         },
         transport: {
@@ -1947,17 +1978,21 @@ const tripData = {
     {
       day: 7,
       date: "2026-04-30",
-      title: "尼斯周边+整理",
+      title: "昂蒂布+戛纳+马蒂斯",
       city: "尼斯",
       color: "#ff2d55",
-      summary: "🚄 安提布一日游 | 🛍️ 购物+纪念品 | 🖼️ 马蒂斯博物馆 | 🍽️ 告别尼斯晚餐",
-      tags: ["安提布", "购物", "博物馆", "告别晚餐"],
+      locationContext: "尼斯 → 昂蒂布（加鲁普海滩）→ 戛纳 → 返尼斯 → Cimiez 马蒂斯博物馆",
+      summary: "🚄 TER 昂蒂布+戛纳 | 🖼️ 马蒂斯博物馆 | 🍽️ 告别晚餐",
+      tags: ["安提布", "购物", "博物馆", "告别晚餐", "戛纳"],
       overview: {
+        scheduleHint: "TER: Nice–Antibes 约 09:30–09:45；Antibes–Cannes 13:40–13:55；Cannes–Nice 16:45–17:00；上 Cimiez 可乘 Bus 17 约 17:30–17:40 从 Jean Médecin 出发。",
+        hikingRoute: "昂蒂布老城/港口与加鲁普海滩为单向动线；戛纳 Suquet / Croisette 步行打卡后乘 TER 返尼斯；Cimiez 在山坡，全天步行约 10–14 km。",
         accommodation: {
           name: "Holiday Nice Studio",
           address: "18 Rue Lamartine, 06000 Nice",
           checkin: "已入住",
           checkout: "11:00前",
+          bookingRef: "6621102123",
           coordinates: { lat: 43.7000, lng: 7.2667 }
         },
         transport: {
@@ -2271,33 +2306,38 @@ const tripData = {
       title: "尼斯→巴黎（续）",
       city: "巴黎",
       color: "#ff3b30",
+      locationContext: "尼斯 → 巴黎奥利 → 1 区 Opéra / Pyramides 住宿",
       summary: "✈️ 飞往巴黎 | 🏨 Studio opéra paris | 🏛️ 歌剧院区初探",
       tags: ["飞行", "抵达", "巴黎", "歌剧院", "购物"],
       overview: {
+        scheduleHint: "航班 10:30–12:00；取行李后 12:35–12:45 进 Aéroport d'Orly 地铁 M14 闸机，约 25–30 分钟到 Pyramides，衔接 13:45 后入住。",
         accommodation: {
           name: "Studio opéra paris",
           address: "22 Avenue de l'Opéra, 75001 Paris",
           checkin: "14:00-20:00",
           checkout: "11:00前",
+          bookingRef: "6302.471.188",
+          bookingPin: "6645",
           coordinates: { lat: 48.8667, lng: 2.3333 }
         },
         transport: {
-          type: "飞机+公共交通",
-          details: "尼斯→巴黎奥利 EasyJet U21633，OrlyBus+地铁到市区",
+          type: "飞机+轨交",
+          details: "尼斯 T2 → 巴黎奥利 T1，EasyJet U21633；市区段地铁 M14",
           company: "EasyJet",
           flight: "U21633",
           duration: "1小时30分",
-          cost: "机票已预订 €873×2"
+          cost: "机票已预订"
         },
         climate: {
           temp: "尼斯日间约17-21°C；巴黎5月上旬日间约16-20°C，夜间约9-13°C",
           weather: "巴黎阵雨多，尼斯日照偏多",
           clothing: "下飞机加衣；风衣+防水鞋；与尼斯温差大"
         },
+        hikingRoute: "初到日下午可选步行环线（约 5–7 km / 2.5–4 h）：Palais Garnier → 老佛爷屋顶 → Passage des Panoramas → Palais-Royal → Vendôme 一带 → 回酒店。",
         importantNotes: [
-          "值机安检建议提前2小时到达机场",
-          "奥利机场相对较小，提取行李较快",
-          "交通：OrlyBus→Denfert换地铁4号线→1号线→Pyramides站"
+          "EasyJet 建议提前 2 小时到机场办票与安检",
+          "奥利→市区优先 M14 至 Pyramides（与 Avenue de l'Opéra 步行 3–6 分钟）；备 Navigo/机场段票，规则以 IDFM 当年为准",
+          "巴黎 1–5 区 Navigo 周卡为自然周，与 5/5 凌晨去 CDG 需另购票（本日仍在当周覆盖市内轨交，见攻略说明）"
         ]
       },
       timeline: [
@@ -2392,11 +2432,11 @@ const tripData = {
           id: "day8-airport-city",
           time: "12:30",
           duration: 75,
-          icon: "🚌",
-          title: "奥利机场→巴黎市中心",
-          description: "地铁14号线直达酒店附近，OrlyBus已于2025年停运",
+          icon: "🚇",
+          title: "奥利机场→歌剧院区（M14）",
+          description: "地铁 14 号线至 Pyramides，步行至 Avenue de l'Opéra",
           transit: [
-            { line: "M14（机场快线）", boarding: "Aéroport d'Orly", alighting: "Pyramides", stops: "约8-10站（经Maison Blanche、Bibliothèque François Mitterrand、Bercy、Gare de Lyon、Châtelet等）", payment: "Navigo周卡1-5区已含，或机场区间票约€11-13/人" }
+            { line: "M14", boarding: "Aéroport d'Orly", alighting: "Pyramides", stops: "约8-10次经停", payment: "Navigo 周卡 1–5 区（若有效）或机场区间票约 €11–13/人（以当年 IDFM 为准）" }
           ],
           location: {
             name: "巴黎奥利机场",
@@ -2404,17 +2444,17 @@ const tripData = {
             coordinates: { lat: 48.7250, lng: 2.3594 }
           },
           destination: {
-            name: "巴黎市中心",
-            address: "Paris City Center",
-            coordinates: { lat: 48.8566, lng: 2.3522 }
+            name: "Pyramides 站 / Opéra 区",
+            address: "22 Avenue de l'Opéra 步行约3-6分钟",
+            coordinates: { lat: 48.8667, lng: 2.3333 }
           },
           category: "交通",
-          cost: "€8.70/人",
+          cost: "见票种/周卡",
           route: {
-            distance: "15公里",
-            time: "1小时15分",
-            steps: ["OrlyBus", "地铁4号线"],
-            notes: "OrlyBus→Denfert换乘"
+            distance: "约15公里",
+            time: "约25-30分钟",
+            steps: ["M14 直达 Pyramides"],
+            notes: "Orly 段票规以现场为准"
           },
           actions: [
             { type: "details", label: "详情" },
@@ -2561,12 +2601,12 @@ const tripData = {
           },
           {
             from: "巴黎奥利机场",
-            to: "巴黎市中心",
-            transport: "公共交通",
-            distance: "15km",
-            time: "1h15m",
-            route: "OrlyBus→地铁4号线",
-            details: "€8.70"
+            to: "Pyramides/Opéra 区",
+            transport: "M14",
+            distance: "约15km",
+            time: "约25-30m",
+            route: "Aéroport d'Orly → Pyramides",
+            details: "见票种/机场段规则"
           }
         ]
       }
@@ -2578,20 +2618,25 @@ const tripData = {
       title: "巴黎地标+奥赛博物馆",
       city: "巴黎",
       color: "#ff3b30",
-      summary: "🗼 埃菲尔铁塔 | 🏛️ 凯旋门 | 🖼️ 奥赛博物馆 | 🌃 铁塔夜景",
+      locationContext: "巴黎 1/7/8 区：埃菲尔、凯旋门、香街、奥赛、左岸，可选特罗卡德罗夜景",
+      summary: "🗼 埃菲尔铁塔 | 🏛️ 凯旋门 | 🖼️ 奥赛博物馆 | 🌃 特罗卡德罗夜景（可选）",
       tags: ["埃菲尔铁塔", "凯旋门", "奥赛博物馆", "香榭丽舍大街", "夜景", "地铁", "巴黎地标"],
       overview: {
+        scheduleHint: "奥赛 15:00 入场；为从容衔接，13:40–13:45 自 Étoile 侧进站，14:20 前到 Solférino。",
+        hikingRoute: "酒店（地铁）→ Bir-Hakeim → 铁塔 → Pont d'Iéna → Trocadéro；香街/协和方向步行后，奥赛 15:00 参观；出馆可左岸步行，晚间可选 M4+M6 至 Trocadéro 夜景再回 Pyramides。总步行约 11–14 km。",
         accommodation: {
           name: "Studio opéra paris",
           address: "22 Avenue de l'Opéra, 75001 Paris",
           checkin: "已入住",
           checkout: "11:00前",
+          bookingRef: "6302.471.188",
+          bookingPin: "6645",
           coordinates: { lat: 48.8667, lng: 2.3333 }
         },
         transport: {
           type: "地铁",
-          details: "巴黎地铁一日游，主要使用地铁8号线、6号线、1号线、12号线",
-          cost: "约€ 15/人（地铁票）"
+          details: "M8/M6、M1/M12 等，衔接奥赛与左岸；Navigo/单次以当年票规为准",
+          cost: "见 Navigo/单次"
         },
         climate: {
           temp: "日间约16-20°C，夜间约9-13°C",
@@ -2983,20 +3028,25 @@ const tripData = {
       title: "卢浮宫+巴黎文化漫游",
       city: "巴黎",
       color: "#ff9500",
+      locationContext: "巴黎 1/4/5/6 区：卢浮宫、西岱岛、拉丁区、卢森堡公园",
       summary: "🏛️ 卢浮宫 | 🌳 杜乐丽花园 | 📚 莎士比亚书店 | 🏞️ 卢森堡公园",
       tags: ["卢浮宫", "博物馆", "文化艺术", "杜乐丽花园", "莎士比亚书店", "卢森堡公园", "巴黎"],
       overview: {
+        scheduleHint: "卢浮宫 09:00 开门，建议 08:45 前到金字塔入口排队。晚间 21:00–21:15 自 Saint-Michel 乘地铁返 Pyramides 即可。",
+        hikingRoute: "酒店 → 卢浮宫 → 杜乐丽/协和 → Pont des Arts 至左岸 → 圣日耳曼 → 卢森堡 → 先贤祠外观 → 圣母院外观 → 莎士比亚书店 → Saint-Michel 地铁。约 10–12 km。",
         accommodation: {
           name: "Studio opéra paris",
           address: "22 Avenue de l'Opéra, 75001 Paris",
           checkin: "已入住",
           checkout: "11:00前",
+          bookingRef: "6302.471.188",
+          bookingPin: "6645",
           coordinates: { lat: 48.8667, lng: 2.3333 }
         },
         transport: {
           type: "步行+地铁",
-          details: "主要步行，部分地铁",
-          cost: "€ 2.15/次"
+          details: "以步行为主，返程 M4/M14 等",
+          cost: "见票种"
         },
         climate: {
           temp: "日间约16-20°C，夜间约9-13°C",
@@ -3343,28 +3393,37 @@ const tripData = {
       title: "迪士尼乐园",
       city: "巴黎",
       color: "#af52de",
+      locationContext: "马恩河谷 Marne-la-Vallée – Chessy（巴黎迪士尼乐园）",
       summary: "🏰 迪士尼乐园 | 🎢 游乐设施 | 🎆 烟花秀",
       tags: ["主题公园", "游乐设施", "烟花", "迪士尼"],
       overview: {
+        scheduleHint: "08:00–08:10 到 Pyramides 发 M14；08:20–08:30 到 Châtelet – Les Halles 乘 RER A，终点站 Marne-la-Vallée – Chessy，09:00 前到站可衔接 09:30 开园。返程烟花后 18:35–18:45 上 RER A，19:30 前可回 Pyramides。",
+        hikingRoute: "园内建议固定单向环线，避免穿园折返，例如 Discoveryland → Fantasyland → Adventureland → Frontierland（顺/逆时针二选一，全日不换向）。",
         accommodation: {
           name: "Studio opéra paris",
           address: "22 Avenue de l'Opéra, 75001 Paris",
           checkin: "已入住",
           checkout: "11:00前",
+          bookingRef: "6302.471.188",
+          bookingPin: "6645",
           coordinates: { lat: 48.8667, lng: 2.3333 }
         },
         transport: {
-          type: "RER A线",
-          details: "巴黎→迪士尼乐园",
-          duration: "40分钟",
-          cost: "€ 7.5/单程"
+          type: "M14 + RER A",
+          details: "Pyramides → Châtelet；RER A 至 Marne-la-Vallée – Chessy；Navigo 1–5 区有效周内常含本段，以票规为准",
+          duration: "约40-50分钟",
+          cost: "见 Navigo/单次"
         },
         climate: {
           temp: "日间约16-20°C，夜间约9-13°C",
           weather: "与巴黎市区相近，园区户外全天",
           clothing: "薄外套（排队/夜间）；舒适鞋；清晨/烟花后体感偏凉"
         },
-        importantNotes: ["门票已含FastPass", "提前下载迪士尼APP", "烟花秀时间可能调整"]
+        importantNotes: [
+          "门票 €56×2 已备（攻略口径），FastPass/预约以园区当日规则为准",
+          "RER A 多分支，务必乘终点站为 Marne-la-Vallée – Chessy 的列车",
+          "花车 14:30 / 17:00；烟花约 19:00，以现场为准"
+        ]
       },
       timeline: [
         {
@@ -3392,15 +3451,15 @@ const tripData = {
           duration: 90,
           icon: "🚇",
           title: "前往迪士尼",
-          description: "RER A线，Auber→Marne-la-Vallée/Chessy",
+          description: "M14 至 Châtelet，换 RER A 至 Marne-la-Vallée – Chessy",
           transit: [
-            { line: "M14（往Olympiades/Aéroport d'Orly方向）", boarding: "Pyramides", alighting: "Châtelet", stops: "直达（0站）" },
-            { line: "RER A（往Marne-la-Vallée – Chessy方向）", boarding: "Châtelet – Les Halles", alighting: "Marne-la-Vallée – Chessy", stops: "约10-12站（经Nation、Vincennes、Val de Fontenay等）" }
+            { line: "M14（往 Olympiades / Aéroport d'Orly 方向，以屏幕为准）", boarding: "Pyramides", alighting: "Châtelet", stops: "0 次" },
+            { line: "RER A（往 Marne-la-Vallée – Chessy）", boarding: "Châtelet – Les Halles", alighting: "Marne-la-Vallée – Chessy", stops: "约 10–12 次" }
           ],
           location: {
-            name: "Auber车站",
-            address: "Auber, 75009 Paris",
-            coordinates: { lat: 48.8725, lng: 2.3296 }
+            name: "Pyramides 站",
+            address: "Pyramides, 75001 Paris",
+            coordinates: { lat: 48.8667, lng: 2.3333 }
           },
           destination: {
             name: "Marne-la-Vallée/Chessy站",
@@ -3520,22 +3579,22 @@ const tripData = {
         totalTime: "全天游览",
         steps: [
           {
-            from: "歌剧院区",
-            to: "迪士尼乐园",
-            transport: "RER A线",
+            from: "Pyramides",
+            to: "马恩河谷迪士尼",
+            transport: "M14+RER A",
             distance: "32km",
-            time: "40m",
-            route: "Auber→Marne-la-Vallée/Chessy",
-            details: "€7.5"
+            time: "约40-50m",
+            route: "Châtelet – Les Halles → Marne-la-Vallée – Chessy",
+            details: "Navigo/单次以票规为准"
           },
           {
-            from: "迪士尼乐园",
-            to: "歌剧院区",
-            transport: "RER A线",
+            from: "马恩河谷迪士尼",
+            to: "Pyramides",
+            transport: "RER A + M14",
             distance: "32km",
-            time: "40m",
-            route: "Marne-la-Vallée/Chessy→Auber",
-            details: "€7.5"
+            time: "约40-50m",
+            route: "Marne-la-Vallée – Chessy → Châtelet",
+            details: "晚间返程同线"
           }
         ]
       }
@@ -3547,28 +3606,36 @@ const tripData = {
       title: "返程日",
       city: "巴黎",
       color: "#ff3b30",
-      summary: "🛍️ 最后购物 | 🚗 前往机场 | ✈️ 返程航班",
-      tags: ["购物", "机场", "返程", "巴黎"],
+      locationContext: "巴黎 戴高乐 T1 → 法兰克福 → 上海浦东",
+      summary: "🚇 戴高乐离境 | ✈️ LH1029+LH728 返沪",
+      tags: ["机场", "返程", "转机", "巴黎"],
       overview: {
+        scheduleHint: "06:00 自 Pyramides 发 M14；06:20–06:25 Châtelet – Les Halles 乘 RER B 往 CDG；目标 07:20 前到机场办票（航班 LH1029 10:35 起飞）。5/5 属新自然周，上周 Navigo 常不适用，RER B 机场段须单独购票。",
         accommodation: {
           name: "Studio opéra paris",
           address: "22 Avenue de l'Opéra, 75001 Paris",
           checkin: "已入住",
           checkout: "11:00前",
+          bookingRef: "6302.471.188",
+          bookingPin: "6645",
           coordinates: { lat: 48.8667, lng: 2.3333 }
         },
         transport: {
-          type: "出租车/机场大巴",
-          details: "巴黎市区→戴高乐机场",
-          duration: "45-60分钟",
-          cost: "€ 50-70"
+          type: "M14 + RER B + 航班",
+          details: "市区→CDG 戴高乐；LH1029 巴黎→法兰克福；LH728 法兰克福→上海",
+          duration: "RER 约 50 分钟 + 候机/转机",
+          cost: "RER 机场段约 €11–13/人；机票已出票"
         },
         climate: {
           temp: "凌晨约9-13°C（偏区间下限）",
           weather: "风冷感明显，机舱恒温",
           clothing: "去机场备薄羽绒/厚外套；航段以机舱恒温为主，可备保湿与颈枕"
         },
-        importantNotes: ["提前3小时到达机场", "办理退税（如有购物）", "确认航班信息"]
+        importantNotes: [
+          "国际航班建议提前 3 小时到柜台；T1 出发可经 CDGVAL 衔接",
+          "退税：海关盖章 → 退税柜台，预留时间",
+          "5/5 周卡多已失效，勿假设上一周 Navigo 仍有效"
+        ]
       },
       timeline: [
         {

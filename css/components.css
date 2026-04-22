@@ -273,6 +273,39 @@
   gap: var(--space-md, 16px);
 }
 
+/* 首页 (div.app)：与行程日页/时间线同节奏、偏紧凑 */
+div.app .trip-summary {
+  padding: 10px 12px;
+}
+
+div.app .trip-dates {
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+div.app .trip-stats {
+  font-size: 15px;
+}
+
+div.app .days-list {
+  padding: 10px 12px 16px;
+  -webkit-gap: 10px;
+  -moz-gap: 10px;
+  gap: 10px;
+}
+
+div.app .header {
+  padding: 10px 12px;
+}
+
+div.app .header h1 {
+  font-size: 18px;
+}
+
+div.app .day-card .card-body {
+  padding: 12px 14px;
+}
+
 /* Search overlay */
 .search-overlay {
   position: fixed;
@@ -346,8 +379,65 @@
   min-height: 100vh;
 }
 
+/* Day page: sticky top bar + segmented (below hero header) */
+.day-top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: env(safe-area-inset-top, 0) var(--space-md, 16px) 0;
+  background: color-mix(in srgb, var(--background, #ffffff) 92%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border, #e8e8e8);
+}
+
+.day-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 8px 10px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-primary, #1d1d1f);
+  font-size: var(--font-size-sm, 14px);
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.day-back-btn:hover {
+  background: color-mix(in srgb, var(--text-primary, #1d1d1f) 6%, transparent);
+}
+
+.day-back-icon {
+  font-size: 1.1em;
+  line-height: 1;
+}
+
+.day-top-bar-title {
+  font-size: var(--font-size-sm, 14px);
+  font-weight: 600;
+  color: var(--text-secondary, #6a6a6a);
+  max-width: 50%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.day-top-bar-spacer {
+  width: 64px;
+  flex-shrink: 0;
+}
+
 .day-header {
-  padding: var(--space-xl, 32px) var(--space-lg, 24px);
+  padding: var(--space-lg, 24px) var(--space-lg, 24px) var(--space-xl, 32px);
   position: relative;
 }
 
@@ -368,6 +458,14 @@
   margin: 0 0 var(--space-sm, 8px);
   color: var(--text-primary, #1d1d1f);
   line-height: 1.2;
+}
+
+.day-subtitle {
+  font-size: var(--font-size-sm, 14px);
+  line-height: 1.5;
+  color: var(--text-secondary, #6a6a6a);
+  margin: 0 0 var(--space-md, 16px);
+  max-width: 40rem;
 }
 
 .day-location {
@@ -412,6 +510,286 @@
   width: 100%;
 }
 
+/* -------------------------------------------------------------------------
+   行程日页：全页与「时间线」同信息密度（顶栏/概览/分段器/卡片区留白一致）
+   ------------------------------------------------------------------------- */
+.day-detail-content {
+  --day-sticky-h: 40px;
+  --day-pad-x: 10px;
+  --day-section-gap: 10px;
+}
+
+.day-detail-content .day-top-bar {
+  min-height: var(--day-sticky-h);
+  padding: env(safe-area-inset-top, 0) var(--day-pad-x) 2px;
+  border-bottom-color: #ececec;
+}
+
+.day-detail-content .day-top-bar-spacer {
+  width: 56px;
+}
+
+.day-detail-content .day-back-btn {
+  padding: 4px 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.day-detail-content .day-top-bar-title {
+  font-size: 12px;
+  max-width: 52%;
+  font-weight: 600;
+  color: var(--text-tertiary, #6e6e6e);
+}
+
+.day-detail-content .day-header {
+  padding: var(--day-section-gap) var(--day-pad-x) 10px;
+}
+
+.day-detail-content .day-day-number {
+  font-size: 12px;
+  margin-bottom: 2px;
+  letter-spacing: 0.02em;
+}
+
+.day-detail-content .day-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.day-detail-content .day-subtitle {
+  font-size: 13px;
+  margin: 0 0 6px;
+  line-height: 1.4;
+  max-width: 100%;
+}
+
+.day-detail-content .day-location {
+  margin-bottom: 6px;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.day-detail-content .city-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.day-detail-content .day-date {
+  font-size: 12px;
+}
+
+.day-detail-content .day-tags {
+  margin-top: 4px;
+  gap: 4px;
+}
+
+.day-detail-content .day-tags .label {
+  font-size: 10px;
+  padding: 2px 6px;
+}
+
+/* 分段器：与顶栏同高、偏扁，避免与时间线块对比显得「一大条」 */
+.day-detail-content .segmented-control-container {
+  top: calc(var(--day-sticky-h) + env(safe-area-inset-top, 0px));
+  padding: 4px var(--day-pad-x) 4px;
+  border-bottom-color: #ececec;
+}
+
+.day-detail-content .segmented-control {
+  border-radius: 12px;
+  padding: 2px;
+  max-width: 100%;
+}
+
+.day-detail-content .segment-btn {
+  min-height: 40px;
+  padding: 3px 2px 5px;
+  border-radius: 10px;
+}
+
+.day-detail-content .segment-icon {
+  font-size: 18px;
+  margin-bottom: 0;
+  line-height: 1;
+}
+
+.day-detail-content .segment-label {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-top: 1px;
+}
+
+/* 主区：与 .day-timeline .card-body 左右边距一致 */
+.day-detail-content .day-main-content {
+  padding: 0 var(--day-pad-x) 12px;
+}
+
+.day-detail-content .section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  letter-spacing: -0.02em;
+}
+
+.day-detail-content .day-overview,
+.day-detail-content .day-timeline,
+.day-detail-content .day-notes {
+  margin-bottom: var(--day-section-gap);
+}
+
+.day-detail-content .day-overview .card-body,
+.day-detail-content .day-notes .card-body {
+  padding: 10px 12px;
+}
+
+.day-detail-content .overview-section {
+  gap: 8px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+}
+
+.day-detail-content .overview-section.overview-aux,
+.day-detail-content .overview-section.overview-hiking {
+  padding: 6px 8px 6px 10px;
+  margin-bottom: 8px;
+}
+
+.day-detail-content .overview-icon {
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  border-radius: 9px;
+}
+
+.day-detail-content .overview-label {
+  font-size: 12px;
+  margin-bottom: 1px;
+}
+
+.day-detail-content .overview-value,
+.day-detail-content .overview-prose,
+.day-detail-content .overview-detail,
+.day-detail-content .route-step {
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.day-detail-content .overview-subdetail {
+  font-size: 11px;
+  margin-top: 2px;
+  line-height: 1.35;
+}
+
+.day-detail-content .day-timeline {
+  margin-bottom: var(--day-section-gap);
+}
+
+.day-detail-content .timeline-header {
+  margin-bottom: 6px;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.day-detail-content .timeline-stats {
+  gap: 2px;
+}
+
+.day-detail-content .timeline-count {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.day-detail-content .timeline-total-time {
+  font-size: 11px;
+}
+
+.day-detail-content .card:hover {
+  transform: none;
+  box-shadow: var(
+    --shadow-sm,
+    rgba(0, 0, 0, 0.02) 0px 0px 0px 1px,
+    rgba(0, 0, 0, 0.04) 0px 2px 6px,
+    rgba(0, 0, 0, 0.1) 0px 4px 8px
+  );
+}
+
+.day-detail-content .day-actions {
+  margin-top: 8px;
+  gap: 8px;
+}
+
+.day-detail-content .day-map-container {
+  padding: 6px var(--day-pad-x) 8px;
+  min-height: 260px;
+}
+
+.day-detail-content .day-details-view {
+  padding: 0 0 4px;
+}
+
+.day-detail-content .day-details-view > .card .card-body {
+  padding: 10px 12px;
+}
+
+.day-detail-content .details-grid {
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.day-detail-content .detail-item {
+  gap: 8px;
+  padding: 8px 8px;
+  border-radius: 10px;
+}
+
+.day-detail-content .detail-icon {
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.day-detail-content .detail-label {
+  font-size: 11px;
+  margin-bottom: 1px;
+}
+
+.day-detail-content .detail-value {
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.day-detail-content .category-stats {
+  margin-top: 4px;
+}
+
+.day-detail-content .stats-container,
+.day-detail-content .category-stat {
+  gap: 6px;
+}
+
+.day-detail-content .note-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 10px;
+  line-height: 1;
+}
+
+.day-detail-content .notes-list {
+  gap: 6px;
+}
+
+.day-detail-content .note-text {
+  font-size: 13px;
+  line-height: 1.4;
+  padding-top: 0;
+}
+
 /* Section titles */
 .section-title {
   font-size: var(--font-size-lg, 18px);
@@ -433,6 +811,30 @@
   margin-bottom: var(--space-lg, 24px);
   padding-bottom: var(--space-lg, 24px);
   border-bottom: 1px solid var(--border, #e0e0e0);
+}
+
+.overview-prose {
+  font-size: var(--font-size-sm, 14px);
+  line-height: 1.55;
+  color: var(--text-primary, #1d1d1f);
+  white-space: pre-wrap;
+}
+
+.overview-section.overview-aux,
+.overview-section.overview-hiking {
+  border-left: 3px solid var(--day-color, var(--primary, #ff385c));
+  padding-left: var(--space-md, 16px);
+  margin-left: 2px;
+  background: color-mix(in srgb, var(--day-color, #ff385c) 6%, var(--background, #ffffff));
+  border-radius: 0 var(--radius-md, 12px) var(--radius-md, 12px) 0;
+  border-bottom: none;
+  padding-bottom: var(--space-md, 16px);
+  margin-bottom: var(--space-lg, 24px);
+}
+
+.overview-booking {
+  font-weight: 600;
+  color: var(--text-primary, #1d1d1f);
 }
 
 .overview-section:last-child {
@@ -540,7 +942,17 @@
   gap: var(--space-xl, 32px);
   max-height: 500px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   position: relative; /* For virtual scroll positioning */
+}
+
+/* 虚拟列表占位层：总高度由 JS 设置，避免只渲染子项导致滚不到底 */
+.timeline-container .vs-phantom {
+  flex-shrink: 0;
+}
+
+.timeline-container .vs-item-slot {
+  overflow: visible;
 }
 
 /* Style for virtual scroll activity wrapper */
@@ -592,6 +1004,44 @@
   display: none;
 }
 
+/* 时间行：左侧时间 + 右侧类型标签（利右手扫视） */
+.activity-time-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+  min-width: 0;
+}
+
+.activity-time-row .activity-time-inline {
+  margin-bottom: 0;
+  font-size: 18px;
+  min-width: 0;
+  flex: 1;
+  gap: 8px;
+}
+
+.activity-time-meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  flex-shrink: 0;
+}
+
+.activity-time-meta .activity-cat.label {
+  font-size: 10px;
+  padding: 2px 6px;
+}
+
+.activity-important-badge--time {
+  font-size: 8px;
+  padding: 1px 4px;
+  line-height: 1.2;
+}
+
 .activity-time-inline {
   display: flex;
   align-items: center;
@@ -599,7 +1049,7 @@
   -moz-gap: var(--space-xs, 12px);
   gap: var(--space-xs, 12px);
   margin-bottom: var(--space-sm, 12px);
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .activity-time-inline .inline-time {
@@ -649,6 +1099,87 @@
   padding: var(--space-md, 16px);
 }
 
+/* 紧凑行程卡：时间行右侧类型标签；标题行右上为操作按钮；地点/轨交压缩 */
+.activity-compact {
+  --activity-compact-gap: 4px;
+}
+
+.activity-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.activity-top-primary {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+
+.activity-ico {
+  font-size: 16px;
+  line-height: 1.25;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.activity-titles {
+  min-width: 0;
+  flex: 1;
+}
+
+/* 原标签位：放详情/地图/收藏，靠右易拇指点按 */
+.activity-top-actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px 6px;
+  flex-shrink: 0;
+  max-width: 50%;
+  align-self: flex-start;
+  margin-top: 0;
+}
+
+.activity-top-actions .btn-small.activity-action,
+.activity-top-actions .activity-action {
+  min-height: 34px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.activity-top-actions .activity-action--fav {
+  min-width: 36px;
+  padding: 4px 8px;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.activity-top-right {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 4px 6px;
+  flex-shrink: 0;
+  max-width: 40%;
+  text-align: right;
+}
+
+.activity-cat.label {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 6px;
+  line-height: 1.2;
+}
+
 .activity-header {
   display: flex;
   -webkit-gap: var(--space-md, 16px);
@@ -677,14 +1208,116 @@
   font-size: var(--font-size-md, 16px);
   font-weight: 600;
   color: var(--text-primary, #1d1d1f);
-  margin-bottom: var(--space-xs, 4px);
+  margin: 0 0 2px;
   line-height: 1.3;
 }
 
 .activity-description {
   font-size: var(--font-size-sm, 14px);
   color: var(--text-secondary, #6a6a6a);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.activity-detail-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--activity-compact-gap, 4px);
+  margin-top: 4px;
+}
+
+.activity-loc-tight {
+  min-width: 0;
+}
+
+.activity-loc-tight .loc-line1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 6px;
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--text-primary, #1d1d1f);
+}
+
+.activity-loc-tight .loc-ico {
+  flex-shrink: 0;
+}
+
+.activity-loc-tight .loc-name {
+  font-weight: 600;
+}
+
+.loc-line2 {
+  font-size: 11px;
+  color: var(--text-secondary, #6a6a6a);
+  line-height: 1.35;
+  margin: 0;
+  padding-left: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.activity-transit-tight {
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--text-primary, #1d1d1f);
+}
+
+.transit-line-compact {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: inherit;
+}
+
+.transit-line-compact .transit-ico {
+  flex-shrink: 0;
+  line-height: 1.45;
+  font-size: 1.1em;
+}
+
+.transit-line-compact .transit-join {
+  min-width: 0;
+  word-break: break-word;
+  font-size: inherit;
+}
+
+.t-from,
+.t-to {
+  font-weight: 600;
+  color: var(--text-primary, #1d1d1f);
+}
+
+.t-arr,
+.t-stops {
+  color: var(--text-secondary, #6a6a6a);
+  font-size: 0.95em;
+}
+
+.transit-payment-compact {
+  font-size: 12px;
   line-height: 1.4;
+  color: var(--text-secondary, #6a6a6a);
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.activity-foot {
+  margin-top: 1px;
+}
+
+.activity-cost-tight {
+  font-size: 11px;
+  color: var(--text-secondary, #6a6a6a);
+}
+
+.activity-cost-tight .activity-cost-value {
+  color: var(--text-primary, #1d1d1f);
+  font-weight: 600;
+  font-size: 12px;
 }
 
 .activity-important-badge {
@@ -696,6 +1329,13 @@
   font-weight: 500;
   border-radius: var(--radius-sm, 8px);
   align-self: flex-start;
+}
+
+.activity-top-right .activity-important-badge {
+  font-size: 9px;
+  font-weight: 600;
+  padding: 1px 5px;
+  line-height: 1.2;
 }
 
 .activity-important .activity-card {
@@ -807,7 +1447,8 @@
   color: var(--text-primary, #1d1d1f);
 }
 
-.activity-actions {
+.activity-actions,
+.activity-top-actions {
   display: flex;
   flex-wrap: wrap;
   -webkit-gap: var(--space-sm, 8px);
@@ -989,8 +1630,13 @@
 
 /* Segmented control */
 .segmented-control-container {
+  position: sticky;
+  top: calc(48px + env(safe-area-inset-top, 0px));
+  z-index: 20;
   padding: var(--space-md, 16px) var(--space-lg, 24px);
-  background: var(--background, #ffffff);
+  background: color-mix(in srgb, var(--background, #ffffff) 95%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border, #e0e0e0);
 }
 
@@ -1054,6 +1700,79 @@
 
 .day-view.active {
   display: block;
+}
+
+/* 地图 Tab：与圆周旅迹衔接 + 与行程页同密度 */
+.pitravel-bridge {
+  margin-bottom: 8px;
+  border-radius: 12px;
+  border: 1px solid var(--border, #e8e8e8);
+  background: var(--background-secondary, #f7f7f7);
+}
+
+.pitravel-bridge__inner {
+  padding: 10px 12px;
+}
+
+.pitravel-bridge__row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.pitravel-bridge__emoji {
+  font-size: 1.35rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.pitravel-bridge__title {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary, #1d1d1f);
+}
+
+.pitravel-bridge__desc {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--text-secondary, #6a6a6a);
+}
+
+.pitravel-bridge__note {
+  color: var(--text-tertiary, #929292);
+  font-size: 11px;
+}
+
+.pitravel-bridge__actions {
+  display: flex;
+  flex-wrap: wrap;
+  -webkit-gap: 6px;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.pitravel-bridge__actions .btn {
+  min-height: 36px;
+  font-size: 12px;
+}
+
+.pitravel-bridge__actions .btn[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.pitravel-bridge__msg {
+  margin: 6px 0 0;
+  min-height: 1.2em;
+  font-size: 12px;
+  color: var(--success, #1c7c54);
+}
+
+.map-placeholder-wrap {
+  margin-top: 0;
 }
 
 .day-map-container {
@@ -1191,6 +1910,31 @@
     width: auto;
     flex: 1;
   }
+
+  /* 日页不沿用「大留白」头图区，仍与时间线同密度 */
+  .day-detail-content .day-header {
+    padding: 12px 20px 12px;
+  }
+
+  .day-detail-content .day-title {
+    font-size: 1.5rem;
+  }
+
+  .day-detail-content .day-subtitle {
+    font-size: 14px;
+  }
+
+  .day-detail-content .day-main-content {
+    padding: 0 20px 20px;
+  }
+
+  .day-detail-content .segmented-control {
+    max-width: 440px;
+  }
+
+  .day-detail-content .day-map-container {
+    min-height: 340px;
+  }
 }
 
 /* Favorite button styles */
@@ -1207,14 +1951,12 @@
 }
 
 @media (min-width: 1024px) {
-  .activity-header {
+  .activity-top-primary {
     align-items: flex-start;
   }
 
-  .activity-icon {
-    width: 32px;
-    height: 32px;
-    font-size: 22px;
+  .activity-ico {
+    font-size: 18px;
   }
 }
 
@@ -1489,27 +2231,119 @@
     font-size: var(--font-size-lg, 18px);
   }
 
+  .day-detail-content .day-actions .btn {
+    min-height: 44px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  /* 行程卡：手机端紧凑布局，减少无效留白与堆叠高度 */
+  .day-timeline .card-body {
+    padding: 10px 12px;
+  }
+
   .activity-card .card-body {
-    padding: var(--space-xl, 32px);
+    padding: 10px 12px;
   }
 
-  .activity-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-md, 16px);
+  .activity-time-row .activity-time-inline {
+    font-size: 15px;
   }
 
-  .activity-icon {
-    width: 28px;
-    height: 28px;
-    font-size: 20px;
+  .activity-time-inline {
+    font-size: 15px;
+    margin-bottom: 4px;
+    gap: 6px;
+  }
+
+  .activity-time-inline .inline-time {
+    font-size: 15px;
+  }
+
+  .activity-time-inline .inline-duration {
+    font-size: 12px;
+  }
+
+  .activity-ico {
+    font-size: 15px;
+  }
+
+  .activity-time-meta .activity-cat.label {
+    padding: 1px 5px;
+    font-size: 9px;
+  }
+
+  .activity-top-actions {
+    max-width: 55%;
+  }
+
+  .activity-top-actions .btn-small {
+    min-height: 32px;
+    padding: 4px 8px;
+  }
+
+  .activity-important .activity-time-meta .activity-important-badge--time {
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+
+  .activity-loc-tight .loc-line1 {
+    font-size: 11px;
+  }
+
+  .loc-line2 {
+    -webkit-line-clamp: 2;
+  }
+
+  .activity-transit-tight {
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .transit-payment-compact {
+    font-size: 11px;
+  }
+
+  .activity-image-container {
+    margin-top: 4px;
+  }
+
+  .activity-top-actions {
+    margin-top: 0;
+    gap: 4px;
+  }
+
+  .timeline-container {
+    gap: 12px;
+  }
+
+  .time-block-activities {
+    gap: 10px;
+  }
+
+  .virtual-scroll-activity-wrapper {
+    margin-bottom: 10px;
+  }
+
+  .day-main-content {
+    padding: 10px 10px 16px;
+  }
+
+  .day-timeline > .card-body > .timeline-header {
+    margin-bottom: 8px;
+  }
+
+  .day-timeline > .card-body > .section-title,
+  .day-timeline .timeline-header .section-title {
+    margin-bottom: 6px;
+    font-size: 16px;
   }
 
   /* 时间线卡片点击区域优化 */
   .activity {
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    margin-bottom: var(--space-xl, 32px);
+    margin-bottom: 10px;
   }
 
   .activity:last-child {
