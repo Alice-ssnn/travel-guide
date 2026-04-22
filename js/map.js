@@ -8,7 +8,10 @@
 const PITRAVEL_INFO = {
   name: '圆周旅迹',
   home: 'https://www.pitravel.cn/',
+  /** App Store 网页，桌面或备用 */
   ios: 'https://apps.apple.com/cn/app/圆周旅迹-旅游出行智能规划-复制行程攻略ai助手地图路线记录/id6473148424',
+  /** iOS：调起系统 App Store 里该应用页（可安装/打开） */
+  iosItms: 'itms-apps://itunes.apple.com/cn/app/id6473148424',
   android: 'https://sj.qq.com/appdetail/com.chaochaoshishi.slytherin'
 };
 
@@ -180,7 +183,26 @@ const MapManager = {
   },
 
   /**
-   * 与圆周旅迹衔接：说明 + 复制 + Google 多站 + 下载
+   * 尽量跳转到圆周旅迹 App / 各应用商店该应用页（无公开 URL Scheme，由系统/商店处理）
+   */
+  openPitravelApp() {
+    const ua = typeof navigator !== 'undefined' ? navigator.userAgent : '';
+    const isIOS = /iPhone|iPad|iPod/i.test(ua);
+    const isAndroid = /Android/i.test(ua);
+    if (isIOS) {
+      window.location.assign(PITRAVEL_INFO.iosItms);
+      return;
+    }
+    if (isAndroid) {
+      window.location.assign(PITRAVEL_INFO.android);
+      return;
+    }
+    // 电脑端：打开官网（可扫码下载）或 iOS/安卓商店网页
+    window.open(PITRAVEL_INFO.home, '_blank', 'noopener');
+  },
+
+  /**
+   * 与圆周旅迹衔接：说明 + 打开 App + 复制 + Google 多站 + 下载
    */
   renderPitravelBridge(day, container) {
     const stops = this.collectStopsWithCoords(day);
@@ -211,6 +233,11 @@ const MapManager = {
           </p>
         </div>
       </div>
+      <div class="pitravel-bridge__actions pitravel-bridge__actions--primary">
+        <button type="button" class="btn btn-primary pitravel-btn-open-app" title="iPhone 调起 App Store，安卓前往应用宝下载页" aria-label="打开圆周旅迹手机应用或前往应用商店">
+          打开圆周旅迹 App
+        </button>
+      </div>
       <div class="pitravel-bridge__actions">
         <button type="button" class="btn btn-primary btn-small pitravel-btn-copy">复制本日地点</button>
         <button type="button" class="btn btn-secondary btn-small pitravel-btn-gm" ${!canOpenG ? 'disabled' : ''} title="在浏览器或 Google 地图 App 中打开">
@@ -225,8 +252,13 @@ const MapManager = {
 
     const copyText = this.buildDayStopsCopyText(day);
     const msgEl = inner.querySelector('.pitravel-bridge__msg');
+    const btnOpenApp = inner.querySelector('.pitravel-btn-open-app');
     const btnCopy = inner.querySelector('.pitravel-btn-copy');
     const btnGm = inner.querySelector('.pitravel-btn-gm');
+
+    if (btnOpenApp) {
+      btnOpenApp.addEventListener('click', () => this.openPitravelApp());
+    }
 
     const showMsg = t => {
       if (msgEl) {

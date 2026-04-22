@@ -1745,6 +1745,18 @@ div.app .day-card .card-body {
   font-size: 11px;
 }
 
+.pitravel-bridge__actions--primary {
+  margin-top: 6px;
+}
+
+.pitravel-bridge__actions--primary .pitravel-btn-open-app {
+  width: 100%;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
 .pitravel-bridge__actions {
   display: flex;
   flex-wrap: wrap;
