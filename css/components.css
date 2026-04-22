@@ -684,6 +684,7 @@ div.app .day-card .card-body {
   --offline-strip-h: 0px; /* 保留变量供将来用；勿用于 article 内 sticky 的 top */
 }
 
+/* 用 <a> 做「返回」：可原生跳转；z-index 避免被同层内容盖住不触发 */
 .day-back-btn {
   display: inline-flex;
   align-items: center;
@@ -696,8 +697,14 @@ div.app .day-card .card-body {
   color: var(--text-primary, #1d1d1f);
   font-size: var(--font-size-sm, 14px);
   font-weight: 600;
+  font-family: inherit;
+  text-decoration: none;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  position: relative;
+  z-index: 50;
+  pointer-events: auto;
+  box-sizing: border-box;
 }
 
 .day-back-btn:hover {

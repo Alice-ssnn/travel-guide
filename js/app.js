@@ -92,6 +92,21 @@ class TravelGuideApp {
   }
 
   /**
+   * 行程首页 URL：与 day 页同目录的 index.html（PWA/无扩展路径下由 URL API 解析）
+   * @returns {string}
+   */
+  getHomePageUrl() {
+    if (typeof window === 'undefined' || !window.location) {
+      return 'index.html';
+    }
+    try {
+      return new URL('index.html', window.location.href).href;
+    } catch (e) {
+      return `${window.location.origin}/index.html`;
+    }
+  }
+
+  /**
    * Initialize the application
    */
   initialize() {
@@ -325,9 +340,8 @@ class TravelGuideApp {
       this.renderHomepage();
       return;
     }
-    // day.html 等没有 #daysList；若仅靠 isDayViewPage 易误判，整页回首页
-    const home = new URL('index.html', window.location.href);
-    window.location.assign(home.href);
+    const home = this.getHomePageUrl();
+    window.location.assign(home);
   }
 
   /**

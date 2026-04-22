@@ -3,7 +3,7 @@
 
 // Cache configuration
 // Bump when shell CSS/JS changes so clients don't stay on stale cache (cache-first for static)
-const CACHE_VERSION = 'v15';
+const CACHE_VERSION = 'v16';
 const CACHE_NAMES = {
   STATIC: `travel-guide-static-${CACHE_VERSION}`,
   DATA: `travel-guide-data-${CACHE_VERSION}`,

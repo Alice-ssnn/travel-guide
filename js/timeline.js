@@ -182,10 +182,23 @@ const TimelineRenderer = {
       this.initPerformanceMonitor();
     }
 
+    const homePageUrl =
+      typeof window !== 'undefined' && window.app && typeof window.app.getHomePageUrl === 'function'
+        ? window.app.getHomePageUrl()
+        : typeof window !== 'undefined' && window.location
+          ? (() => {
+            try {
+              return new URL('index.html', window.location.href).href;
+            } catch (e) {
+              return 'index.html';
+            }
+          })()
+          : 'index.html';
+
     // Render the complete day detail view with segmented control
     container.innerHTML = `
       <div class="day-detail-content" style="--day-color: ${day.color};">
-        ${this.renderDayTopBar(day)}
+        ${this.renderDayTopBar(day, homePageUrl)}
         ${this.renderDayHeader(day)}
         ${this.renderSegmentedControl()}
         <div class="day-view-container">
@@ -224,15 +237,20 @@ const TimelineRenderer = {
   },
 
   /**
-   * Sticky top bar with back link (mobile-friendly)
+   * Sticky top bar with back link（&lt;a href&gt; 原生跳转，不依赖 click 冒泡与 window.app）
+   * @param {Object} day
+   * @param {string} homePageUrl
    */
-  renderDayTopBar(day) {
+  renderDayTopBar(day, homePageUrl) {
+    const hrefAttr = String(homePageUrl)
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;');
     return `
       <div class="day-top-bar" role="navigation" aria-label="页面导航">
-        <button type="button" class="day-back-btn" data-action="back-home" aria-label="返回首页">
+        <a class="day-back-btn" href="${hrefAttr}" data-home-link="1" aria-label="返回首页">
           <span class="day-back-icon" aria-hidden="true">←</span>
           <span>首页</span>
-        </button>
+        </a>
         <span class="day-top-bar-title">第${day.day}天 · ${day.city}</span>
         <span class="day-top-bar-spacer" aria-hidden="true"></span>
       </div>
@@ -906,17 +924,7 @@ const TimelineRenderer = {
     const clickHandler = (e) => {
       const clickStartTime = performance.now();
 
-      const backBtn = e.target.closest('.day-back-btn');
-      if (backBtn) {
-        e.preventDefault();
-        e.stopPropagation();
-        if (typeof window.app !== 'undefined' && window.app && typeof window.app.navigateToHome === 'function') {
-          window.app.navigateToHome();
-        } else {
-          window.location.assign(new URL('index.html', window.location.href).href);
-        }
-        return;
-      }
+      // 返回首页用顶栏 <a> 的 href 原生处理，这里不再拦事件
 
       // Check if clicked element is an activity action button or inside one
       const actionButton = e.target.closest('.activity-action');
