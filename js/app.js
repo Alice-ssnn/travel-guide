@@ -10,6 +10,20 @@ class TravelGuideApp {
     this.initialize();
   }
 
+  /**
+   * 首页卡片等受控数据中的 &lt; 等转义
+   * @param {string} s
+   * @returns {string}
+   */
+  _escapeCardText(s) {
+    if (s == null) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
   _setTargetDayHandoff(dayNumber) {
     try {
       sessionStorage.setItem(TRAVEL_GUIDE_TARGET_DAY_KEY, String(dayNumber));
@@ -334,6 +348,8 @@ class TravelGuideApp {
     // Get all days
     const days = TripData.getAllDays();
 
+    this._renderDayStrip(days);
+
     // Create day cards
     days.forEach(day => {
       const dayCard = this.createDayCard(day);
@@ -345,49 +361,91 @@ class TravelGuideApp {
   }
 
   /**
+   * 首页：横向 1…N 天序号，减少长列表下滑成本
+   * @param {Array<Object>} days
+   */
+  _renderDayStrip(days) {
+    const strip = document.getElementById('dayStrip');
+    if (!strip || !days || days.length === 0) return;
+
+    const current = TripData.getCurrentDay();
+    const todayNum = current && current.day;
+
+    strip.innerHTML = days
+      .map((d) => {
+        const isCurrent = d.day === todayNum;
+        return `<button type="button" class="day-strip-btn${isCurrent ? ' is-current' : ''}" data-day="${d.day}"${isCurrent ? ' aria-current="date"' : ''} title="第${d.day}天 ${this._escapeCardText(d.city)}"><span class="day-strip-num">${d.day}</span></button>`;
+      })
+      .join('');
+
+    strip.querySelectorAll('.day-strip-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const n = parseInt(btn.getAttribute('data-day'), 10);
+        if (!isNaN(n)) this.navigateToDay(n);
+      });
+    });
+  }
+
+  /**
    * Create a day card element
    */
   createDayCard(day) {
     const card = document.createElement('div');
     card.className = 'card day-card';
     card.dataset.day = day.day;
+    card.setAttribute('role', 'link');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', `第${day.day}天 ${day.city}，查看当天行程`);
 
     const isToday = day.day === TripData.getCurrentDay().day;
+    const summary = this._escapeCardText(day.summary);
+    const city = this._escapeCardText(day.city);
+    const date = this._escapeCardText(day.date);
+
+    const tagHtml = (day.tags && day.tags.length > 0)
+      ? day.tags.map(tag => {
+          let labelClass = 'label-neutral';
+          if (tag === '自驾') labelClass = 'label-secondary';
+          if (tag === '飞行') labelClass = 'label-primary';
+          if (tag === '酒店') labelClass = 'label-success';
+          return `<div class="label ${labelClass}">${this._escapeCardText(tag)}</div>`;
+        }).join('')
+      : '';
 
     card.innerHTML = `
       <div class="card-body">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <div>
-            <div style="font-size: 14px; color: var(--text-secondary);">第${day.day}天</div>
-            <div style="font-size: 17px; font-weight: 600;">${day.date}</div>
+        <div class="day-card-head">
+          <div class="day-card-meta">
+            <span class="day-card-kicker">第${day.day}天</span>
+            <time class="day-card-date" datetime="${date}">${date}</time>
           </div>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="width: 8px; height: 8px; background: ${day.color}; border-radius: 50%;"></div>
-            <span style="font-size: 15px;">${day.city}</span>
+          <div class="day-card-city">
+            <span class="day-card-dot" style="background: ${this._escapeCardText(day.color)};"></span>
+            <span class="day-card-city-text">${city}</span>
           </div>
         </div>
-
-        <div style="font-size: 15px; color: var(--text-primary); margin: 8px 0;">
-          ${day.summary}
-        </div>
-
-        <div style="display: flex; gap: 8px; margin-top: 12px;">
-          ${day.tags.map(tag => {
-            let labelClass = 'label-neutral';
-            if (tag === '自驾') labelClass = 'label-secondary';
-            if (tag === '飞行') labelClass = 'label-primary';
-            if (tag === '酒店') labelClass = 'label-success';
-            return `<div class="label ${labelClass}">${tag}</div>`;
-          }).join('')}
-        </div>
-
-        ${isToday ? '<div style="margin-top: 12px; padding: 4px 8px; background: var(--success); color: white; border-radius: 4px; font-size: 12px; display: inline-block;">今天</div>' : ''}
+        <p class="day-card-lead">${summary}</p>
+        ${tagHtml
+          ? `<details class="day-card-more" onclick="event.stopPropagation()">
+          <summary class="day-card-more-summary">标签与类型</summary>
+          <div class="day-card-tags">${tagHtml}</div>
+        </details>`
+          : ''}
+        <div class="day-card-cta" aria-hidden="true">查看当天行程<span class="day-card-cta-arrow" aria-hidden="true"> →</span></div>
+        ${isToday ? '<div class="day-card-today-pill" role="status">今天</div>' : ''}
       </div>
     `;
 
-    // Add click event
-    card.addEventListener('click', () => {
+    const go = () => {
       this.navigateToDay(day.day);
+    };
+    card.addEventListener('click', go);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        go();
+      }
     });
 
     return card;

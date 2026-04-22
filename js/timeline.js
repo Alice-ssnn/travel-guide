@@ -281,18 +281,57 @@ const TimelineRenderer = {
   },
 
   /**
-   * Render day overview section
+   * 概览区一行摘要，供首屏快速扫读
+   * @param {Object} day
+   * @returns {string}
    */
-  renderDayOverview(day) {
+  /**
+   * 是否存在「概览」模块应展示的块（与 importantNotes 分离）
+   * @param {Object} day
+   * @returns {boolean}
+   */
+  hasDayOverviewContent(day) {
+    const o = day.overview;
+    if (!o) return false;
+    if (o.scheduleHint || o.climate || o.accommodation || o.transport || o.hikingRoute) {
+      return true;
+    }
+    if (day.route && day.route.totalDistance && day.route.totalDistance !== '0公里') {
+      return true;
+    }
+    return false;
+  },
+
+  getOverviewPreviewLine(day) {
+    const o = day.overview;
+    if (!o) return '展开查看住宿、交通与路线等详情';
+    if (o.scheduleHint) {
+      const t = String(o.scheduleHint).trim();
+      return t.length > 100 ? `${t.slice(0, 100)}…` : t;
+    }
+    if (o.climate) {
+      return `${o.climate.temp} · ${o.climate.weather}`;
+    }
+    if (o.accommodation) {
+      return `酒店：${o.accommodation.name}`;
+    }
+    if (o.transport) {
+      return `${o.transport.type}：${o.transport.details}`;
+    }
+    return '展开查看住宿、交通与路线等详情';
+  },
+
+  /**
+   * 概览卡片内各区块（完整信息，置于可折叠区域）
+   * @param {Object} day
+   * @returns {string}
+   */
+  renderDayOverviewSections(day) {
     if (!day.overview) return '';
 
     const { accommodation, transport, climate, scheduleHint, hikingRoute } = day.overview;
 
     return `
-      <div class="day-overview card">
-        <div class="card-body">
-          <h2 class="section-title">当天概览</h2>
-
           ${scheduleHint ? `
             <div class="overview-section overview-aux">
               <div class="overview-icon">⏱️</div>
@@ -371,6 +410,35 @@ const TimelineRenderer = {
               </div>
             </div>
           ` : ''}
+    `;
+  },
+
+  /**
+   * Render day overview section
+   */
+  renderDayOverview(day) {
+    if (!day.overview || !this.hasDayOverviewContent(day)) return '';
+
+    const preview = this.getOverviewPreviewLine(day);
+    const sections = this.renderDayOverviewSections(day);
+    if (!sections.trim()) {
+      return '';
+    }
+
+    const wideOpen = typeof window !== 'undefined' && window.matchMedia
+      && window.matchMedia('(min-width: 769px)').matches;
+
+    return `
+      <div class="day-overview card">
+        <div class="card-body">
+          <h2 class="section-title">当天概览</h2>
+          <p class="day-overview-preview">${preview}</p>
+          <details class="day-overview-extras" ${wideOpen ? 'open' : ''}>
+            <summary class="day-overview-extras-summary">完整概览：住宿、交通、路线等</summary>
+            <div class="day-overview-extras-body">
+              ${sections}
+            </div>
+          </details>
         </div>
       </div>
     `;
@@ -599,18 +667,25 @@ const TimelineRenderer = {
       return '';
     }
 
+    const notes = day.overview.importantNotes;
+    const n = notes.length;
+    const wideOpen = typeof window !== 'undefined' && window.matchMedia
+      && window.matchMedia('(min-width: 769px)').matches;
+
     return `
-      <div class="day-notes card">
+      <div class="day-notes card day-notes--disclosure">
         <div class="card-body">
-          <h2 class="section-title">重要提醒</h2>
-          <div class="notes-list">
-            ${day.overview.importantNotes.map((note, index) => `
-              <div class="note-item">
-                <div class="note-icon">${index + 1}.</div>
-                <div class="note-text">${note}</div>
-              </div>
-            `).join('')}
-          </div>
+          <details class="day-notes-details" ${wideOpen ? 'open' : ''}>
+            <summary class="day-notes-summary">重要提醒（${n} 条）</summary>
+            <div class="notes-list">
+              ${notes.map((note, index) => `
+                <div class="note-item">
+                  <div class="note-icon">${index + 1}.</div>
+                  <div class="note-text">${note}</div>
+                </div>
+              `).join('')}
+            </div>
+          </details>
         </div>
       </div>
     `;

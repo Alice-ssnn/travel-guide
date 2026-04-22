@@ -289,9 +289,9 @@ div.app .trip-stats {
 
 div.app .days-list {
   padding: 10px 12px 16px;
-  -webkit-gap: 10px;
-  -moz-gap: 10px;
-  gap: 10px;
+  -webkit-gap: 12px;
+  -moz-gap: 12px;
+  gap: 12px;
 }
 
 div.app .header {
@@ -304,6 +304,283 @@ div.app .header h1 {
 
 div.app .day-card .card-body {
   padding: 12px 14px;
+}
+
+/* 首页：横向日序，减少纵向扫视成本 */
+.day-strip {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  padding: 0 12px 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  position: sticky;
+  top: calc(52px + env(safe-area-inset-top, 0px));
+  z-index: 8;
+  background: color-mix(in srgb, var(--background-secondary, #f7f7f7) 96%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border, #ececec);
+}
+
+.day-strip-btn {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0 12px;
+  border: 1px solid var(--border, #e0e0e0);
+  border-radius: 999px;
+  background: var(--background, #ffffff);
+  color: var(--text-primary, #1d1d1f);
+  font-size: var(--font-size-sm, 14px);
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.15s ease, transform 0.12s ease, border-color 0.15s ease;
+}
+
+.day-strip-btn:active {
+  transform: scale(0.96);
+  background: var(--background-secondary, #f7f7f7);
+}
+
+.day-strip-btn.is-current {
+  border-color: var(--primary, #ff385c);
+  color: var(--primary, #ff385c);
+  background: color-mix(in srgb, var(--primary, #ff385c) 10%, white);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary, #ff385c) 35%, transparent);
+}
+
+/* 首页行程卡：摘要 + 渐进展开 */
+.day-card {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.day-card:focus {
+  outline: 2px solid var(--primary, #ff385c);
+  outline-offset: 2px;
+}
+
+.day-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.day-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.day-card-kicker {
+  font-size: 13px;
+  color: var(--text-secondary, #6a6a6a);
+}
+
+.day-card-date {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text-primary, #1d1d1f);
+}
+
+.day-card-city {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: var(--text-primary, #1d1d1f);
+  flex-shrink: 0;
+}
+
+.day-card-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.day-card-lead {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--text-primary, #1d1d1f);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+@media (min-width: 769px) {
+  .day-card-lead {
+    -webkit-line-clamp: 3;
+  }
+}
+
+.day-card-more {
+  margin: 0 0 10px;
+  border: 1px solid var(--border, #ececec);
+  border-radius: var(--radius-sm, 8px);
+  background: var(--background-secondary, #f9f9f9);
+}
+
+.day-card-more-summary {
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary, #6a6a6a);
+  cursor: pointer;
+  list-style: none;
+}
+
+.day-card-more-summary::-webkit-details-marker {
+  display: none;
+}
+
+.day-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 12px 12px;
+}
+
+.day-card-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-top: 2px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--primary, #ff385c);
+}
+
+.day-card-today-pill {
+  margin-top: 8px;
+  display: inline-block;
+  padding: 4px 10px;
+  background: var(--success, #30d158);
+  color: white;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  div.app .day-card:hover {
+    box-shadow: var(--shadow-md, rgba(0, 0, 0, 0.06) 0px 4px 12px);
+    transform: translateY(-1px);
+  }
+}
+
+.day-card:active {
+  transform: scale(0.992);
+  box-shadow: var(--shadow-sm, rgba(0, 0, 0, 0.02) 0px 0px 0px 1px);
+}
+
+/* 顶栏主操作：触控热区 ≥48px */
+.header-actions .btn {
+  min-width: 48px;
+  min-height: 48px;
+  padding-left: 14px;
+  padding-right: 14px;
+}
+
+.header-actions .btn-search {
+  width: 48px;
+  height: 48px;
+}
+
+/* 日页概览：首行摘要 + 折叠详情 */
+.day-overview-preview {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text-primary, #1d1d1f);
+}
+
+.day-overview-extras {
+  border: 1px solid var(--border, #ececec);
+  border-radius: var(--radius-md, 12px);
+  background: var(--background-secondary, #f9f9f9);
+  overflow: hidden;
+}
+
+.day-overview-extras-summary {
+  min-height: 48px;
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary, #3c3c3c);
+  cursor: pointer;
+  list-style: none;
+}
+
+.day-overview-extras-summary::-webkit-details-marker {
+  display: none;
+}
+
+.day-overview-extras .day-overview-extras-body {
+  padding: 0 0 4px;
+}
+
+.day-overview-extras .day-overview-extras-body .overview-section:first-of-type {
+  border-top: 1px solid var(--border, #f0f0f0);
+}
+
+/* 重要提醒：折叠 */
+.day-notes-details {
+  border: 1px solid var(--border, #ececec);
+  border-radius: var(--radius-md, 12px);
+  background: var(--background-secondary, #f9f9f9);
+  overflow: hidden;
+}
+
+.day-notes-summary {
+  min-height: 48px;
+  padding: 12px 14px;
+  font-size: var(--font-size-md, 16px);
+  font-weight: 700;
+  color: var(--text-primary, #1d1d1f);
+  cursor: pointer;
+  list-style: none;
+}
+
+.day-notes-summary::-webkit-details-marker {
+  display: none;
+}
+
+.day-notes-details .notes-list {
+  padding: 0 14px 14px;
+}
+
+/* 日页顶栏返回：易点中 */
+.day-back-btn {
+  min-width: 48px;
+  min-height: 48px;
+  padding: 10px 12px;
+  border-radius: 12px;
+}
+
+.day-back-btn:active {
+  transform: scale(0.97);
+  background: color-mix(in srgb, var(--text-primary, #1d1d1f) 8%, transparent);
+}
+
+/* 分段器：主 Tab 易触 */
+@media (max-width: 768px) {
+  .segment-btn {
+    min-height: 48px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
 }
 
 /* Search overlay */
@@ -530,7 +807,9 @@ div.app .day-card .card-body {
 }
 
 .day-detail-content .day-back-btn {
-  padding: 4px 8px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 8px 10px;
   font-size: 13px;
   font-weight: 600;
 }
