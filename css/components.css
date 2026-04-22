@@ -638,6 +638,9 @@ div.app .day-card .card-body {
 .day-detail {
   flex: 1;
   overflow-y: auto;
+  /* 与离线条分层的 stacking：article 在 main 中位于 offline 之后，z 更高，避免同坐标误点 */
+  position: relative;
+  z-index: 10;
 }
 
 .loading {
@@ -672,13 +675,13 @@ div.app .day-card .card-body {
   border-bottom: 1px solid var(--border, #e8e8e8);
 }
 
-/* day.html：.offline-status 与 .day-top-bar 都 sticky 在 top:0 时，后者 z 更低，左上角「返回」会被 network 条挡住。顶栏下移到离线条之下。 */
+/*
+ * day.html：离线条在 main 内、.day-detail 外；滚动只发生在 article.day-detail 内。
+ * 若对 .day-top-bar 设 top:44px 等「为离线条让路」，会相对「文章视口」错位，sticky 会压住下方 .day-header 标题。
+ * 正确做法：顶栏在滚动区内用 top:0；用 z-index 保证不与离线条争点击（见 .offline-status）。
+ */
 .app--day {
-  --offline-strip-h: 44px; /* 与 .offline-status 行高约一致 */
-}
-
-.app--day .day-detail-content > .day-top-bar {
-  top: var(--offline-strip-h);
+  --offline-strip-h: 0px; /* 保留变量供将来用；勿用于 article 内 sticky 的 top */
 }
 
 .day-back-btn {
@@ -885,11 +888,6 @@ div.app .day-card .card-body {
   top: calc(var(--day-sticky-h) + env(safe-area-inset-top, 0px));
   padding: 4px var(--day-pad-x) 4px;
   border-bottom-color: #ececec;
-}
-
-/* 有离线条时顶栏整体下移，分段器 sticky top 需加上离线条高度 */
-.app--day .day-detail-content .segmented-control-container {
-  top: calc(var(--offline-strip-h) + var(--day-sticky-h) + env(safe-area-inset-top, 0px));
 }
 
 .day-detail-content .segmented-control {
@@ -2982,7 +2980,8 @@ div.app .day-card .card-body {
   justify-content: space-between;
   position: sticky;
   top: 0;
-  z-index: 90;
+  /* 低于 .day-detail(10)，避免叠层时抢走 article 内顶栏点击；行宽仍独占一行，不挡正文区 */
+  z-index: 5;
   transition: all 0.3s ease;
 }
 
