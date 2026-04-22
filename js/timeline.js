@@ -229,7 +229,7 @@ const TimelineRenderer = {
   renderDayTopBar(day) {
     return `
       <div class="day-top-bar" role="navigation" aria-label="页面导航">
-        <button type="button" class="day-back-btn" onclick="if(window.app) app.navigateToHome(); else window.location.href='index.html';" aria-label="返回首页">
+        <button type="button" class="day-back-btn" data-action="back-home" aria-label="返回首页">
           <span class="day-back-icon" aria-hidden="true">←</span>
           <span>首页</span>
         </button>
@@ -905,6 +905,18 @@ const TimelineRenderer = {
     // Create new event handler for click delegation
     const clickHandler = (e) => {
       const clickStartTime = performance.now();
+
+      const backBtn = e.target.closest('.day-back-btn');
+      if (backBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (typeof window.app !== 'undefined' && window.app && typeof window.app.navigateToHome === 'function') {
+          window.app.navigateToHome();
+        } else {
+          window.location.assign(new URL('index.html', window.location.href).href);
+        }
+        return;
+      }
 
       // Check if clicked element is an activity action button or inside one
       const actionButton = e.target.closest('.activity-action');

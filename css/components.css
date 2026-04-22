@@ -672,6 +672,15 @@ div.app .day-card .card-body {
   border-bottom: 1px solid var(--border, #e8e8e8);
 }
 
+/* day.html：.offline-status 与 .day-top-bar 都 sticky 在 top:0 时，后者 z 更低，左上角「返回」会被 network 条挡住。顶栏下移到离线条之下。 */
+.app--day {
+  --offline-strip-h: 44px; /* 与 .offline-status 行高约一致 */
+}
+
+.app--day .day-detail-content > .day-top-bar {
+  top: var(--offline-strip-h);
+}
+
 .day-back-btn {
   display: inline-flex;
   align-items: center;
@@ -876,6 +885,11 @@ div.app .day-card .card-body {
   top: calc(var(--day-sticky-h) + env(safe-area-inset-top, 0px));
   padding: 4px var(--day-pad-x) 4px;
   border-bottom-color: #ececec;
+}
+
+/* 有离线条时顶栏整体下移，分段器 sticky top 需加上离线条高度 */
+.app--day .day-detail-content .segmented-control-container {
+  top: calc(var(--offline-strip-h) + var(--day-sticky-h) + env(safe-area-inset-top, 0px));
 }
 
 .day-detail-content .segmented-control {
