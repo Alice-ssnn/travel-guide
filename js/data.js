@@ -2618,12 +2618,12 @@ const tripData = {
       title: "巴黎地标+奥赛博物馆",
       city: "巴黎",
       color: "#ff3b30",
-      locationContext: "巴黎 1/7/8 区：铁塔、凯旋门、香街、奥赛、左岸、可选特罗卡德罗夜景",
-      summary: "🗼 埃菲尔铁塔 | 🏛️ 凯旋门 | 🖼️ 奥赛博物馆 | 🌃 特罗卡德罗夜景（可选）",
-      tags: ["埃菲尔铁塔", "凯旋门", "奥赛博物馆", "香榭丽舍大街", "夜景", "地铁", "巴黎地标"],
+      locationContext: "巴黎 1/4/5/6/7/8 区：铁塔、凯旋门、香街、奥赛、西岱/圣母院（外观）、莎士比亚书店、左岸、圣日耳曼、可选特罗卡德罗",
+      summary: "🗼 埃菲尔 | 🏛️ 凯旋门 | 🖼️ 奥赛 | ⛪ 圣母院（外观） | 📚 莎士比亚书店 | 🌃 特罗卡德罗（可选）",
+      tags: ["埃菲尔铁塔", "凯旋门", "奥赛博物馆", "巴黎圣母院", "莎士比亚书店", "西岱岛", "香榭丽舍大街", "夜景", "地铁", "巴黎"],
       overview: {
-        scheduleHint: "为衔接 奥赛 15:00 入场，13:40–13:45 从 Étoile 进站，14:20 前到 Solférino。",
-        hikingRoute: "酒店（地铁）→ Bir-Hakeim → 埃菲尔铁塔 → Pont d'Iéna 过桥到 Trocadéro → 地铁到 Charles de Gaulle-Étoile → 沿香街步行到 Concorde → 穿杜乐丽边缘到 Pont Royal → Musée d'Orsay（15:00）→ 出馆步行 Saint-Germain → Saint-Michel 地铁回 Pyramides。步行约 11–14 km（香街段可打车/地铁缩短）。",
+        scheduleHint: "为衔接 奥赛 15:00 入场，13:40–13:45 从 Étoile 进站，14:20 前到 Solférino。出馆后西岱+书店+晚餐+夜景按攻略时段顺接。",
+        hikingRoute: "酒店（地铁）→ Bir-Hakeim → 铁塔 → Pont d'Iéna → Trocadéro；地铁至 Étoile → 香街至 Concorde → 经杜乐丽边至 Pont Royal → Musée d'Orsay（15:00）→ 出馆步行 Notre-Dame 外观（西岱）→ Shakespeare and Company → Saint-Germain 晚餐 →（可选）Trocadéro 夜景 → 地铁回 Pyramides。步行约 12–15 km（香街段可缩短）。",
         accommodation: {
           name: "Studio opéra paris",
           address: "22 Avenue de l'Opéra, 75001 Paris",
@@ -2635,7 +2635,7 @@ const tripData = {
         },
         transport: {
           type: "地铁",
-          details: "M8/M6、M1/M12 等，衔接奥赛与左岸；90 分钟内换乘以当年 IDFM 规则为准；Navigo/单次",
+          details: "地铁高频；M8/M6、M1/M12 衔接奥赛与左岸；90 分钟内换乘以当年 IDFM 为准；Navigo/单次/Navigo Easy/感应卡",
           cost: "见 Navigo/单次"
         },
         climate: {
@@ -2646,7 +2646,8 @@ const tripData = {
         importantNotes: [
           "埃菲尔铁塔登顶需提前预订电梯顶层票（€29）",
           "凯旋门登顶 284 级台阶+电梯，香街全景（€13）",
-          "奥赛博物馆已购 15:00 门票（已改签），建议提前 40 分钟到馆外排队+安检"
+          "奥赛博物馆已购 15:00 门票（已改签），建议提前 40 分钟到馆外排队+安检",
+          "圣母院为外观参观（西岱岛黄昏）；莎士比亚书店热门时段常排队，到门口再机动"
         ]
       },
       timeline: [
@@ -2674,8 +2675,8 @@ const tripData = {
           time: "09:00",
           duration: 30,
           icon: "🚇",
-          title: "酒店→埃菲尔铁塔",
-          description: "地铁8→6，Opéra→Bir-Hakeim",
+          title: "酒店（Opéra/Pyramides）→埃菲尔铁塔",
+          description: "M8→M6：Opéra→Invalides→Bir-Hakeim（见攻略方案 A）",
           transit: [
             { line: "M8（往Balard方向）", boarding: "Opéra", alighting: "Invalides", stops: "2站（Madeleine、Concorde）" },
             { line: "M6（往Nation方向）", boarding: "Invalides", alighting: "Bir-Hakeim", stops: "2站（Alma-Marceau、Passy）" }
@@ -2710,7 +2711,7 @@ const tripData = {
           duration: 90,
           icon: "🗼",
           title: "埃菲尔铁塔登顶",
-          description: "电梯登顶，需提前预订顶层票",
+          description: "电梯，⚠️ 需提前预订顶层票",
           location: {
             name: "埃菲尔铁塔",
             address: "Champ de Mars, 5 Avenue Anatole France, 75007 Paris",
@@ -2801,8 +2802,8 @@ const tripData = {
           time: "13:40",
           duration: 40,
           icon: "🚇",
-          title: "香街→奥赛博物馆",
-          description: "地铁1→12或打车，预留安检时间",
+          title: "香街/凯旋门→奥赛博物馆",
+          description: "M1→M12：Étoile→Concorde→Solférino；为 15:00 入馆留足安检与步行",
           transit: [
             { line: "M1（往Château de Vincennes方向）", boarding: "Charles de Gaulle – Étoile", alighting: "Concorde", stops: "3站（George V、Franklin D. Roosevelt、Champs-Élysées – Clemenceau）" },
             { line: "M12（往Mairie d'Issy方向）", boarding: "Concorde", alighting: "Solférino", stops: "1站（Assemblée nationale）" }
@@ -2837,7 +2838,7 @@ const tripData = {
           duration: 40,
           icon: "⏳",
           title: "奥赛馆外排队+安检",
-          description: "已购15:00门票，建议提前40分钟到达",
+          description: "已购 15:00 门票（已改签），建议提前 40 分钟到馆外",
           location: {
             name: "奥赛博物馆入口",
             address: "1 Rue de la Légion d'Honneur, 75007 Paris",
@@ -2871,18 +2872,18 @@ const tripData = {
           ]
         },
         {
-          id: "day9-seine-walk",
+          id: "day9-notre-dame",
           time: "17:30",
-          duration: 60,
-          icon: "🚶",
-          title: "塞纳河左岸散步",
-          description: "奥赛→皇家桥→杜乐丽，黄金时段拍照",
+          duration: 40,
+          icon: "⛪",
+          title: "巴黎圣母院（西岱，外观）",
+          description: "出奥赛后经左岸/桥步行至西岱岛，黄昏拍立面与河岸（不入内为主）",
           location: {
-            name: "塞纳河左岸",
-            address: "Rive Gauche, Seine, Paris",
-            coordinates: { lat: 48.8600, lng: 2.3266 }
+            name: "Cathédrale Notre-Dame de Paris",
+            address: "6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris",
+            coordinates: { lat: 48.852968, lng: 2.349902 }
           },
-          category: "摄影",
+          category: "景点",
           cost: "免费",
           actions: [
             { type: "details", label: "详情" },
@@ -2890,9 +2891,28 @@ const tripData = {
           ]
         },
         {
+          id: "day9-shakespeare",
+          time: "18:10",
+          duration: 50,
+          icon: "📚",
+          title: "Shakespeare and Company",
+          description: "左岸文艺书店；热门时段常排队，店内勿大声，顺路可逛周边小巷",
+          location: {
+            name: "Shakespeare and Company",
+            address: "37 Rue de la Bûcherie, 75005 Paris",
+            coordinates: { lat: 48.8526, lng: 2.3471 }
+          },
+          category: "文化",
+          cost: "免费/自购书",
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
           id: "day9-dinner-saint-germain",
-          time: "18:30",
-          duration: 90,
+          time: "19:00",
+          duration: 75,
           icon: "🍽️",
           title: "圣日耳曼晚餐",
           description: "左岸经典法餐，咖啡文化浓厚",
@@ -2910,14 +2930,14 @@ const tripData = {
         },
         {
           id: "day9-trocadero-night",
-          time: "20:00",
+          time: "20:15",
           duration: 90,
           icon: "🌃",
-          title: "圣日耳曼→特罗卡德罗（夜景，可选）",
-          description: "左岸至特罗卡德罗，轨交、无长距离步行；观铁塔夜景与水面倒影",
+          title: "圣日耳曼/左岸→特罗卡德罗（夜景，可选）",
+          description: "轨交、无长距离步行；观铁塔夜景与水面倒影",
           transit: [
             { line: "M4（往Mairie de Montrouge方向）", boarding: "Saint-Germain-des-Prés", alighting: "Montparnasse – Bienvenüe", stops: "约4站（Saint-Sulpice、Saint-Placide、Vavin等，以当日为准）" },
-            { line: "M6（往Charles de Gaulle – Étoile方向）", boarding: "Montparnasse – Bienvenüe", alighting: "Trocadéro", stops: "约6–7次（Pasteur、Cambronne、La Motte-Picquet – Grenelle 等，以当日为准）" }
+            { line: "M6（往Charles de Gaulle – Étoile方向）", boarding: "Montparnasse – Bienvenüe", alighting: "Trocadéro", stops: "约6–7次（Pasteur、Cambronne、La Motte-Picquet – Grenelle、Dupleix、Bir-Hakeim、Passy 等，以当日为准）" }
           ],
           location: {
             name: "特罗卡德罗广场",
@@ -2933,7 +2953,7 @@ const tripData = {
         },
         {
           id: "day9-return-hotel",
-          time: "21:30",
+          time: "21:45",
           duration: 30,
           icon: "🚇",
           title: "特罗卡德罗→酒店（Pyramides）",
@@ -2969,7 +2989,7 @@ const tripData = {
         }
       ],
       route: {
-        totalDistance: "11–14公里",
+        totalDistance: "12–15公里",
         totalTime: "全天游览",
         steps: [
           {
@@ -3001,19 +3021,19 @@ const tripData = {
           },
           {
             from: "奥赛博物馆",
-            to: "圣日耳曼区",
+            to: "西岱/圣母院+莎士比亚",
             transport: "步行",
-            distance: "1km",
-            time: "15m",
-            route: "左岸散步",
+            distance: "约2–3km",
+            time: "50–60m",
+            route: "左岸/桥至西岱与拉丁区",
             details: "免费"
           },
           {
-            from: "圣日耳曼区",
+            from: "圣日耳曼/左岸",
             to: "特罗卡德罗",
             transport: "M4→M6",
             distance: "3km",
-            time: "20m",
+            time: "25m",
             route: "夜景（可选）",
             details: "约€2.50"
           }
