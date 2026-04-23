@@ -2611,19 +2611,19 @@ const tripData = {
         ]
       }
     },
-    // 第9天 - 5月2日（周五）巴黎地标+奥赛博物馆
+    // 第9天 - 5月2日（周五）巴黎地标+奥赛（同步 巴黎12日攻略-最新版.md 第9天；卢浮宫日见第10天）
     {
       day: 9,
       date: "2026-05-02",
       title: "巴黎地标+奥赛博物馆",
       city: "巴黎",
       color: "#ff3b30",
-      locationContext: "巴黎 1/7/8 区：埃菲尔、凯旋门、香街、奥赛、左岸，可选特罗卡德罗夜景",
+      locationContext: "巴黎 1/7/8 区：铁塔、凯旋门、香街、奥赛、左岸、可选特罗卡德罗夜景",
       summary: "🗼 埃菲尔铁塔 | 🏛️ 凯旋门 | 🖼️ 奥赛博物馆 | 🌃 特罗卡德罗夜景（可选）",
       tags: ["埃菲尔铁塔", "凯旋门", "奥赛博物馆", "香榭丽舍大街", "夜景", "地铁", "巴黎地标"],
       overview: {
-        scheduleHint: "奥赛 15:00 入场；为从容衔接，13:40–13:45 自 Étoile 侧进站，14:20 前到 Solférino。",
-        hikingRoute: "酒店（地铁）→ Bir-Hakeim → 铁塔 → Pont d'Iéna → Trocadéro；香街/协和方向步行后，奥赛 15:00 参观；出馆可左岸步行，晚间可选 M4+M6 至 Trocadéro 夜景再回 Pyramides。总步行约 11–14 km。",
+        scheduleHint: "为衔接 奥赛 15:00 入场，13:40–13:45 从 Étoile 进站，14:20 前到 Solférino。",
+        hikingRoute: "酒店（地铁）→ Bir-Hakeim → 埃菲尔铁塔 → Pont d'Iéna 过桥到 Trocadéro → 地铁到 Charles de Gaulle-Étoile → 沿香街步行到 Concorde → 穿杜乐丽边缘到 Pont Royal → Musée d'Orsay（15:00）→ 出馆步行 Saint-Germain → Saint-Michel 地铁回 Pyramides。步行约 11–14 km（香街段可打车/地铁缩短）。",
         accommodation: {
           name: "Studio opéra paris",
           address: "22 Avenue de l'Opéra, 75001 Paris",
@@ -2635,19 +2635,18 @@ const tripData = {
         },
         transport: {
           type: "地铁",
-          details: "M8/M6、M1/M12 等，衔接奥赛与左岸；Navigo/单次以当年票规为准",
+          details: "M8/M6、M1/M12 等，衔接奥赛与左岸；90 分钟内换乘以当年 IDFM 规则为准；Navigo/单次",
           cost: "见 Navigo/单次"
         },
         climate: {
-          temp: "日间约16-20°C，夜间约9-13°C",
-          weather: "5月降水日偏多，多为短时阵雨",
-          clothing: "风衣或防水外套；防水舒适鞋；薄围巾早晚可用"
+          temp: "日间约16–20°C，夜间约9–13°C",
+          weather: "5 月巴黎阵雨多为短时；塞纳河与铁塔周边风大",
+          clothing: "分层穿衣；舒适鞋与防风外套；博物馆内可存外套"
         },
         importantNotes: [
-          "埃菲尔铁塔登顶需提前预订顶层票（€29）",
-          "凯旋门登顶284级台阶，有电梯可选",
-          "奥赛博物馆已改签15:00门票，建议提前40分钟到达",
-          "特罗卡德罗整点亮灯5分钟，金色闪烁"
+          "埃菲尔铁塔登顶需提前预订电梯顶层票（€29）",
+          "凯旋门登顶 284 级台阶+电梯，香街全景（€13）",
+          "奥赛博物馆已购 15:00 门票（已改签），建议提前 40 分钟到馆外排队+安检"
         ]
       },
       timeline: [
@@ -2692,7 +2691,7 @@ const tripData = {
             coordinates: { lat: 48.8550, lng: 2.2930 }
           },
           category: "交通",
-          cost: "€2.15",
+          cost: "约€2.50（周卡或单次）",
           route: {
             distance: "3公里",
             time: "30分钟",
@@ -2746,7 +2745,7 @@ const tripData = {
             coordinates: { lat: 48.8738, lng: 2.2950 }
           },
           category: "交通",
-          cost: "€2.15",
+          cost: "约€2.50（周卡或单次；90 分钟内换乘以当年规则为准）",
           route: {
             distance: "4公里",
             time: "30分钟",
@@ -2819,7 +2818,7 @@ const tripData = {
             coordinates: { lat: 48.8600, lng: 2.3266 }
           },
           category: "交通",
-          cost: "€2.15",
+          cost: "约€2.50（周卡或单次）",
           route: {
             distance: "3公里",
             time: "40分钟",
@@ -2914,11 +2913,11 @@ const tripData = {
           time: "20:00",
           duration: 90,
           icon: "🌃",
-          title: "特罗卡德罗夜景二刷（可选）",
-          description: "整点亮灯5分钟，铁塔夜景最佳观景点",
+          title: "圣日耳曼→特罗卡德罗（夜景，可选）",
+          description: "左岸至特罗卡德罗，轨交、无长距离步行；观铁塔夜景与水面倒影",
           transit: [
-            { line: "M4（往Mairie de Montrouge方向）", boarding: "Saint-Germain-des-Prés", alighting: "Montparnasse – Bienvenüe", stops: "约4站（Saint-Sulpice、Saint-Placide、Vavin等）" },
-            { line: "M6（往Charles de Gaulle – Étoile方向）", boarding: "Montparnasse – Bienvenüe", alighting: "Trocadéro", stops: "约6-7站（Pasteur、Cambronne、La Motte-Picquet – Grenelle等）" }
+            { line: "M4（往Mairie de Montrouge方向）", boarding: "Saint-Germain-des-Prés", alighting: "Montparnasse – Bienvenüe", stops: "约4站（Saint-Sulpice、Saint-Placide、Vavin等，以当日为准）" },
+            { line: "M6（往Charles de Gaulle – Étoile方向）", boarding: "Montparnasse – Bienvenüe", alighting: "Trocadéro", stops: "约6–7次（Pasteur、Cambronne、La Motte-Picquet – Grenelle 等，以当日为准）" }
           ],
           location: {
             name: "特罗卡德罗广场",
@@ -2937,12 +2936,12 @@ const tripData = {
           time: "21:30",
           duration: 30,
           icon: "🚇",
-          title: "返回酒店",
-          description: "地铁9→8或打车",
+          title: "特罗卡德罗→酒店（Pyramides）",
+          description: "M6 → M1 → M7 至 Pyramides；站名以攻略为准",
           transit: [
             { line: "M6（往Charles de Gaulle – Étoile方向）", boarding: "Trocadéro", alighting: "Charles de Gaulle – Étoile", stops: "1站（Kléber）" },
             { line: "M1（往La Défense方向）", boarding: "Charles de Gaulle – Étoile", alighting: "Palais Royal – Musée du Louvre", stops: "约5站（George V、Franklin D. Roosevelt、Champs-Élysées – Clemenceau、Concorde、Tuileries）" },
-            { line: "M7（往La Courneuve方向）", boarding: "Palais Royal – Musée du Louvre", alighting: "Pyramides", stops: "直达（0站）" }
+            { line: "M7（往La Courneuve – 8 Mai 1945方向）", boarding: "Palais Royal – Musée du Louvre", alighting: "Pyramides", stops: "0 次（两站相邻）" }
           ],
           location: {
             name: "Trocadéro地铁站",
@@ -2950,17 +2949,17 @@ const tripData = {
             coordinates: { lat: 48.8620, lng: 2.2877 }
           },
           destination: {
-            name: "Opéra地铁站",
-            address: "Opéra, Paris",
-            coordinates: { lat: 48.8719, lng: 2.3319 }
+            name: "Pyramides",
+            address: "Pyramides, Paris",
+            coordinates: { lat: 48.8667, lng: 2.3333 }
           },
           category: "交通",
-          cost: "€2.15",
+          cost: "约€2.50（周卡或单次）",
           route: {
             distance: "4公里",
             time: "30分钟",
-            steps: ["地铁9号线", "换乘", "地铁8号线"],
-            notes: "返回酒店"
+            steps: ["M6", "M1", "M7 至 Pyramides"],
+            notes: "返回酒店区"
           },
           actions: [
             { type: "details", label: "详情" },
@@ -2970,35 +2969,35 @@ const tripData = {
         }
       ],
       route: {
-        totalDistance: "22公里",
+        totalDistance: "11–14公里",
         totalTime: "全天游览",
         steps: [
           {
             from: "歌剧院区",
             to: "埃菲尔铁塔",
-            transport: "地铁8→6",
+            transport: "M8→M6",
             distance: "3km",
             time: "30m",
             route: "Opéra→Bir-Hakeim",
-            details: "€2.15"
+            details: "约€2.50"
           },
           {
             from: "埃菲尔铁塔",
             to: "凯旋门",
-            transport: "地铁6号线",
+            transport: "M6",
             distance: "4km",
             time: "30m",
-            route: "Bir-Hakeim→Charles de Gaulle-Étoile",
-            details: "€2.15"
+            route: "Bir-Hakeim→Étoile",
+            details: "约€2.50"
           },
           {
             from: "凯旋门",
             to: "奥赛博物馆",
-            transport: "地铁1→12",
+            transport: "M1→M12",
             distance: "6km",
             time: "40m",
-            route: "香街→奥赛",
-            details: "€2.15"
+            route: "香街/Étoile→Solférino",
+            details: "约€2.50"
           },
           {
             from: "奥赛博物馆",
@@ -3012,28 +3011,28 @@ const tripData = {
           {
             from: "圣日耳曼区",
             to: "特罗卡德罗",
-            transport: "地铁/打车",
+            transport: "M4→M6",
             distance: "3km",
             time: "20m",
-            route: "夜景可选",
-            details: "€2.15"
+            route: "夜景（可选）",
+            details: "约€2.50"
           }
         ]
       }
     },
-    // 第10天 - 5月3日（周六）卢浮宫+巴黎文化漫游
+    // 第10天 - 5月3日（周六）卢浮宫+巴黎文化漫游（同步 巴黎12日攻略-最新版.md）
     {
       day: 10,
       date: "2026-05-03",
       title: "卢浮宫+巴黎文化漫游",
       city: "巴黎",
       color: "#ff9500",
-      locationContext: "巴黎 1/4/5/6 区：卢浮宫、西岱岛、拉丁区、卢森堡公园",
-      summary: "🏛️ 卢浮宫 | 🌳 杜乐丽花园 | 📚 莎士比亚书店 | 🏞️ 卢森堡公园",
-      tags: ["卢浮宫", "博物馆", "文化艺术", "杜乐丽花园", "莎士比亚书店", "卢森堡公园", "巴黎"],
+      locationContext: "巴黎 1/4/5/6 区（卢浮宫、杜乐丽、西岱岛、拉丁区、卢森堡公园）",
+      summary: "🏛️ 卢浮宫 | 🌳 杜乐丽+协和 | 🌉 左岸漫步 | 🦴 地下墓穴",
+      tags: ["卢浮宫", "杜乐丽", "左岸", "地下墓穴", "博物馆", "巴黎"],
       overview: {
-        scheduleHint: "卢浮宫 09:00 开门，建议 08:45 前到金字塔入口排队。晚间 21:00–21:15 自 Saint-Michel 乘地铁返 Pyramides 即可。",
-        hikingRoute: "酒店 → 卢浮宫 → 杜乐丽/协和 → Pont des Arts 至左岸 → 圣日耳曼 → 卢森堡 → 先贤祠外观 → 圣母院外观 → 莎士比亚书店 → Saint-Michel 地铁。约 10–12 km。",
+        scheduleHint: "卢浮宫 09:00 开门，建议 08:45 前到金字塔入口排队；地下墓穴已预约 16:30 入场；晚间 20:00–20:30 自 Denfert-Rochereau 乘地铁回 Pyramides。",
+        hikingRoute: "酒店 → Louvre → Tuileries → Pont des Arts 至左岸 → Saint-Germain → Luxembourg → Denfert-Rochereau（巴黎地下墓穴）→ 地铁回 Pyramides。约 9–11 km。",
         accommodation: {
           name: "Studio opéra paris",
           address: "22 Avenue de l'Opéra, 75001 Paris",
@@ -3045,7 +3044,7 @@ const tripData = {
         },
         transport: {
           type: "步行+地铁",
-          details: "以步行为主，返程 M4/M14 等",
+          details: "Latin → Denfert M4；返程 M4 + M14；Navigo/单次以当日为准",
           cost: "见票种"
         },
         climate: {
@@ -3054,11 +3053,10 @@ const tripData = {
           clothing: "防水舒适鞋；折叠伞；薄长袖"
         },
         importantNotes: [
-          "卢浮宫需提前购票",
+          "卢浮宫需提前购票；地下墓穴 16:30 已预约，参观约 45–75 分钟（含安检/排队可至约 1.5 小时）",
           "必看三宝：蒙娜丽莎（德农翼1层）、断臂维纳斯（叙利翼底层）、胜利女神（德农翼1层）",
-          "中文语音导览€5，强烈推荐",
-          "参观路线：德农翼→叙利翼→黎塞留翼",
-          "蒙娜丽莎前人多，建议早上或下午晚些时候"
+          "中文语音导览€5，强烈推荐；参观路线：德农翼→叙利翼→黎塞留翼",
+          "蒙娜丽莎前人多，建议早上到或下午稍晚；Café Marly 为宫内金字塔景观餐"
         ]
       },
       timeline: [
@@ -3087,7 +3085,7 @@ const tripData = {
           duration: 10,
           icon: "🚶",
           title: "酒店→卢浮宫",
-          description: "步行8分钟，住宿地点优势",
+          description: "步行约8分钟，住宿地点优势",
           location: {
             name: "Studio opéra paris",
             address: "22 Avenue de l'Opéra, 75001 Paris",
@@ -3101,7 +3099,7 @@ const tripData = {
           category: "交通",
           cost: "免费",
           route: {
-            distance: "0.6公里",
+            distance: "约0.6公里",
             time: "8分钟",
             steps: ["步行"],
             notes: "前往卢浮宫"
@@ -3118,7 +3116,7 @@ const tripData = {
           duration: 20,
           icon: "⏳",
           title: "卢浮宫排队入场",
-          description: "09:00开门，建议提早到达",
+          description: "09:00 开门，建议提早到达",
           location: {
             name: "卢浮宫金字塔入口",
             address: "Pyramid du Louvre, 75001 Paris",
@@ -3137,7 +3135,7 @@ const tripData = {
           duration: 210,
           icon: "🏛️",
           title: "卢浮宫深度游览",
-          description: "蒙娜丽莎+维纳斯+胜利女神，中文语音导览推荐",
+          description: "蒙娜丽莎+维纳斯+胜利女神，€17；中文语音导览€5 强烈推荐",
           location: {
             name: "卢浮宫博物馆",
             address: "Rue de Rivoli, 75001 Paris",
@@ -3178,7 +3176,7 @@ const tripData = {
           title: "杜乐丽花园+协和广场",
           description: "法式园林、方尖碑、塞纳河畔漫步",
           location: {
-            name: "杜乐丽花园",
+            name: "杜乐丽花园 / 协和广场",
             address: "Place de la Concorde, 75001 Paris",
             coordinates: { lat: 48.8636, lng: 2.3272 }
           },
@@ -3194,10 +3192,10 @@ const tripData = {
           time: "14:30",
           duration: 60,
           icon: "🚶",
-          title: "西岱岛方向散步",
+          title: "左岸散步",
           description: "新桥、河岸建筑、经典巴黎街景",
           location: {
-            name: "新桥",
+            name: "新桥一带",
             address: "Pont Neuf, 75001 Paris",
             coordinates: { lat: 48.8566, lng: 2.3414 }
           },
@@ -3209,40 +3207,16 @@ const tripData = {
           ]
         },
         {
-          id: "day10-shakespeare-notre-dame",
-          time: "15:30",
-          duration: 60,
-          icon: "📚",
-          title: "莎士比亚书店+圣母院外观",
-          description: "文艺朝圣地，哥特建筑",
-          location: {
-            name: "莎士比亚书店",
-            address: "37 Rue de la Bûcherie, 75005 Paris",
-            coordinates: { lat: 48.8525, lng: 2.3469 }
-          },
-          destination: {
-            name: "巴黎圣母院",
-            address: "6 Parvis Notre-Dame - Pl. Jean-Paul II, 75004 Paris",
-            coordinates: { lat: 48.8530, lng: 2.3500 }
-          },
-          category: "文化",
-          cost: "免费",
-          actions: [
-            { type: "details", label: "详情" },
-            { type: "map", label: "地图" }
-          ]
-        },
-        {
-          id: "day10-latin-coffee",
-          time: "16:30",
-          duration: 60,
+          id: "day10-luxembourg-coffee",
+          time: "15:10",
+          duration: 40,
           icon: "☕",
-          title: "拉丁区咖啡时光",
-          description: "休息补能，感受学生区氛围",
+          title: "卢森堡公园/拉丁区咖啡",
+          description: "机动休息，为地下墓穴前留时间",
           location: {
-            name: "拉丁区",
-            address: "Latin Quarter, 75005 Paris",
-            coordinates: { lat: 48.8489, lng: 2.3469 }
+            name: "卢森堡公园 / 拉丁区",
+            address: "75005–75006 Paris",
+            coordinates: { lat: 48.8462, lng: 2.3372 }
           },
           category: "休闲",
           cost: "€5-10",
@@ -3252,35 +3226,64 @@ const tripData = {
           ]
         },
         {
-          id: "day10-luxembourg",
-          time: "17:30",
-          duration: 90,
-          icon: "🏞️",
-          title: "卢森堡公园散步",
-          description: "节奏放缓，适合旅行中后段",
+          id: "day10-metro-denfert",
+          time: "15:50",
+          duration: 30,
+          icon: "🚇",
+          title: "拉丁区→Denfert-Rochereau",
+          description: "M4 往 Bagneux 方向，约4站，地下墓穴前到场",
+          transit: [
+            {
+              line: "M4",
+              boarding: "Saint-Michel – Notre-Dame",
+              alighting: "Denfert-Rochereau",
+              stops: "约4次",
+              payment: "Navigo/单次 约€2.50"
+            }
+          ],
           location: {
-            name: "卢森堡公园",
-            address: "75006 Paris",
-            coordinates: { lat: 48.8462, lng: 2.3372 }
+            name: "Saint-Michel – Notre-Dame",
+            address: "Paris",
+            coordinates: { lat: 48.8489, lng: 2.3469 }
           },
-          category: "公园",
-          cost: "免费",
+          category: "交通",
+          cost: "见票种",
           actions: [
             { type: "details", label: "详情" },
             { type: "map", label: "地图" }
           ]
         },
         {
-          id: "day10-dinner-latin",
-          time: "19:00",
-          duration: 120,
-          icon: "🍽️",
-          title: "拉丁区晚餐",
-          description: "传统法餐，鹅肝+红酒",
+          id: "day10-catacombes",
+          time: "16:30",
+          duration: 80,
+          icon: "🦴",
+          title: "巴黎地下墓穴 Catacombes",
+          description: "已预约 16:30；参观约 45–75 分钟，含安检/排队可至 1.5 小时",
           location: {
-            name: "拉丁区餐厅",
-            address: "Latin Quarter, 75005 Paris",
-            coordinates: { lat: 48.8489, lng: 2.3469 }
+            name: "Catacombes de Paris",
+            address: "1 Av. du Colonel Henri Rol-Tanguy, 75014 Paris",
+            coordinates: { lat: 48.8339, lng: 2.3324 }
+          },
+          category: "景点",
+          cost: "已预约/见官网",
+          important: true,
+          actions: [
+            { type: "details", label: "详情" },
+            { type: "map", label: "地图" }
+          ]
+        },
+        {
+          id: "day10-dinner-montparnasse",
+          time: "18:00",
+          duration: 110,
+          icon: "🍽️",
+          title: "Denfert/蒙帕纳斯一带晚餐",
+          description: "传统法餐，约 €45-65",
+          location: {
+            name: "Denfert-Rochereau 周边",
+            address: "75014 Paris",
+            coordinates: { lat: 48.8335, lng: 2.3325 }
           },
           category: "餐饮",
           cost: "€45-65",
@@ -3291,33 +3294,37 @@ const tripData = {
         },
         {
           id: "day10-return-hotel",
-          time: "21:00",
+          time: "19:50",
           duration: 30,
           icon: "🚇",
-          title: "返回酒店",
-          description: "地铁4→14/7→步行，或打车",
+          title: "返回酒店（地铁）",
+          description: "M4 至 Châtelet 换乘 M14 至 Pyramides",
           transit: [
-            { line: "M4（往Porte de Clignancourt方向）", boarding: "Saint-Michel – Notre-Dame", alighting: "Châtelet", stops: "1站（Les Halles）" },
-            { line: "M14（往Saint-Denis Pleyel方向）", boarding: "Châtelet", alighting: "Pyramides", stops: "直达（0站）" }
+            {
+              line: "M4（往 Porte de Clignancourt）",
+              boarding: "Denfert-Rochereau",
+              alighting: "Châtelet",
+              stops: "约4次"
+            },
+            {
+              line: "M14（往 Saint-Denis Pleyel）",
+              boarding: "Châtelet",
+              alighting: "Pyramides",
+              stops: "0 次"
+            }
           ],
           location: {
-            name: "Latin Quarter地铁站",
-            address: "Latin Quarter, 75005 Paris",
-            coordinates: { lat: 48.8489, lng: 2.3430 }
+            name: "Denfert-Rochereau",
+            address: "75014 Paris",
+            coordinates: { lat: 48.8335, lng: 2.3325 }
           },
           destination: {
-            name: "Opéra地铁站",
-            address: "Opéra, Paris",
-            coordinates: { lat: 48.8719, lng: 2.3319 }
+            name: "Pyramides",
+            address: "75001 Paris",
+            coordinates: { lat: 48.8656, lng: 2.3344 }
           },
           category: "交通",
-          cost: "€2.15",
-          route: {
-            distance: "2公里",
-            time: "30分钟",
-            steps: ["地铁4号线", "换乘", "地铁14号线/7号线"],
-            notes: "返回酒店"
-          },
+          cost: "Navigo/单次 约€2.50",
           actions: [
             { type: "details", label: "详情" },
             { type: "map", label: "查看路线" },
@@ -3326,8 +3333,8 @@ const tripData = {
         }
       ],
       route: {
-        totalDistance: "10公里",
-        totalTime: "全天游览",
+        totalDistance: "9–11公里",
+        totalTime: "步行+地铁路线",
         steps: [
           {
             from: "歌剧院区",
@@ -3335,53 +3342,53 @@ const tripData = {
             transport: "步行",
             distance: "0.6km",
             time: "8m",
-            route: "步行路线",
+            route: "步行",
             details: "免费"
           },
           {
             from: "卢浮宫",
-            to: "杜乐丽花园",
+            to: "杜乐丽/协和",
             transport: "步行",
-            distance: "1km",
+            distance: "约1km",
             time: "15m",
-            route: "塞纳河畔",
+            route: "杜乐丽花园",
             details: "免费"
           },
           {
-            from: "杜乐丽花园",
-            to: "西岱岛",
+            from: "协和/杜乐丽",
+            to: "左岸",
             transport: "步行",
-            distance: "1.5km",
+            distance: "约1.5km",
             time: "20m",
-            route: "新桥方向",
+            route: "Pont des Arts 等",
             details: "免费"
           },
           {
-            from: "西岱岛",
-            to: "拉丁区",
+            from: "左岸",
+            to: "卢森堡/拉丁区",
             transport: "步行",
-            distance: "0.5km",
-            time: "10m",
-            route: "左岸漫步",
-            details: "免费"
-          },
-          {
-            from: "拉丁区",
-            to: "卢森堡公园",
-            transport: "步行",
-            distance: "1km",
+            distance: "约1km",
             time: "15m",
-            route: "巴黎街区",
+            route: "街区漫步",
             details: "免费"
           },
           {
-            from: "拉丁区",
-            to: "歌剧院区",
-            transport: "地铁",
-            distance: "4km",
-            time: "30m",
-            route: "地铁4→14/7",
-            details: "€2.15"
+            from: "Saint-Michel",
+            to: "Denfert",
+            transport: "地铁M4",
+            distance: "—",
+            time: "约20m",
+            route: "地下墓穴",
+            details: "Navigo/单次"
+          },
+          {
+            from: "Denfert 一带",
+            to: "Pyramides/酒店",
+            transport: "地铁M4+M14",
+            distance: "—",
+            time: "约30m",
+            route: "经 Châtelet",
+            details: "Navigo/单次"
           }
         ]
       }
