@@ -388,7 +388,9 @@ class TravelGuideApp {
     strip.innerHTML = days
       .map((d) => {
         const isCurrent = d.day === todayNum;
-        return `<button type="button" class="day-strip-btn${isCurrent ? ' is-current' : ''}" data-day="${d.day}"${isCurrent ? ' aria-current="date"' : ''} title="第${d.day}天 ${this._escapeCardText(d.city)}"><span class="day-strip-num">${d.day}</span></button>`;
+        const baseTitle = `第${d.day}天 ${this._escapeCardText(d.city)}`;
+        const title = isCurrent ? `${baseTitle}（今天·行程中）` : baseTitle;
+        return `<button type="button" class="day-strip-btn${isCurrent ? ' is-current' : ''}" data-day="${d.day}"${isCurrent ? ' aria-current="date"' : ''} title="${this._escapeCardText(title)}"><span class="day-strip-num">${d.day}</span></button>`;
       })
       .join('');
 
@@ -399,6 +401,19 @@ class TravelGuideApp {
         if (!isNaN(n)) this.navigateToDay(n);
       });
     });
+
+    // 手机横滑：将「今天」所在按钮滚到可视区中间，避免只能看到 1～6
+    const currentBtn = strip.querySelector('.day-strip-btn.is-current');
+    if (currentBtn) {
+      const scrollIntoView = () => {
+        try {
+          currentBtn.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'auto' });
+        } catch (err) {
+          currentBtn.scrollIntoView(false);
+        }
+      };
+      requestAnimationFrame(() => requestAnimationFrame(scrollIntoView));
+    }
   }
 
   /**

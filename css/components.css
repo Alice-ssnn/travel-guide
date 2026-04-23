@@ -306,16 +306,28 @@ div.app .day-card .card-body {
   padding: 12px 14px;
 }
 
+/* 首页：主列允许子项在横向上收缩，否则 flex 子项 min-width:auto 会撑开整行导致无法出现横滑 */
+div.app > main,
+.app > main {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 /* 首页：横向日序，减少纵向扫视成本 */
 .day-strip {
   display: flex;
   flex-wrap: nowrap;
   gap: 8px;
   padding: 0 12px 10px;
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x proximity;
+  overscroll-behavior-x: contain;
   position: sticky;
   top: calc(52px + env(safe-area-inset-top, 0px));
   z-index: 8;
@@ -350,8 +362,9 @@ div.app .day-card .card-body {
 .day-strip-btn.is-current {
   border-color: var(--primary, #ff385c);
   color: var(--primary, #ff385c);
-  background: color-mix(in srgb, var(--primary, #ff385c) 10%, white);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary, #ff385c) 35%, transparent);
+  background: color-mix(in srgb, var(--primary, #ff385c) 18%, white);
+  font-weight: 700;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary, #ff385c) 40%, transparent);
 }
 
 /* 首页行程卡：摘要 + 渐进展开 */
@@ -2691,6 +2704,13 @@ div.app .day-card .card-body {
 * {
   -webkit-touch-action: pan-y; /* 兼容WebKit浏览器 */
   touch-action: pan-y;
+}
+
+/* 首页日序条需横向划动；全局 pan-y 会禁掉水平滚动与横向惯性 */
+.day-strip,
+.day-strip * {
+  -webkit-touch-action: pan-x pan-y;
+  touch-action: pan-x pan-y;
 }
 
 /* ============================================================================

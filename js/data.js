@@ -3867,12 +3867,49 @@ const TripData = {
   },
 
   /**
-   * Get current day based on trip dates (simplified - returns day 1 for demo)
+   * 本地「今天」的 YYYY-MM-DD
+   * @param {Date} d
+   * @returns {string}
+   */
+  _localYmd(d) {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  },
+
+  /**
+   * 根据本机当前日期，返回当前行程中「今天」对应的那一天数据（用于高亮、今天按钮、日序条）
+   * 早于行程首日 → 第 1 天；晚于末日后一天 → 最后一天
    */
   getCurrentDay() {
-    // Simplified: always return day 1 for development
-    // In production, this would compare with current date
-    return this.getDay(1);
+    const days = this.getAllDays();
+    if (!days || days.length === 0) {
+      return { day: 1, date: '', title: '', city: '', summary: '', tags: [], timeline: [] };
+    }
+    const today = this._localYmd(new Date());
+    const start = tripData.dates && tripData.dates.start;
+    const end = tripData.dates && tripData.dates.end;
+
+    if (start && today < start) {
+      return this.getDay(1);
+    }
+    if (end && today > end) {
+      const last = days[days.length - 1];
+      return this.getDay(last.day);
+    }
+
+    const exact = days.find((d) => d.date === today);
+    if (exact) {
+      return this.getDay(exact.day);
+    }
+
+    for (let i = 0; i < days.length; i++) {
+      if (days[i].date > today) {
+        return i > 0 ? this.getDay(days[i - 1].day) : this.getDay(1);
+      }
+    }
+    return this.getDay(days[days.length - 1].day);
   },
 
   /**
